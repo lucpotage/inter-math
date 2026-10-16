@@ -2,6 +2,15 @@
 
 `pnpm release` takes a version's notes from here for its GitHub release.
 
+## 1.0.1
+
+The same fonts and code as 1.0.0, released from GitHub Actions: staged on npm
+through trusted publishing, with provenance, and approved by hand.
+
+- The fonts carry version 1.001.
+- The build is reproducible: the same sources give the same files, on macOS
+  as on GitHub's Linux machines.
+
 ## 1.0.0
 
 The first release.
