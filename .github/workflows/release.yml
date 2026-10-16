@@ -55,7 +55,7 @@ jobs:
             echo "inter-math@$VERSION is on npm already (published by hand)"; exit 0
           fi
           npm install -g npm@^11.15.0
-          npm stage publish "dist/inter-math-$VERSION.tgz" --access public
+          npm stage publish "./dist/inter-math-$VERSION.tgz" --access public
           echo "staged: approve inter-math@$VERSION with npm stage list, then npm stage approve <id>" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Release on GitHub
