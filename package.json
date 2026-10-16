@@ -26,6 +26,8 @@
     "typecheck": "tsc --noEmit",
     "font:setup": "python3 -m venv build/.venv && build/.venv/bin/pip install -r build/requirements.txt",
     "font:build": "build/.venv/bin/python build/build.py",
+    "dist": "node build/deliver.mjs",
+    "release": "node build/deliver.mjs --release",
     "workbench": "vite workbench --port 3150 --strictPort"
   },
   "dependencies": {
