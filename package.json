@@ -1,0 +1,46 @@
+{
+  "name": "inter-math",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.21.0",
+  "description": "Inter Math: KaTeX's upright and italic fonts redrawn from Inter (variable weight and optical size), the metrics KaTeX lays them out with, and a switch back to Computer Modern.",
+  "keywords": ["katex", "math", "font", "inter", "variable-font", "latex", "typography"],
+  "author": "Luc Potage",
+  "license": "OFL-1.1 AND MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucpotage/inter-math.git"
+  },
+  "homepage": "https://lucpotage.com/inter-math/",
+  "bugs": "https://github.com/lucpotage/inter-math/issues",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./inter-math.css": "./src/inter-math.css",
+    "./provenance": "./src/provenance.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "font:setup": "python3 -m venv build/.venv && build/.venv/bin/pip install -r build/requirements.txt",
+    "font:build": "build/.venv/bin/python build/build.py",
+    "workbench": "vite workbench --port 3150 --strictPort"
+  },
+  "dependencies": {
+    "katex": "0.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "lightningcss": "1.33.0",
+    "typescript": "^5.9.3",
+    "vite": "8.3.3",
+    "vitest": "^4.0.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "katex@0.19.0": "patches/katex@0.19.0.patch"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+build/.venv/
+build/out/
+__pycache__/
+# the Inter release: only the variable fonts and the licence are sources
+sources/inter/*
+!sources/inter/InterVariable.ttf
+!sources/inter/InterVariable-Italic.ttf
+!sources/inter/LICENSE.txt
+# STIX Two, a reference to look at (the blackboard letters follow its construction): the build doesn't read it
+sources/stix-two/
+# the delivery (pnpm dist, pnpm release)
+dist/
