@@ -1,7 +1,9 @@
 # A release, from a pushed tag vX.Y.Z (package.json's version): the fonts built
-# again from the sources, tested, packed (pnpm dist), published to npm through
-# trusted publishing (no token: npm trusts this workflow) and released on GitHub
-# with the ZIP and CHANGELOG.md's notes.
+# again from the sources, tested, packed (pnpm dist), staged on npm through
+# trusted publishing (no token: npm trusts this workflow to stage, not to
+# publish) and released on GitHub with the ZIP and CHANGELOG.md's notes. The
+# version goes public on npm once a maintainer approves it with 2FA
+# (npm stage approve, or npmjs.com's Staged Packages tab).
 name: release
 
 on:
@@ -47,13 +49,14 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm dist
 
-      - name: Publish to npm
+      - name: Stage on npm
         run: |
           if npm view "inter-math@$VERSION" version >/dev/null 2>&1; then
             echo "inter-math@$VERSION is on npm already (published by hand)"; exit 0
           fi
-          npm install -g npm@^11.5.1
-          npm publish "dist/inter-math-$VERSION.tgz" --access public
+          npm install -g npm@^11.15.0
+          npm stage publish "dist/inter-math-$VERSION.tgz" --access public
+          echo "staged: approve inter-math@$VERSION with npm stage list, then npm stage approve <id>" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Release on GitHub
         env:

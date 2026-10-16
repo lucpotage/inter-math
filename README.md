@@ -107,8 +107,16 @@ M.X.Y is M.(100X+Y), 1.0.0 is 1.000). To release:
 
 The tag starts [the release workflow](.github/workflows/release.yml): it
 builds the fonts again (they must come out as committed), tests, packs,
-publishes to npm through trusted publishing, and makes the GitHub release
-with the ZIP and the changelog's notes. `pnpm release` does the same from
+stages the version on npm through trusted publishing, and makes the GitHub
+release with the ZIP and the changelog's notes. The version goes public on
+npm once approved with a maintainer's second factor:
+
+```bash
+npm stage list inter-math
+npm stage approve <stage-id>
+```
+
+(or npmjs.com, the package's Staged Packages tab). `pnpm release` does the same from
 this machine (the first release, before npm trusted the workflow).
 Commits follow [Conventional Commits](https://www.conventionalcommits.org/).
 
