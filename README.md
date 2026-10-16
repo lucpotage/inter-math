@@ -97,8 +97,19 @@ loads `inter-math/inter-math.css` after KaTeX's own stylesheet.
 
 `package.json`'s version is the release's: the npm package's, the tag's
 (`v1.0.0`) and the fonts' (`head.fontRevision` and name ID 5, as Geist's:
-M.X.Y is M.(100X+Y), 1.0.0 is 1.000). Raise it, write its notes in
-[CHANGELOG.md](CHANGELOG.md), `pnpm font:build`, commit, then `pnpm release`.
+M.X.Y is M.(100X+Y), 1.0.0 is 1.000). To release:
+
+1. raise the version in `package.json` and write its notes in
+   [CHANGELOG.md](CHANGELOG.md) (`## X.Y.Z`);
+2. `pnpm font:build` (the fonts carry the version), `pnpm dist` to check,
+   and commit;
+3. `git tag vX.Y.Z && git push origin main vX.Y.Z`.
+
+The tag starts [the release workflow](.github/workflows/release.yml): it
+builds the fonts again (they must come out as committed), tests, packs,
+publishes to npm through trusted publishing, and makes the GitHub release
+with the ZIP and the changelog's notes. `pnpm release` does the same from
+this machine (the first release, before npm trusted the workflow).
 Commits follow [Conventional Commits](https://www.conventionalcommits.org/).
 
 ## Licence

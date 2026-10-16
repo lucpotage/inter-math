@@ -1,0 +1,68 @@
+# A release, from a pushed tag vX.Y.Z (package.json's version): the fonts built
+# again from the sources, tested, packed (pnpm dist), published to npm through
+# trusted publishing (no token: npm trusts this workflow) and released on GitHub
+# with the ZIP and CHANGELOG.md's notes.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write # the GitHub release
+  id-token: write # npm's trusted publishing
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4 # the version in package.json's packageManager
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: The tag is package.json's version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          test "$GITHUB_REF_NAME" = "v$VERSION" || { echo "tag $GITHUB_REF_NAME, package.json $VERSION"; exit 1; }
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm font:setup
+
+      - name: The fonts, built again, are the ones committed
+        run: |
+          pnpm font:build
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+
+      - run: pnpm test
+      - run: pnpm typecheck
+      - run: pnpm dist
+
+      - name: Publish to npm
+        run: |
+          if npm view "inter-math@$VERSION" version >/dev/null 2>&1; then
+            echo "inter-math@$VERSION is on npm already (published by hand)"; exit 0
+          fi
+          npm install -g npm@^11.5.1
+          npm publish "dist/inter-math-$VERSION.tgz" --access public
+
+      - name: Release on GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "$GITHUB_REF_NAME is released already"; exit 0
+          fi
+          awk -v v="$VERSION" '/^## /{p = ($2 == v); next} p' CHANGELOG.md > dist/notes.md
+          test -s dist/notes.md || { echo "CHANGELOG.md has no ## $VERSION"; exit 1; }
+          gh release create "$GITHUB_REF_NAME" "dist/InterMath-$VERSION.zip" --verify-tag \
+            --title "Inter Math $VERSION" --notes-file dist/notes.md

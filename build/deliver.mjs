@@ -5,7 +5,8 @@
  *
  *     pnpm dist                  dist/: the package, its tarball and the ZIP, checked
  *     pnpm release --dry-run     the same after the font build, tests and typecheck; npm's dry run
- *     pnpm release               …then tags vX.Y.Z, publishes to npm, makes the GitHub release
+ *     pnpm release               …then publishes to npm, tags vX.Y.Z, makes the GitHub release
+ *                                (by hand: the first release; then a pushed tag is enough, .github/workflows/release.yml)
  *
  * The version is package.json's (the fonts carry it as M.(100X+Y): build.py).
  * The root package stays private: only dist/npm/ is published, as the tarball
@@ -328,11 +329,12 @@ const notes = (readFileSync(join(ROOT, "CHANGELOG.md"), "utf8").split(/^## /m).f
 if (!notes) fail(`CHANGELOG.md has no "## ${VERSION}" section: write the release's notes there`);
 
 if (!(await confirm(`Publish ${root.name}@${VERSION} to npm as ${npmUser}, tag ${TAG} and make its GitHub release?`))) fail("stopped: nothing published");
+// npm first: the tag pushed after starts .github/workflows/release.yml, which then finds the version published
+step(`npm publish (npm asks for your second factor)`);
+run("npm", ["publish", TARBALL, "--access", "public"]);
 step(`git tag ${TAG}`);
 run("git", ["tag", "-a", TAG, "-m", `Inter Math ${VERSION}`]);
 run("git", ["push", "origin", "HEAD", TAG]);
-step(`npm publish (npm asks for your second factor)`);
-run("npm", ["publish", TARBALL, "--access", "public"]);
 step(`GitHub release ${TAG}`);
 const notesFile = join(DIST, "notes.md");
 writeFileSync(notesFile, `${notes}\n`);
