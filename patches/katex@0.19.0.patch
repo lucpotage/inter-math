@@ -1,0 +1,1305 @@
+diff --git a/dist/katex.js b/dist/katex.js
+index 86a98536b1334e98fa1b8f84470b41a13a1d7358..6feaf46b004347f0d6abae0aacbcd395b44e5bbc 100644
+--- a/dist/katex.js
++++ b/dist/katex.js
+@@ -1428,6 +1428,36 @@ class SvgNode {
+     return markup;
+   }
+ }
++// inter-math patch: the lines a font sets itself (__setGlobalMetrics): \cancel's stroke,
++// and \phase's angle `t` thick (viewBox units), its diagonal as thick across, its top cut level.
++const cancelStroke = function (options) {
++  const t = options.fontMetrics().cancelRuleThickness;
++  return t ? makeEm(t) : "0.046em";
++};
++const phasePathOf = function (y, t) {
++  const x = y / 2; // the angle's top, as KaTeX's: its diagonal rises 2 for 1 across
++  const h = t * Math.sqrt(5) / 2; // the inner edge, t from the outer one across, along a level line
++  return "M400000 " + y + " H0 L" + x + " 0 H" + (x + h) + " L" + (h + t / 2) + " " + (y - t) + " H400000z";
++};
++// inter-math patch: a font other than Computer Modern draws its own SVG images:
++// {path(name) → SVG path (or undefined: KaTeX's), static(name) → [path name,
++// width, height] of a fixed-size image (or undefined), image(label, data) →
++// the katexImagesData entry of a stretchy one, wide(label, pathName) → [path
++// name, viewBox width, viewBox height, height (em)] of a wide accent's box,
++// tall(label, height) → [path, width] of a tall delimiter drawn as one image,
++// inner(ch, height) → [path, width (em)] of the straight piece between a
++// tall delimiter's glyphs, as wide as they are at the font's weight (or
++// undefined), anyHeight(delim) → the image's name of a delimiter it draws at
++// any height past its text size (or undefined), largest → the height (em)
++// where those that never stack stop};
++// null restores KaTeX's.
++let svgDesign = null;
++function setSvgDesign(design) {
++  svgDesign = design || null;
++}
++const svgDesignPath = function (name) {
++  return svgDesign && svgDesign.path(name) || path[name];
++};
+ class PathNode {
+   constructor(pathName, alternate) {
+     this.pathName = void 0;
+@@ -1441,7 +1471,8 @@ class PathNode {
+     if (this.alternate) {
+       node.setAttribute("d", this.alternate);
+     } else {
+-      node.setAttribute("d", path[this.pathName]);
++      node.setAttribute("d", svgDesignPath(this.pathName));
++      if (svgDesign && !svgDesign.path(this.pathName)) node.setAttribute("data-katex-path", this.pathName);
+     }
+     return node;
+   }
+@@ -1449,7 +1480,7 @@ class PathNode {
+     if (this.alternate) {
+       return "<path d=\"" + utils_escape(this.alternate) + "\"/>";
+     } else {
+-      return "<path d=\"" + utils_escape(path[this.pathName]) + "\"/>";
++      return "<path d=\"" + utils_escape(svgDesignPath(this.pathName)) + "\"" + (svgDesign && !svgDesign.path(this.pathName) ? " data-katex-path=\"" + this.pathName + "\"" : "") + "/>";
+     }
+   }
+ }
+@@ -3831,6 +3862,15 @@ function getCharacterMetrics(character, font, mode) {
+ }
+ const fontMetricsBySizeIndex = {};
+ 
++// inter-math patch: a font other than Computer Modern sets its own TeX parameters
++// (rule thicknesses, x-height…), as {name: [text, script, scriptscript]}; null
++// restores KaTeX's.
++let globalMetricsOverrides = {};
++function setGlobalMetrics(overrides) {
++  globalMetricsOverrides = overrides || {};
++  for (const sizeIndex of Object.keys(fontMetricsBySizeIndex)) delete fontMetricsBySizeIndex[sizeIndex];
++}
++
+ /**
+  * Get the font metrics for a given size.
+  */
+@@ -3845,10 +3885,10 @@ function getGlobalMetrics(size) {
+   }
+   if (!fontMetricsBySizeIndex[sizeIndex]) {
+     const metrics = fontMetricsBySizeIndex[sizeIndex] = {
+-      cssEmPerMu: sigmasAndXis.quad[sizeIndex] / 18
++      cssEmPerMu: (globalMetricsOverrides.quad || sigmasAndXis.quad)[sizeIndex] / 18
+     };
+-    for (const key of Object.keys(sigmasAndXis)) {
+-      metrics[key] = sigmasAndXis[key][sizeIndex];
++    for (const key of Object.keys(Object.assign({}, sigmasAndXis, globalMetricsOverrides))) {
++      metrics[key] = (globalMetricsOverrides[key] || sigmasAndXis[key])[sizeIndex];
+     }
+   }
+   return fontMetricsBySizeIndex[sizeIndex];
+@@ -5200,11 +5240,40 @@ const makeSpan = function (classes, children, options, style) {
+ // SVG one is simpler -- doesn't require height, depth, max-font setting.
+ // This is also a separate method for typesafety.
+ const makeSvgSpan = (classes, children, options, style) => new Span(classes, children, options, style);
++// inter-math patch: a font other than Computer Modern draws its rules (fraction bars,
++// \overline, \underline, \hline) as images, as thick as they are: a browser draws a border a
++// whole number of device pixels thick (its width rounded down, or up to one pixel), off the glyphs
++// and surds beside it (a light weight's rule 1.4 pixels thick came out 1 thick); false restores
++// KaTeX's borders. The image reaches RULE_PAD over and under its rule: a browser draws an image's
++// box a whole number of pixels tall too, its content scaled to it, which leaves the rule's
++// thickness all but untouched only in a box much taller than it.
++let ruleImages = false;
++function setRuleImages(on) {
++  ruleImages = !!on;
++}
++const RULE_PAD = 0.5;
++const ruleImage = function (line) {
++  const units = function (em) {
++    return Math.round(em * 10000) / 10;
++  };
++  const height = 2 * RULE_PAD + line.height;
++  line.style.borderBottomWidth = "0";
++  line.style.position = "relative";
++  line.children.push(new SvgNode([new PathNode("rule", "M0 " + units(RULE_PAD) + "H400000V" + units(RULE_PAD + line.height) + "H0Z")], {
++    "width": "400em",
++    "height": makeEm(height),
++    "style": "bottom:" + makeEm(-RULE_PAD) + ";height:" + makeEm(height),
++    "viewBox": "0 0 400000 " + units(height),
++    "preserveAspectRatio": "xMinYMin slice"
++  }));
++};
+ const makeLineSpan = function (className, options, thickness) {
+   const line = makeSpan([className], [], options);
+   line.height = Math.max(thickness || options.fontMetrics().defaultRuleThickness, options.minRuleThickness);
+   line.style.borderBottomWidth = makeEm(line.height);
+   line.maxFontSize = 1.0;
++  // inter-math patch: the rule as an image when the font asks
++  if (ruleImages && className !== "katex-hdashline") ruleImage(line);
+   return line;
+ };
+ 
+@@ -5510,7 +5579,7 @@ const svgData = {
+ };
+ const staticSvg = function (value, options) {
+   // Create a span with inline SVG for the element.
+-  const _svgData$value = svgData[value],
++  const _svgData$value = svgDesign && svgDesign.static(value) || svgData[value],
+     pathName = _svgData$value[0],
+     width = _svgData$value[1],
+     height = _svgData$value[2];
+@@ -6880,6 +6949,12 @@ const displayWrap = function (node, settings) {
+   }
+   return node;
+ };
++// inter-math patch: classes a font other than Computer Modern puts on the math laid out from
++// now on (its .katex element: the font's CSS reads them, as its stylistic sets); null clears them.
++let rootClasses = [];
++function setRootClasses(classes) {
++  rootClasses = classes || [];
++}
+ const buildTree = function (tree, expression, settings) {
+   const options = optionsFromSettings(settings);
+   let katexNode;
+@@ -6887,18 +6962,18 @@ const buildTree = function (tree, expression, settings) {
+     return buildMathML(tree, expression, options, settings.displayMode, true);
+   } else if (settings.output === "html") {
+     const htmlNode = buildHTML(tree, options);
+-    katexNode = makeSpan(["katex"], [htmlNode]);
++    katexNode = makeSpan(["katex", ...rootClasses], [htmlNode]);
+   } else {
+     const mathMLNode = buildMathML(tree, expression, options, settings.displayMode, false);
+     const htmlNode = buildHTML(tree, options);
+-    katexNode = makeSpan(["katex"], [mathMLNode, htmlNode]);
++    katexNode = makeSpan(["katex", ...rootClasses], [mathMLNode, htmlNode]);
+   }
+   return displayWrap(katexNode, settings);
+ };
+ const buildHTMLTree = function (tree, settings) {
+   const options = optionsFromSettings(settings);
+   const htmlNode = buildHTML(tree, options);
+-  const katexNode = makeSpan(["katex"], [htmlNode]);
++  const katexNode = makeSpan(["katex", ...rootClasses], [htmlNode]);
+   return displayWrap(katexNode, settings);
+ };
+ /* harmony default export */ var src_buildTree = ((/* unused pure expression or super */ null && (buildTree)));
+@@ -7090,6 +7165,14 @@ const stretchySvg = function (group, options) {
+           pathName = "tilde" + imgIndex;
+         }
+       }
++      // inter-math patch: the font's own box for a wide accent: its path's name, its viewBox, its height
++      const fontWide = svgDesign && svgDesign.wide ? svgDesign.wide(label, pathName) : undefined;
++      if (fontWide) {
++        pathName = fontWide[0];
++        viewBoxWidth = fontWide[1];
++        viewBoxHeight = fontWide[2];
++        height = fontWide[3];
++      }
+       const path = new PathNode(pathName);
+       const svgNode = new SvgNode([path], {
+         "width": "100%",
+@@ -7104,7 +7187,7 @@ const stretchySvg = function (group, options) {
+       };
+     } else {
+       const spans = [];
+-      const data = katexImagesData[label];
++      const data = svgDesign ? svgDesign.image(label, katexImagesData[label]) : katexImagesData[label];
+       if (!data) {
+         throw new Error("No SVG data for \"" + label + "\".");
+       }
+@@ -7195,7 +7278,7 @@ const stretchyEnclose = function (inner, label, topPad, bottomPad, options) {
+         "y1": "0",
+         "x2": "100%",
+         "y2": "100%",
+-        "stroke-width": "0.046em"
++        "stroke-width": cancelStroke(options)
+       }));
+     }
+     if (/^x?cancel$/.test(label)) {
+@@ -7204,7 +7287,7 @@ const stretchyEnclose = function (inner, label, topPad, bottomPad, options) {
+         "y1": "100%",
+         "x2": "100%",
+         "y2": "0",
+-        "stroke-width": "0.046em"
++        "stroke-width": cancelStroke(options)
+       }));
+     }
+     const svgNode = new SvgNode(lines, {
+@@ -7376,9 +7459,11 @@ const htmlBuilder = (grp, options) => {
+       // So now we use an SVG.
+       // If Safari reforms, we should consider reverting to the glyph.
+       accent = staticSvg("vec", options);
+-      width = svgData.vec[1];
++      width = (svgDesign && svgDesign.static("vec") || svgData.vec)[1];
+     } else {
+-      accent = makeOrd({
++      // inter-math patch: over an italic letter, the font's italic accent
++      const italicFont = mustShift ? italicAccentFont(group.label, getBaseSymbol(body)) : null;
++      accent = italicFont ? makeSymbol(group.label, italicFont[0], group.mode, options, ["mord", italicFont[1]]) : makeOrd({
+         type: "textord",
+         mode: group.mode,
+         text: group.label
+@@ -7485,6 +7570,9 @@ defineFunction({
+     const base = normalizeArgument(args[0]);
+     const isStretchy = !NON_STRETCHY_ACCENT_REGEX.test(context.funcName);
+     const isShifty = !isStretchy || context.funcName === "\\widehat" || context.funcName === "\\widetilde" || context.funcName === "\\widecheck";
++    // inter-math patch: the font's own precomposed letter, when it has one
++    const composed = composedAccent(context.funcName, base);
++    if (composed) return composed;
+     return {
+       type: "accent",
+       mode: context.parser.mode,
+@@ -7498,6 +7586,50 @@ defineFunction({
+   mathmlBuilder
+ });
+ 
++// inter-math patch: a font other than Computer Modern sets an accented letter as its own
++// precomposed glyph when it has one (\'{a} is á, \r{A} is Å, \acute{a} and a typed á in math
++// its italic á) and keeps the ones typed in text as they are (KaTeX builds them all from the
++// letter and an accent); null restores KaTeX's. \bar isn't composed: it is drawn wider than a
++// macron, as TeX's is.
++let composedText = null;
++function setComposedText(chars) {
++  composedText = chars ? new Set(chars) : null;
++}
++const ACCENT_MARKS = {
++  "\\'": "\u0301", "\\`": "\u0300", "\\^": "\u0302", "\\~": "\u0303", "\\=": "\u0304", "\\u": "\u0306",
++  "\\.": "\u0307", '\\"': "\u0308", "\\c": "\u0327", "\\r": "\u030a", "\\H": "\u030b", "\\v": "\u030c",
++  "\\acute": "\u0301", "\\grave": "\u0300", "\\hat": "\u0302", "\\tilde": "\u0303", "\\breve": "\u0306",
++  "\\dot": "\u0307", "\\ddot": "\u0308", "\\mathring": "\u030a", "\\check": "\u030c"
++};
++const composedAccent = function (label, base) {
++  if (!composedText || !ACCENT_MARKS[label]) return null;
++  const letter = base && base.type === "ordgroup" && base.body.length === 1 ? base.body[0] : base;
++  if (!letter || letter.type !== "mathord" && letter.type !== "textord" || letter.text.length !== 1) return null;
++  const text = (letter.text + ACCENT_MARKS[label]).normalize("NFC");
++  return text.length === 1 && composedText.has(text) ? {
++    type: letter.type,
++    mode: letter.mode,
++    loc: letter.loc,
++    text: text
++  } : null;
++};
++// inter-math patch: a font other than Computer Modern sets a math accent over an italic letter
++// from its italic font (the letter's), as its text does (KaTeX sets them upright over every
++// letter); false restores KaTeX's.
++let italicAccents = false;
++function setItalicAccents(on) {
++  italicAccents = !!on;
++}
++const ITALIC_ACCENT_LABELS = new Set(["\\acute", "\\grave", "\\ddot", "\\tilde", "\\bar", "\\breve", "\\check", "\\hat", "\\dot", "\\mathring"]);
++// an italic letter's class → the italic font its accent is set from
++const ITALIC_LETTERS = {mathnormal: "Math-Italic", mathit: "Main-Italic", boldsymbol: "Math-BoldItalic"};
++const italicAccentFont = function (label, symbol) {
++  if (!italicAccents || !ITALIC_ACCENT_LABELS.has(label) || !symbol) return null;
++  for (const letterClass in ITALIC_LETTERS) {
++    if (symbol.hasClass(letterClass)) return [ITALIC_LETTERS[letterClass], letterClass];
++  }
++  return null;
++};
+ // Text-mode accents
+ defineFunction({
+   type: "accent",
+@@ -7519,6 +7651,9 @@ defineFunction({
+       });
+       mode = "text";
+     }
++    // inter-math patch: the font's own precomposed letter, when it has one
++    const composed = composedAccent(context.funcName, base);
++    if (composed) return composed;
+     return {
+       type: "accent",
+       mode: mode,
+@@ -8692,8 +8827,12 @@ const makeGlyphSpan = function (symbol, font, mode, options) {
+ };
+ const makeInner = function (ch, height, options) {
+   // Create a span with inline SVG for the inner part of a tall stacked delimiter.
+-  const width = fontMetricsData['Size4-Regular'][ch.charCodeAt(0)] ? fontMetricsData['Size4-Regular'][ch.charCodeAt(0)][4] : fontMetricsData['Size1-Regular'][ch.charCodeAt(0)][4];
+-  const path = new PathNode("inner", innerPath(ch, Math.round(1000 * height)));
++  let width = fontMetricsData['Size4-Regular'][ch.charCodeAt(0)] ? fontMetricsData['Size4-Regular'][ch.charCodeAt(0)][4] : fontMetricsData['Size1-Regular'][ch.charCodeAt(0)][4];
++  // inter-math patch: the font's own straight piece between a tall delimiter's glyphs, as wide as they
++  // are at its weight, when it draws one
++  const fontInner = svgDesign && svgDesign.inner ? svgDesign.inner(ch, Math.round(1000 * height)) : undefined;
++  if (fontInner) width = fontInner[1];
++  const path = new PathNode("inner", fontInner ? fontInner[0] : innerPath(ch, Math.round(1000 * height)));
+   const svgNode = new SvgNode([path], {
+     "width": makeEm(width),
+     "height": makeEm(height),
+@@ -8852,6 +8991,11 @@ const makeStackedDelim = function (delim, heightTotal, center, options, mode, cl
+     font = "Size4-Regular";
+   }
+ 
++  // inter-math patch: a delimiter the font draws as one image at any height
++  const fontLabel = svgDesign ? svgDesign.anyHeight(delim) : undefined;
++  if (fontLabel) {
++    svgLabel = fontLabel;
++  }
+   // Get the metrics of the four sections
+   const topMetrics = getMetrics(top, font, mode);
+   const topHeightTotal = topMetrics.height + topMetrics.depth;
+@@ -8875,7 +9019,10 @@ const makeStackedDelim = function (delim, heightTotal, center, options, mode, cl
+   const repeatCount = Math.max(0, Math.ceil((heightTotal - minHeight) / (middleFactor * repeatHeightTotal)));
+ 
+   // Compute the total height of the delimiter including all the symbols
+-  const realHeightTotal = minHeight + repeatCount * middleFactor * repeatHeightTotal;
++  // inter-math patch: with a font that draws its own tall delimiters (one image, or a straight piece between
++  // glyphs, at any height), as tall as needed: in steps of the repeated piece, a delimiter around content growing
++  // with the weight jumped a step at a time
++  const realHeightTotal = fontLabel ? heightTotal : svgDesign ? Math.max(minHeight, heightTotal) : minHeight + repeatCount * middleFactor * repeatHeightTotal;
+ 
+   // The center of the delimiter is placed at the center of the axis. Note
+   // that in this context, "center" means that the delimiter should be
+@@ -8896,7 +9043,10 @@ const makeStackedDelim = function (delim, heightTotal, center, options, mode, cl
+     // This evades browser problems with imprecise positioning of spans.
+     const midHeight = realHeightTotal - topHeightTotal - bottomHeightTotal;
+     const viewBoxHeight = Math.round(realHeightTotal * 1000);
+-    const pathStr = tallDelim(svgLabel, Math.round(midHeight * 1000));
++    // inter-math patch: the font's own tall delimiter, and its width, when it draws one
++    const fontTall = svgDesign && svgDesign.tall ? svgDesign.tall(svgLabel, viewBoxHeight) : undefined;
++    if (fontTall) viewBoxWidth = fontTall[1];
++    const pathStr = fontTall ? fontTall[0] : tallDelim(svgLabel, Math.round(midHeight * 1000));
+     const path = new PathNode(svgLabel, pathStr);
+     const width = makeEm(viewBoxWidth / 1000);
+     const height = makeEm(viewBoxHeight / 1000);
+@@ -8956,8 +9106,22 @@ const makeStackedDelim = function (delim, heightTotal, center, options, mode, cl
+ const vbPad = 80; // padding above the surd, measured inside the viewBox.
+ const emPad = 0.08; // padding, in ems, measured in the document.
+ 
++// inter-math patch: a font other than Computer Modern draws its own surds:
++// {path(name, extraVinculum, viewBoxHeight, hLinePad) → SVG path (viewBox units),
++// box(name, height) → {minWidth, advanceWidth} (em), anyHeight: true when it
++// draws one at any height: a surd then is as tall as its radicand needs, never
++// shorter than the normal one, and KaTeX's four sizes never come (a radicand
++// growing with the font's weight made the surd jump from one to the next)};
++// null restores KaTeX's.
++let surdDesign = null;
++function setSurd(design) {
++  surdDesign = design || null;
++}
++const surdBox = function (name, minWidth, advanceWidth, height) {
++  return surdDesign ? surdDesign.box(name, height) : {minWidth, advanceWidth};
++};
+ const sqrtSvg = function (sqrtName, height, viewBoxHeight, extraVinculum, options) {
+-  const path = sqrtPath(sqrtName, extraVinculum, viewBoxHeight);
++  const path = surdDesign ? surdDesign.path(sqrtName, extraVinculum, viewBoxHeight, hLinePad) : sqrtPath(sqrtName, extraVinculum, viewBoxHeight);
+   const pathNode = new PathNode(sqrtName, path);
+   const svg = new SvgNode([pathNode], {
+     // Note: 1000:1 ratio of viewBox to document em width.
+@@ -8978,7 +9142,9 @@ const makeSqrtImage = function (height, options) {
+   const newOptions = options.havingBaseSizing();
+ 
+   // Pick the desired surd glyph from a sequence of surds.
+-  const delim = traverseSequence("\\surd", height * newOptions.sizeMultiplier, stackLargeDelimiterSequence, newOptions);
++  // inter-math patch: a font that draws its surd at any height sets the normal one up to 1 em, then one as tall
++  // as needed (KaTeX's own sizes: a radicand growing with the weight made the surd jump)
++  const delim = surdDesign && surdDesign.anyHeight ? {type: height < 1.0 ? "small" : "stack"} : traverseSequence("\\surd", height * newOptions.sizeMultiplier, stackLargeDelimiterSequence, newOptions);
+   let sizeMultiplier = newOptions.sizeMultiplier; // default
+ 
+   // The standard sqrt SVGs each have a 0.04em thick vinculum.
+@@ -9010,16 +9176,18 @@ const makeSqrtImage = function (height, options) {
+     spanHeight = (1.0 + extraVinculum + emPad) / sizeMultiplier;
+     texHeight = (1.00 + extraVinculum) / sizeMultiplier;
+     span = sqrtSvg("sqrtMain", spanHeight, viewBoxHeight, extraVinculum, options);
+-    span.style.minWidth = "0.853em";
+-    advanceWidth = 0.833 / sizeMultiplier; // from the font.
++    const box = surdBox("sqrtMain", 0.853, 0.833);
++    span.style.minWidth = makeEm(box.minWidth);
++    advanceWidth = box.advanceWidth / sizeMultiplier; // from the font.
+   } else if (delim.type === "large") {
+     // These SVGs come from fonts: KaTeX_Size1, _Size2, etc.
+     viewBoxHeight = (1000 + vbPad) * sizeToMaxHeight[delim.size];
+     texHeight = (sizeToMaxHeight[delim.size] + extraVinculum) / sizeMultiplier;
+     spanHeight = (sizeToMaxHeight[delim.size] + extraVinculum + emPad) / sizeMultiplier;
+     span = sqrtSvg("sqrtSize" + delim.size, spanHeight, viewBoxHeight, extraVinculum, options);
+-    span.style.minWidth = "1.02em";
+-    advanceWidth = 1.0 / sizeMultiplier; // 1.0 from the font.
++    const box = surdBox("sqrtSize" + delim.size, 1.02, 1.0);
++    span.style.minWidth = makeEm(box.minWidth);
++    advanceWidth = box.advanceWidth / sizeMultiplier; // 1.0 from the font.
+   } else {
+     // Tall sqrt. In TeX, this would be stacked using multiple glyphs.
+     // We'll use a single SVG to accomplish the same thing.
+@@ -9027,8 +9195,9 @@ const makeSqrtImage = function (height, options) {
+     texHeight = height + extraVinculum;
+     viewBoxHeight = Math.floor(1000 * height + extraVinculum) + vbPad;
+     span = sqrtSvg("sqrtTall", spanHeight, viewBoxHeight, extraVinculum, options);
+-    span.style.minWidth = "0.742em";
+-    advanceWidth = 1.056;
++    const box = surdBox("sqrtTall", 0.742, 1.056, height);
++    span.style.minWidth = makeEm(box.minWidth);
++    advanceWidth = box.advanceWidth;
+   }
+   span.height = texHeight;
+   span.style.height = makeEm(spanHeight);
+@@ -9052,6 +9221,13 @@ const stackAlwaysDelimiters = new Set(["\\uparrow", "\\downarrow", "\\updownarro
+ 
+ // and delimiters that never stack
+ const stackNeverDelimiters = new Set(["<", ">", "\\langle", "\\rangle", "/", "\\backslash", "\\lt", "\\gt"]);
++// inter-math patch: a font other than Computer Modern draws some of the delimiters KaTeX
++// always stacks (\lgroup, \lmoustache…) at the four sizes: their names and characters,
++// taken from the Size fonts first, as ( [ { are; null restores KaTeX's.
++let sizedDelimiters = new Set();
++function setSizedDelimiters(delims) {
++  sizedDelimiters = new Set(delims || []);
++}
+ 
+ // Metrics of the different sizes. Found by looking at TeX's output of
+ // $\bigl| // \Bigl| \biggl| \Biggl| \showlists$
+@@ -9070,7 +9246,7 @@ const makeSizedDelim = function (delim, size, options, mode, classes) {
+   }
+ 
+   // Sized delimiters are never centered.
+-  if (stackLargeDelimiters.has(delim) || stackNeverDelimiters.has(delim)) {
++  if (stackLargeDelimiters.has(delim) || stackNeverDelimiters.has(delim) || sizedDelimiters.has(delim)) {
+     return makeLargeDelim(delim, size, false, options, mode, classes);
+   } else if (stackAlwaysDelimiters.has(delim)) {
+     return makeStackedDelim(delim, sizeToMaxHeight[size], false, options, mode, classes);
+@@ -9224,14 +9400,22 @@ const makeCustomSizedDelim = function (delim, height, center, options, mode, cla
+   let sequence;
+   if (stackNeverDelimiters.has(delim)) {
+     sequence = stackNeverDelimiterSequence;
+-  } else if (stackLargeDelimiters.has(delim)) {
++  } else if (stackLargeDelimiters.has(delim) || sizedDelimiters.has(delim)) {
+     sequence = stackLargeDelimiterSequence;
+   } else {
+     sequence = stackAlwaysDelimiterSequence;
+   }
+ 
+   // Look through the sequence
+-  const delimType = traverseSequence(delim, height, sequence, options);
++  let delimType = traverseSequence(delim, height, sequence, options);
++  // inter-math patch: a delimiter the font draws at any height, past its text size: one image as tall as needed
++  // (KaTeX's sizes: content growing with the weight made it jump from one to the next), those that never stack
++  // stopping at the largest as KaTeX's
++  if (delimType.type === "large" && svgDesign && svgDesign.anyHeight(delim) && (sequence !== stackNeverDelimiterSequence || height < svgDesign.largest)) {
++    delimType = {
++      type: "stack"
++    };
++  }
+ 
+   // Get the delimiter from font glyphs.
+   // Depending on the sequence element we decided on, call the
+@@ -9628,9 +9812,15 @@ const enclose_htmlBuilder = (group, options) => {
+     img = makeSpan(["katex-stretchy", "katex-sout"]);
+     img.height = options.fontMetrics().defaultRuleThickness / scale;
+     imgShift = -0.5 * options.fontMetrics().xHeight;
++    // inter-math patch: the font's own strike-through when it sets one
++    if (options.fontMetrics().soutRuleThickness) {
++      img.height = options.fontMetrics().soutRuleThickness / scale;
++      img.style.borderBottomWidth = makeEm(img.height);
++      imgShift = -options.fontMetrics().soutShift;
++    }
+   } else if (label === "phase") {
+     // Set a couple of dimensions from the steinmetz package.
+-    const lineWeight = calculateSize({
++    const lineWeight = options.fontMetrics().phaseRuleThickness || calculateSize({
+       number: 0.6,
+       unit: "pt"
+     }, options);
+@@ -9648,7 +9838,7 @@ const enclose_htmlBuilder = (group, options) => {
+ 
+     // Create an SVG
+     const viewBoxHeight = Math.floor(1000 * angleHeight * scale);
+-    const path = phasePath(viewBoxHeight);
++    const path = options.fontMetrics().phaseRuleThickness ? phasePathOf(viewBoxHeight, 1000 * lineWeight * scale) : phasePath(viewBoxHeight);
+     const svgNode = new SvgNode([new PathNode("phase", path)], {
+       "width": "400em",
+       "height": makeEm(viewBoxHeight / 1000),
+@@ -9685,7 +9875,8 @@ const enclose_htmlBuilder = (group, options) => {
+       bottomPad = topPad;
+     } else if (label === "angl") {
+       ruleThickness = Math.max(options.fontMetrics().defaultRuleThickness, options.minRuleThickness);
+-      topPad = 4 * ruleThickness; // gap = 3 × line, plus the line itself.
++      // inter-math patch: the gap in the font's spacing unit (TeX's: the rule's thickness)
++      topPad = 3 * (options.fontMetrics().ruleSpacing || ruleThickness) + ruleThickness; // gap = 3 × line, plus the line itself.
+       bottomPad = Math.max(0, 0.25 - inner.depth);
+     } else {
+       topPad = isSingleChar ? 0.2 : 0;
+@@ -11330,11 +11521,12 @@ const genfrac_htmlBuilder = (group, options) => {
+       rule = makeLineSpan("frac-line", options);
+     }
+     ruleWidth = rule.height;
+-    ruleSpacing = rule.height;
++    // inter-math patch: the font's spacing unit (TeX's: the rule's thickness), but for a bar of a given size
++    ruleSpacing = group.barSize ? rule.height : options.fontMetrics().ruleSpacing || rule.height;
+   } else {
+     rule = null;
+     ruleWidth = 0;
+-    ruleSpacing = options.fontMetrics().defaultRuleThickness;
++    ruleSpacing = options.fontMetrics().ruleSpacing || options.fontMetrics().defaultRuleThickness;
+   }
+ 
+   // Rule 15b
+@@ -13058,7 +13250,9 @@ defineFunction({
+     const innerGroup = buildGroup(group.body, options.havingCrampedStyle());
+ 
+     // Create the line above the body
+-    const line = makeLineSpan("overline-line", options);
++    // inter-math patch: the font's own overline when it sets one
++    const overline = options.fontMetrics();
++    const line = makeLineSpan("overline-line", options, overline.overlineRuleThickness);
+ 
+     // Generate the vlist, with the appropriate kerns
+     const defaultRuleThickness = options.fontMetrics().defaultRuleThickness;
+@@ -13069,13 +13263,13 @@ defineFunction({
+         elem: innerGroup
+       }, {
+         type: "kern",
+-        size: 3 * defaultRuleThickness
++        size: overline.overlineGap || 3 * defaultRuleThickness
+       }, {
+         type: "elem",
+         elem: line
+       }, {
+         type: "kern",
+-        size: defaultRuleThickness
++        size: overline.overlineRuleThickness || defaultRuleThickness
+       }]
+     }, options);
+     return makeSpan(["mord", "katex-overline"], [vlist], options);
+@@ -13537,13 +13731,18 @@ defineFunction({
+     // Calculate the minimum size for the \surd delimiter
+     const metrics = options.fontMetrics();
+     const theta = metrics.defaultRuleThickness;
+-    let phi = theta;
+-    if (options.style.id < src_Style.TEXT.id) {
++    // inter-math patch: the clearance in the font's spacing unit (TeX's: the rule's thickness), the vinculum as thick
++    // as the rule
++    const spacing = metrics.ruleSpacing || theta;
++    let phi = spacing;
++    // inter-math patch: a surd drawn as tall as its radicand needs (anyHeight) gets no white from a size taller
++    // than needed, which TeX's text clearance counts on: TeX's display clearance in every style
++    if (options.style.id < src_Style.TEXT.id || surdDesign && surdDesign.anyHeight) {
+       phi = options.fontMetrics().xHeight;
+     }
+ 
+     // Calculate the clearance between the body and line
+-    let lineClearance = theta + phi / 4;
++    let lineClearance = spacing + phi / 4;
+     const minDelimiterHeight = inner.height + inner.depth + lineClearance + theta;
+ 
+     // Create a sqrt SVG of the required minimum size
+@@ -13577,7 +13776,8 @@ defineFunction({
+         elem: img
+       }, {
+         type: "kern",
+-        size: ruleWidth
++        // inter-math patch: the font's spacing unit (TeX's: the vinculum's thickness)
++        size: metrics.ruleSpacing || ruleWidth
+       }]
+     }, options);
+     if (!group.index) {
+@@ -13804,7 +14004,8 @@ defineFunctionBuilders({
+     if (supm && subm) {
+       supShift = Math.max(supShift, minSupShift, supm.depth + 0.25 * metrics.xHeight);
+       subShift = Math.max(subShift, metrics.sub2);
+-      const ruleWidth = metrics.defaultRuleThickness;
++      // inter-math patch: the font's spacing unit (TeX's: the rule's thickness)
++      const ruleWidth = metrics.ruleSpacing || metrics.defaultRuleThickness;
+ 
+       // Rule 18e
+       const maxWidth = 4 * ruleWidth;
+@@ -14181,7 +14382,9 @@ defineFunction({
+     const innerGroup = buildGroup(group.body, options);
+ 
+     // Create the line to go below the body
+-    const line = makeLineSpan("underline-line", options);
++    // inter-math patch: the font's own underline when it sets one
++    const underline = options.fontMetrics();
++    const line = makeLineSpan("underline-line", options, underline.underlineRuleThickness);
+ 
+     // Generate the vlist, with the appropriate kerns
+     const defaultRuleThickness = options.fontMetrics().defaultRuleThickness;
+@@ -14190,13 +14393,13 @@ defineFunction({
+       positionData: innerGroup.height,
+       children: [{
+         type: "kern",
+-        size: defaultRuleThickness
++        size: underline.underlineRuleThickness || defaultRuleThickness
+       }, {
+         type: "elem",
+         elem: line
+       }, {
+         type: "kern",
+-        size: 3 * defaultRuleThickness
++        size: underline.underlineGap || 3 * defaultRuleThickness
+       }, {
+         type: "elem",
+         elem: innerGroup
+@@ -17460,7 +17663,7 @@ class Parser {
+     }
+     // At this point, we should have a symbol, possibly with accents.
+     // First expand any accented base symbol according to unicodeSymbols.
+-    if (Object.prototype.hasOwnProperty.call(unicodeSymbols, text[0]) && !src_symbols[this.mode][text[0]]) {
++    if (Object.prototype.hasOwnProperty.call(unicodeSymbols, text[0]) && !(composedText && this.mode === "text" && composedText.has(text[0])) && !src_symbols[this.mode][text[0]]) {
+       // This behavior is not strict (XeTeX-compatible) in math mode.
+       if (this.settings.strict && this.mode === "math") {
+         handleStrict({
+@@ -17564,7 +17767,7 @@ class Parser {
+         if (!command) {
+           throw new src_ParseError("Accent " + accent + " unsupported in " + this.mode + " mode", nucleus);
+         }
+-        symbol = {
++        symbol = composedAccent(command, symbol) || {
+           type: "accent",
+           mode: this.mode,
+           loc: SourceLocation.range(nucleus),
+@@ -17784,6 +17987,15 @@ const __domTree = {
+    * each key in the new object represents a font name
+   */
+   __setFontMetrics: setFontMetrics,
++  // inter-math patch
++  __setGlobalMetrics: setGlobalMetrics,
++  __setSurd: setSurd,
++  __setSvgDesign: setSvgDesign,
++  __setSizedDelimiters: setSizedDelimiters,
++  __setComposedText: setComposedText,
++  __setItalicAccents: setItalicAccents,
++  __setRootClasses: setRootClasses,
++  __setRuleImages: setRuleImages,
+   /**
+    * adds a new symbol to builtin symbols table
+    */
+diff --git a/dist/katex.mjs b/dist/katex.mjs
+index 10a14abb465a47d53b9aa5813291e6555d314c10..1840982bed1131d9437d10d21c569c7b171c88c9 100644
+--- a/dist/katex.mjs
++++ b/dist/katex.mjs
+@@ -1274,6 +1274,36 @@ class SvgNode {
+     return markup;
+   }
+ }
++// inter-math patch: the lines a font sets itself (__setGlobalMetrics): \cancel's stroke,
++// and \phase's angle `t` thick (viewBox units), its diagonal as thick across, its top cut level.
++var cancelStroke = function (options) {
++  var t = options.fontMetrics().cancelRuleThickness;
++  return t ? makeEm(t) : "0.046em";
++};
++var phasePathOf = function (y, t) {
++  var x = y / 2; // the angle's top, as KaTeX's: its diagonal rises 2 for 1 across
++  var h = t * Math.sqrt(5) / 2; // the inner edge, t from the outer one across, along a level line
++  return "M400000 " + y + " H0 L" + x + " 0 H" + (x + h) + " L" + (h + t / 2) + " " + (y - t) + " H400000z";
++};
++// inter-math patch: a font other than Computer Modern draws its own SVG images:
++// {path(name) → SVG path (or undefined: KaTeX's), static(name) → [path name,
++// width, height] of a fixed-size image (or undefined), image(label, data) →
++// the katexImagesData entry of a stretchy one, wide(label, pathName) → [path
++// name, viewBox width, viewBox height, height (em)] of a wide accent's box,
++// tall(label, height) → [path, width] of a tall delimiter drawn as one image,
++// inner(ch, height) → [path, width (em)] of the straight piece between a
++// tall delimiter's glyphs, as wide as they are at the font's weight (or
++// undefined), anyHeight(delim) → the image's name of a delimiter it draws at
++// any height past its text size (or undefined), largest → the height (em)
++// where those that never stack stop};
++// null restores KaTeX's.
++var svgDesign = null;
++function setSvgDesign(design) {
++  svgDesign = design || null;
++}
++var svgDesignPath = function (name) {
++  return svgDesign && svgDesign.path(name) || path[name];
++};
+ class PathNode {
+   constructor(pathName, alternate) {
+     this.pathName = void 0;
+@@ -1287,7 +1317,8 @@ class PathNode {
+     if (this.alternate) {
+       node.setAttribute("d", this.alternate);
+     } else {
+-      node.setAttribute("d", path[this.pathName]);
++      node.setAttribute("d", svgDesignPath(this.pathName));
++      if (svgDesign && !svgDesign.path(this.pathName)) node.setAttribute("data-katex-path", this.pathName);
+     }
+     return node;
+   }
+@@ -1295,7 +1326,7 @@ class PathNode {
+     if (this.alternate) {
+       return "<path d=\"" + escape(this.alternate) + "\"/>";
+     } else {
+-      return "<path d=\"" + escape(path[this.pathName]) + "\"/>";
++      return "<path d=\"" + escape(svgDesignPath(this.pathName)) + "\"" + (svgDesign && !svgDesign.path(this.pathName) ? " data-katex-path=\"" + this.pathName + "\"" : "") + "/>";
+     }
+   }
+ }
+@@ -3661,6 +3692,15 @@ function getCharacterMetrics(character, font, mode) {
+   }
+ }
+ var fontMetricsBySizeIndex = {};
++
++// inter-math patch: a font other than Computer Modern sets its own TeX parameters
++// (rule thicknesses, x-height…), as {name: [text, script, scriptscript]}; null
++// restores KaTeX's.
++var globalMetricsOverrides = {};
++function setGlobalMetrics(overrides) {
++  globalMetricsOverrides = overrides || {};
++  for (const sizeIndex of Object.keys(fontMetricsBySizeIndex)) delete fontMetricsBySizeIndex[sizeIndex];
++}
+ /**
+  * Get the font metrics for a given size.
+  */
+@@ -3675,10 +3715,10 @@ function getGlobalMetrics(size) {
+   }
+   if (!fontMetricsBySizeIndex[sizeIndex]) {
+     var metrics = fontMetricsBySizeIndex[sizeIndex] = {
+-      cssEmPerMu: sigmasAndXis.quad[sizeIndex] / 18
++      cssEmPerMu: (globalMetricsOverrides.quad || sigmasAndXis.quad)[sizeIndex] / 18
+     };
+-    for (var key of Object.keys(sigmasAndXis)) {
+-      metrics[key] = sigmasAndXis[key][sizeIndex];
++    for (var key of Object.keys(Object.assign({}, sigmasAndXis, globalMetricsOverrides))) {
++      metrics[key] = (globalMetricsOverrides[key] || sigmasAndXis[key])[sizeIndex];
+     }
+   }
+   return fontMetricsBySizeIndex[sizeIndex];
+@@ -4946,11 +4986,40 @@ var makeSpan = function makeSpan(classes, children, options, style) {
+ // SVG one is simpler -- doesn't require height, depth, max-font setting.
+ // This is also a separate method for typesafety.
+ var makeSvgSpan = (classes, children, options, style) => new Span(classes, children, options, style);
++// inter-math patch: a font other than Computer Modern draws its rules (fraction bars,
++// \overline, \underline, \hline) as images, as thick as they are: a browser draws a border a
++// whole number of device pixels thick (its width rounded down, or up to one pixel), off the glyphs
++// and surds beside it (a light weight's rule 1.4 pixels thick came out 1 thick); false restores
++// KaTeX's borders. The image reaches RULE_PAD over and under its rule: a browser draws an image's
++// box a whole number of pixels tall too, its content scaled to it, which leaves the rule's
++// thickness all but untouched only in a box much taller than it.
++var ruleImages = false;
++function setRuleImages(on) {
++  ruleImages = !!on;
++}
++var RULE_PAD = 0.5;
++var ruleImage = function (line) {
++  var units = function (em) {
++    return Math.round(em * 10000) / 10;
++  };
++  var height = 2 * RULE_PAD + line.height;
++  line.style.borderBottomWidth = "0";
++  line.style.position = "relative";
++  line.children.push(new SvgNode([new PathNode("rule", "M0 " + units(RULE_PAD) + "H400000V" + units(RULE_PAD + line.height) + "H0Z")], {
++    "width": "400em",
++    "height": makeEm(height),
++    "style": "bottom:" + makeEm(-RULE_PAD) + ";height:" + makeEm(height),
++    "viewBox": "0 0 400000 " + units(height),
++    "preserveAspectRatio": "xMinYMin slice"
++  }));
++};
+ var makeLineSpan = function makeLineSpan(className, options, thickness) {
+   var line = makeSpan([className], [], options);
+   line.height = Math.max(thickness || options.fontMetrics().defaultRuleThickness, options.minRuleThickness);
+   line.style.borderBottomWidth = makeEm(line.height);
+   line.maxFontSize = 1.0;
++  // inter-math patch: the rule as an image when the font asks
++  if (ruleImages && className !== "katex-hdashline") ruleImage(line);
+   return line;
+ };
+ /**
+@@ -5238,7 +5307,7 @@ var svgData = {
+ };
+ var staticSvg = function staticSvg(value, options) {
+   // Create a span with inline SVG for the element.
+-  var _svgData$value = svgData[value],
++  var _svgData$value = svgDesign && svgDesign.static(value) || svgData[value],
+     pathName = _svgData$value[0],
+     width = _svgData$value[1],
+     height = _svgData$value[2];
+@@ -6471,6 +6540,12 @@ var displayWrap = function displayWrap(node, settings) {
+   }
+   return node;
+ };
++// inter-math patch: classes a font other than Computer Modern puts on the math laid out from
++// now on (its .katex element: the font's CSS reads them, as its stylistic sets); null clears them.
++var rootClasses = [];
++function setRootClasses(classes) {
++  rootClasses = classes || [];
++}
+ var buildTree = function buildTree(tree, expression, settings) {
+   var options = optionsFromSettings(settings);
+   var katexNode;
+@@ -6478,18 +6553,18 @@ var buildTree = function buildTree(tree, expression, settings) {
+     return buildMathML(tree, expression, options, settings.displayMode, true);
+   } else if (settings.output === "html") {
+     var htmlNode = buildHTML(tree, options);
+-    katexNode = makeSpan(["katex"], [htmlNode]);
++    katexNode = makeSpan(["katex", ...rootClasses], [htmlNode]);
+   } else {
+     var mathMLNode = buildMathML(tree, expression, options, settings.displayMode, false);
+     var _htmlNode = buildHTML(tree, options);
+-    katexNode = makeSpan(["katex"], [mathMLNode, _htmlNode]);
++    katexNode = makeSpan(["katex", ...rootClasses], [mathMLNode, _htmlNode]);
+   }
+   return displayWrap(katexNode, settings);
+ };
+ var buildHTMLTree = function buildHTMLTree(tree, settings) {
+   var options = optionsFromSettings(settings);
+   var htmlNode = buildHTML(tree, options);
+-  var katexNode = makeSpan(["katex"], [htmlNode]);
++  var katexNode = makeSpan(["katex", ...rootClasses], [htmlNode]);
+   return displayWrap(katexNode, settings);
+ };
+ 
+@@ -6640,6 +6715,14 @@ var stretchySvg = function stretchySvg(group, options) {
+           pathName = "tilde" + imgIndex;
+         }
+       }
++      // inter-math patch: the font's own box for a wide accent: its path's name, its viewBox, its height
++      var fontWide = svgDesign && svgDesign.wide ? svgDesign.wide(label, pathName) : undefined;
++      if (fontWide) {
++        pathName = fontWide[0];
++        viewBoxWidth = fontWide[1];
++        viewBoxHeight = fontWide[2];
++        _height = fontWide[3];
++      }
+       var path = new PathNode(pathName);
+       var svgNode = new SvgNode([path], {
+         "width": "100%",
+@@ -6654,7 +6737,7 @@ var stretchySvg = function stretchySvg(group, options) {
+       };
+     } else {
+       var spans = [];
+-      var data = katexImagesData[label];
++      var data = svgDesign ? svgDesign.image(label, katexImagesData[label]) : katexImagesData[label];
+       if (!data) {
+         throw new Error("No SVG data for \"" + label + "\".");
+       }
+@@ -6743,7 +6826,7 @@ var stretchyEnclose = function stretchyEnclose(inner, label, topPad, bottomPad,
+         "y1": "0",
+         "x2": "100%",
+         "y2": "100%",
+-        "stroke-width": "0.046em"
++        "stroke-width": cancelStroke(options)
+       }));
+     }
+     if (/^x?cancel$/.test(label)) {
+@@ -6752,7 +6835,7 @@ var stretchyEnclose = function stretchyEnclose(inner, label, topPad, bottomPad,
+         "y1": "100%",
+         "x2": "100%",
+         "y2": "0",
+-        "stroke-width": "0.046em"
++        "stroke-width": cancelStroke(options)
+       }));
+     }
+     var svgNode = new SvgNode(lines, {
+@@ -6898,9 +6981,11 @@ var htmlBuilder$a = (grp, options) => {
+       // So now we use an SVG.
+       // If Safari reforms, we should consider reverting to the glyph.
+       accent = staticSvg("vec", options);
+-      width = svgData.vec[1];
++      width = (svgDesign && svgDesign.static("vec") || svgData.vec)[1];
+     } else {
+-      accent = makeOrd({
++      // inter-math patch: over an italic letter, the font's italic accent
++      var italicFont = mustShift ? italicAccentFont(group.label, getBaseSymbol(body)) : null;
++      accent = italicFont ? makeSymbol(group.label, italicFont[0], group.mode, options, ["mord", italicFont[1]]) : makeOrd({
+         type: "textord",
+         mode: group.mode,
+         text: group.label
+@@ -7000,6 +7085,9 @@ defineFunction({
+     var base = normalizeArgument(args[0]);
+     var isStretchy = !NON_STRETCHY_ACCENT_REGEX.test(context.funcName);
+     var isShifty = !isStretchy || context.funcName === "\\widehat" || context.funcName === "\\widetilde" || context.funcName === "\\widecheck";
++    // inter-math patch: the font's own precomposed letter, when it has one
++    var composed = composedAccent(context.funcName, base);
++    if (composed) return composed;
+     return {
+       type: "accent",
+       mode: context.parser.mode,
+@@ -7012,6 +7100,50 @@ defineFunction({
+   htmlBuilder: htmlBuilder$a,
+   mathmlBuilder: mathmlBuilder$9
+ });
++// inter-math patch: a font other than Computer Modern sets an accented letter as its own
++// precomposed glyph when it has one (\'{a} is á, \r{A} is Å, \acute{a} and a typed á in math
++// its italic á) and keeps the ones typed in text as they are (KaTeX builds them all from the
++// letter and an accent); null restores KaTeX's. \bar isn't composed: it is drawn wider than a
++// macron, as TeX's is.
++var composedText = null;
++function setComposedText(chars) {
++  composedText = chars ? new Set(chars) : null;
++}
++var ACCENT_MARKS = {
++  "\\'": "\u0301", "\\`": "\u0300", "\\^": "\u0302", "\\~": "\u0303", "\\=": "\u0304", "\\u": "\u0306",
++  "\\.": "\u0307", '\\"': "\u0308", "\\c": "\u0327", "\\r": "\u030a", "\\H": "\u030b", "\\v": "\u030c",
++  "\\acute": "\u0301", "\\grave": "\u0300", "\\hat": "\u0302", "\\tilde": "\u0303", "\\breve": "\u0306",
++  "\\dot": "\u0307", "\\ddot": "\u0308", "\\mathring": "\u030a", "\\check": "\u030c"
++};
++var composedAccent = function (label, base) {
++  if (!composedText || !ACCENT_MARKS[label]) return null;
++  var letter = base && base.type === "ordgroup" && base.body.length === 1 ? base.body[0] : base;
++  if (!letter || letter.type !== "mathord" && letter.type !== "textord" || letter.text.length !== 1) return null;
++  var text = (letter.text + ACCENT_MARKS[label]).normalize("NFC");
++  return text.length === 1 && composedText.has(text) ? {
++    type: letter.type,
++    mode: letter.mode,
++    loc: letter.loc,
++    text: text
++  } : null;
++};
++// inter-math patch: a font other than Computer Modern sets a math accent over an italic letter
++// from its italic font (the letter's), as its text does (KaTeX sets them upright over every
++// letter); false restores KaTeX's.
++var italicAccents = false;
++function setItalicAccents(on) {
++  italicAccents = !!on;
++}
++var ITALIC_ACCENT_LABELS = new Set(["\\acute", "\\grave", "\\ddot", "\\tilde", "\\bar", "\\breve", "\\check", "\\hat", "\\dot", "\\mathring"]);
++// an italic letter's class → the italic font its accent is set from
++var ITALIC_LETTERS = {mathnormal: "Math-Italic", mathit: "Main-Italic", boldsymbol: "Math-BoldItalic"};
++var italicAccentFont = function (label, symbol) {
++  if (!italicAccents || !ITALIC_ACCENT_LABELS.has(label) || !symbol) return null;
++  for (var letterClass in ITALIC_LETTERS) {
++    if (symbol.hasClass(letterClass)) return [ITALIC_LETTERS[letterClass], letterClass];
++  }
++  return null;
++};
+ // Text-mode accents
+ defineFunction({
+   type: "accent",
+@@ -7033,6 +7165,9 @@ defineFunction({
+       });
+       mode = "text";
+     }
++    // inter-math patch: the font's own precomposed letter, when it has one
++    var composed = composedAccent(context.funcName, base);
++    if (composed) return composed;
+     return {
+       type: "accent",
+       mode: mode,
+@@ -8104,7 +8239,11 @@ var makeGlyphSpan = function makeGlyphSpan(symbol, font, mode, options) {
+ var makeInner = function makeInner(ch, height, options) {
+   // Create a span with inline SVG for the inner part of a tall stacked delimiter.
+   var width = fontMetricsData['Size4-Regular'][ch.charCodeAt(0)] ? fontMetricsData['Size4-Regular'][ch.charCodeAt(0)][4] : fontMetricsData['Size1-Regular'][ch.charCodeAt(0)][4];
+-  var path = new PathNode("inner", innerPath(ch, Math.round(1000 * height)));
++  // inter-math patch: the font's own straight piece between a tall delimiter's glyphs, as wide as they
++  // are at its weight, when it draws one
++  var fontInner = svgDesign && svgDesign.inner ? svgDesign.inner(ch, Math.round(1000 * height)) : undefined;
++  if (fontInner) width = fontInner[1];
++  var path = new PathNode("inner", fontInner ? fontInner[0] : innerPath(ch, Math.round(1000 * height)));
+   var svgNode = new SvgNode([path], {
+     "width": makeEm(width),
+     "height": makeEm(height),
+@@ -8259,6 +8398,11 @@ var makeStackedDelim = function makeStackedDelim(delim, heightTotal, center, opt
+     repeat = "\u23aa";
+     font = "Size4-Regular";
+   }
++  // inter-math patch: a delimiter the font draws as one image at any height
++  var fontLabel = svgDesign ? svgDesign.anyHeight(delim) : undefined;
++  if (fontLabel) {
++    svgLabel = fontLabel;
++  }
+   // Get the metrics of the four sections
+   var topMetrics = getMetrics(top, font, mode);
+   var topHeightTotal = topMetrics.height + topMetrics.depth;
+@@ -8279,7 +8423,10 @@ var makeStackedDelim = function makeStackedDelim(delim, heightTotal, center, opt
+   // Compute the number of copies of the repeat symbol we will need
+   var repeatCount = Math.max(0, Math.ceil((heightTotal - minHeight) / (middleFactor * repeatHeightTotal)));
+   // Compute the total height of the delimiter including all the symbols
+-  var realHeightTotal = minHeight + repeatCount * middleFactor * repeatHeightTotal;
++  // inter-math patch: with a font that draws its own tall delimiters (one image, or a straight piece between
++  // glyphs, at any height), as tall as needed: in steps of the repeated piece, a delimiter around content growing
++  // with the weight jumped a step at a time
++  var realHeightTotal = fontLabel ? heightTotal : svgDesign ? Math.max(minHeight, heightTotal) : minHeight + repeatCount * middleFactor * repeatHeightTotal;
+   // The center of the delimiter is placed at the center of the axis. Note
+   // that in this context, "center" means that the delimiter should be
+   // centered around the axis in the current style, while normally it is
+@@ -8298,7 +8445,10 @@ var makeStackedDelim = function makeStackedDelim(delim, heightTotal, center, opt
+     // This evades browser problems with imprecise positioning of spans.
+     var midHeight = realHeightTotal - topHeightTotal - bottomHeightTotal;
+     var viewBoxHeight = Math.round(realHeightTotal * 1000);
+-    var pathStr = tallDelim(svgLabel, Math.round(midHeight * 1000));
++    // inter-math patch: the font's own tall delimiter, and its width, when it draws one
++    var fontTall = svgDesign && svgDesign.tall ? svgDesign.tall(svgLabel, viewBoxHeight) : undefined;
++    if (fontTall) viewBoxWidth = fontTall[1];
++    var pathStr = fontTall ? fontTall[0] : tallDelim(svgLabel, Math.round(midHeight * 1000));
+     var path = new PathNode(svgLabel, pathStr);
+     var width = makeEm(viewBoxWidth / 1000);
+     var height = makeEm(viewBoxHeight / 1000);
+@@ -8353,8 +8503,22 @@ var makeStackedDelim = function makeStackedDelim(delim, heightTotal, center, opt
+ // That keeps browser span height rounding error from pinching the line.
+ var vbPad = 80; // padding above the surd, measured inside the viewBox.
+ var emPad = 0.08; // padding, in ems, measured in the document.
++// inter-math patch: a font other than Computer Modern draws its own surds:
++// {path(name, extraVinculum, viewBoxHeight, hLinePad) → SVG path (viewBox units),
++// box(name, height) → {minWidth, advanceWidth} (em), anyHeight: true when it
++// draws one at any height: a surd then is as tall as its radicand needs, never
++// shorter than the normal one, and KaTeX's four sizes never come (a radicand
++// growing with the font's weight made the surd jump from one to the next)};
++// null restores KaTeX's.
++var surdDesign = null;
++function setSurd(design) {
++  surdDesign = design || null;
++}
++var surdBox = function (name, minWidth, advanceWidth, height) {
++  return surdDesign ? surdDesign.box(name, height) : {minWidth, advanceWidth};
++};
+ var sqrtSvg = function sqrtSvg(sqrtName, height, viewBoxHeight, extraVinculum, options) {
+-  var path = sqrtPath(sqrtName, extraVinculum, viewBoxHeight);
++  var path = surdDesign ? surdDesign.path(sqrtName, extraVinculum, viewBoxHeight, hLinePad) : sqrtPath(sqrtName, extraVinculum, viewBoxHeight);
+   var pathNode = new PathNode(sqrtName, path);
+   var svg = new SvgNode([pathNode], {
+     // Note: 1000:1 ratio of viewBox to document em width.
+@@ -8373,7 +8537,9 @@ var makeSqrtImage = function makeSqrtImage(height, options) {
+   // We don't pick different a height surd for \Huge. For it, we scale up.
+   var newOptions = options.havingBaseSizing();
+   // Pick the desired surd glyph from a sequence of surds.
+-  var delim = traverseSequence("\\surd", height * newOptions.sizeMultiplier, stackLargeDelimiterSequence, newOptions);
++  // inter-math patch: a font that draws its surd at any height sets the normal one up to 1 em, then one as tall
++  // as needed (KaTeX's own sizes: a radicand growing with the weight made the surd jump)
++  var delim = surdDesign && surdDesign.anyHeight ? {type: height < 1.0 ? "small" : "stack"} : traverseSequence("\\surd", height * newOptions.sizeMultiplier, stackLargeDelimiterSequence, newOptions);
+   var sizeMultiplier = newOptions.sizeMultiplier; // default
+   // The standard sqrt SVGs each have a 0.04em thick vinculum.
+   // If Settings.minRuleThickness is larger than that, we add extraVinculum.
+@@ -8401,16 +8567,18 @@ var makeSqrtImage = function makeSqrtImage(height, options) {
+     spanHeight = (1.0 + extraVinculum + emPad) / sizeMultiplier;
+     texHeight = (1.00 + extraVinculum) / sizeMultiplier;
+     span = sqrtSvg("sqrtMain", spanHeight, viewBoxHeight, extraVinculum, options);
+-    span.style.minWidth = "0.853em";
+-    advanceWidth = 0.833 / sizeMultiplier; // from the font.
++    var box = surdBox("sqrtMain", 0.853, 0.833);
++    span.style.minWidth = makeEm(box.minWidth);
++    advanceWidth = box.advanceWidth / sizeMultiplier; // from the font.
+   } else if (delim.type === "large") {
+     // These SVGs come from fonts: KaTeX_Size1, _Size2, etc.
+     viewBoxHeight = (1000 + vbPad) * sizeToMaxHeight[delim.size];
+     texHeight = (sizeToMaxHeight[delim.size] + extraVinculum) / sizeMultiplier;
+     spanHeight = (sizeToMaxHeight[delim.size] + extraVinculum + emPad) / sizeMultiplier;
+     span = sqrtSvg("sqrtSize" + delim.size, spanHeight, viewBoxHeight, extraVinculum, options);
+-    span.style.minWidth = "1.02em";
+-    advanceWidth = 1.0 / sizeMultiplier; // 1.0 from the font.
++    var box = surdBox("sqrtSize" + delim.size, 1.02, 1.0);
++    span.style.minWidth = makeEm(box.minWidth);
++    advanceWidth = box.advanceWidth / sizeMultiplier; // 1.0 from the font.
+   } else {
+     // Tall sqrt. In TeX, this would be stacked using multiple glyphs.
+     // We'll use a single SVG to accomplish the same thing.
+@@ -8418,8 +8586,9 @@ var makeSqrtImage = function makeSqrtImage(height, options) {
+     texHeight = height + extraVinculum;
+     viewBoxHeight = Math.floor(1000 * height + extraVinculum) + vbPad;
+     span = sqrtSvg("sqrtTall", spanHeight, viewBoxHeight, extraVinculum, options);
+-    span.style.minWidth = "0.742em";
+-    advanceWidth = 1.056;
++    var box = surdBox("sqrtTall", 0.742, 1.056, height);
++    span.style.minWidth = makeEm(box.minWidth);
++    advanceWidth = box.advanceWidth;
+   }
+   span.height = texHeight;
+   span.style.height = makeEm(spanHeight);
+@@ -8440,6 +8609,13 @@ var stackLargeDelimiters = new Set(["(", "\\lparen", ")", "\\rparen", "[", "\\lb
+ var stackAlwaysDelimiters = new Set(["\\uparrow", "\\downarrow", "\\updownarrow", "\\Uparrow", "\\Downarrow", "\\Updownarrow", "|", "\\|", "\\vert", "\\Vert", "\\lvert", "\\rvert", "\\lVert", "\\rVert", "\\lgroup", "\\rgroup", "\u27ee", "\u27ef", "\\lmoustache", "\\rmoustache", "\u23b0", "\u23b1"]);
+ // and delimiters that never stack
+ var stackNeverDelimiters = new Set(["<", ">", "\\langle", "\\rangle", "/", "\\backslash", "\\lt", "\\gt"]);
++// inter-math patch: a font other than Computer Modern draws some of the delimiters KaTeX
++// always stacks (\lgroup, \lmoustache…) at the four sizes: their names and characters,
++// taken from the Size fonts first, as ( [ { are; null restores KaTeX's.
++var sizedDelimiters = new Set();
++function setSizedDelimiters(delims) {
++  sizedDelimiters = new Set(delims || []);
++}
+ // Metrics of the different sizes. Found by looking at TeX's output of
+ // $\bigl| // \Bigl| \biggl| \Biggl| \showlists$
+ // Used to create stacked delimiters of appropriate sizes in makeSizedDelim.
+@@ -8455,7 +8631,7 @@ var makeSizedDelim = function makeSizedDelim(delim, size, options, mode, classes
+     delim = "\\rangle";
+   }
+   // Sized delimiters are never centered.
+-  if (stackLargeDelimiters.has(delim) || stackNeverDelimiters.has(delim)) {
++  if (stackLargeDelimiters.has(delim) || stackNeverDelimiters.has(delim) || sizedDelimiters.has(delim)) {
+     return makeLargeDelim(delim, size, false, options, mode, classes);
+   } else if (stackAlwaysDelimiters.has(delim)) {
+     return makeStackedDelim(delim, sizeToMaxHeight[size], false, options, mode, classes);
+@@ -8587,13 +8763,21 @@ var makeCustomSizedDelim = function makeCustomSizedDelim(delim, height, center,
+   var sequence;
+   if (stackNeverDelimiters.has(delim)) {
+     sequence = stackNeverDelimiterSequence;
+-  } else if (stackLargeDelimiters.has(delim)) {
++  } else if (stackLargeDelimiters.has(delim) || sizedDelimiters.has(delim)) {
+     sequence = stackLargeDelimiterSequence;
+   } else {
+     sequence = stackAlwaysDelimiterSequence;
+   }
+   // Look through the sequence
+   var delimType = traverseSequence(delim, height, sequence, options);
++  // inter-math patch: a delimiter the font draws at any height, past its text size: one image as tall as needed
++  // (KaTeX's sizes: content growing with the weight made it jump from one to the next), those that never stack
++  // stopping at the largest as KaTeX's
++  if (delimType.type === "large" && svgDesign && svgDesign.anyHeight(delim) && (sequence !== stackNeverDelimiterSequence || height < svgDesign.largest)) {
++    delimType = {
++      type: "stack"
++    };
++  }
+   // Get the delimiter from font glyphs.
+   // Depending on the sequence element we decided on, call the
+   // appropriate function.
+@@ -8953,9 +9137,15 @@ var htmlBuilder$7 = (group, options) => {
+     img = makeSpan(["katex-stretchy", "katex-sout"]);
+     img.height = options.fontMetrics().defaultRuleThickness / scale;
+     imgShift = -0.5 * options.fontMetrics().xHeight;
++    // inter-math patch: the font's own strike-through when it sets one
++    if (options.fontMetrics().soutRuleThickness) {
++      img.height = options.fontMetrics().soutRuleThickness / scale;
++      img.style.borderBottomWidth = makeEm(img.height);
++      imgShift = -options.fontMetrics().soutShift;
++    }
+   } else if (label === "phase") {
+     // Set a couple of dimensions from the steinmetz package.
+-    var lineWeight = calculateSize({
++    var lineWeight = options.fontMetrics().phaseRuleThickness || calculateSize({
+       number: 0.6,
+       unit: "pt"
+     }, options);
+@@ -8971,7 +9161,7 @@ var htmlBuilder$7 = (group, options) => {
+     inner.style.paddingLeft = makeEm(angleHeight / 2 + lineWeight);
+     // Create an SVG
+     var viewBoxHeight = Math.floor(1000 * angleHeight * scale);
+-    var path = phasePath(viewBoxHeight);
++    var path = options.fontMetrics().phaseRuleThickness ? phasePathOf(viewBoxHeight, 1000 * lineWeight * scale) : phasePath(viewBoxHeight);
+     var svgNode = new SvgNode([new PathNode("phase", path)], {
+       "width": "400em",
+       "height": makeEm(viewBoxHeight / 1000),
+@@ -9006,7 +9196,8 @@ var htmlBuilder$7 = (group, options) => {
+       bottomPad = topPad;
+     } else if (label === "angl") {
+       ruleThickness = Math.max(options.fontMetrics().defaultRuleThickness, options.minRuleThickness);
+-      topPad = 4 * ruleThickness; // gap = 3 × line, plus the line itself.
++      // inter-math patch: the gap in the font's spacing unit (TeX's: the rule's thickness)
++      topPad = 3 * (options.fontMetrics().ruleSpacing || ruleThickness) + ruleThickness; // gap = 3 × line, plus the line itself.
+       bottomPad = Math.max(0, 0.25 - inner.depth);
+     } else {
+       topPad = isSingleChar ? 0.2 : 0;
+@@ -10521,11 +10712,12 @@ var htmlBuilder$4 = (group, options) => {
+       rule = makeLineSpan("frac-line", options);
+     }
+     ruleWidth = rule.height;
+-    ruleSpacing = rule.height;
++    // inter-math patch: the font's spacing unit (TeX's: the rule's thickness), but for a bar of a given size
++    ruleSpacing = group.barSize ? rule.height : options.fontMetrics().ruleSpacing || rule.height;
+   } else {
+     rule = null;
+     ruleWidth = 0;
+-    ruleSpacing = options.fontMetrics().defaultRuleThickness;
++    ruleSpacing = options.fontMetrics().ruleSpacing || options.fontMetrics().defaultRuleThickness;
+   }
+   // Rule 15b
+   var numShift;
+@@ -12118,7 +12310,9 @@ defineFunction({
+     // Build the inner group in the cramped style.
+     var innerGroup = buildGroup$1(group.body, options.havingCrampedStyle());
+     // Create the line above the body
+-    var line = makeLineSpan("overline-line", options);
++    // inter-math patch: the font's own overline when it sets one
++    var overline = options.fontMetrics();
++    var line = makeLineSpan("overline-line", options, overline.overlineRuleThickness);
+     // Generate the vlist, with the appropriate kerns
+     var defaultRuleThickness = options.fontMetrics().defaultRuleThickness;
+     var vlist = makeVList({
+@@ -12128,13 +12322,13 @@ defineFunction({
+         elem: innerGroup
+       }, {
+         type: "kern",
+-        size: 3 * defaultRuleThickness
++        size: overline.overlineGap || 3 * defaultRuleThickness
+       }, {
+         type: "elem",
+         elem: line
+       }, {
+         type: "kern",
+-        size: defaultRuleThickness
++        size: overline.overlineRuleThickness || defaultRuleThickness
+       }]
+     });
+     return makeSpan(["mord", "katex-overline"], [vlist], options);
+@@ -12538,12 +12732,17 @@ defineFunction({
+     // Calculate the minimum size for the \surd delimiter
+     var metrics = options.fontMetrics();
+     var theta = metrics.defaultRuleThickness;
+-    var phi = theta;
+-    if (options.style.id < Style$1.TEXT.id) {
++    // inter-math patch: the clearance in the font's spacing unit (TeX's: the rule's thickness), the vinculum as thick
++    // as the rule
++    var spacing = metrics.ruleSpacing || theta;
++    var phi = spacing;
++    // inter-math patch: a surd drawn as tall as its radicand needs (anyHeight) gets no white from a size taller
++    // than needed, which TeX's text clearance counts on: TeX's display clearance in every style
++    if (options.style.id < Style$1.TEXT.id || surdDesign && surdDesign.anyHeight) {
+       phi = options.fontMetrics().xHeight;
+     }
+     // Calculate the clearance between the body and line
+-    var lineClearance = theta + phi / 4;
++    var lineClearance = spacing + phi / 4;
+     var minDelimiterHeight = inner.height + inner.depth + lineClearance + theta;
+     // Create a sqrt SVG of the required minimum size
+     var _makeSqrtImage = makeSqrtImage(minDelimiterHeight, options),
+@@ -12573,7 +12772,8 @@ defineFunction({
+         elem: img
+       }, {
+         type: "kern",
+-        size: ruleWidth
++        // inter-math patch: the font's spacing unit (TeX's: the vinculum's thickness)
++        size: metrics.ruleSpacing || ruleWidth
+       }]
+     });
+     if (!group.index) {
+@@ -12771,7 +12971,8 @@ defineFunctionBuilders({
+     if (supm && subm) {
+       supShift = Math.max(supShift, minSupShift, supm.depth + 0.25 * metrics.xHeight);
+       subShift = Math.max(subShift, metrics.sub2);
+-      var ruleWidth = metrics.defaultRuleThickness;
++      // inter-math patch: the font's spacing unit (TeX's: the rule's thickness)
++      var ruleWidth = metrics.ruleSpacing || metrics.defaultRuleThickness;
+       // Rule 18e
+       var maxWidth = 4 * ruleWidth;
+       if (supShift - supm.depth - (subm.height - subShift) < maxWidth) {
+@@ -13114,7 +13315,9 @@ defineFunction({
+     // Build the inner group.
+     var innerGroup = buildGroup$1(group.body, options);
+     // Create the line to go below the body
+-    var line = makeLineSpan("underline-line", options);
++    // inter-math patch: the font's own underline when it sets one
++    var underline = options.fontMetrics();
++    var line = makeLineSpan("underline-line", options, underline.underlineRuleThickness);
+     // Generate the vlist, with the appropriate kerns
+     var defaultRuleThickness = options.fontMetrics().defaultRuleThickness;
+     var vlist = makeVList({
+@@ -13122,13 +13325,13 @@ defineFunction({
+       positionData: innerGroup.height,
+       children: [{
+         type: "kern",
+-        size: defaultRuleThickness
++        size: underline.underlineRuleThickness || defaultRuleThickness
+       }, {
+         type: "elem",
+         elem: line
+       }, {
+         type: "kern",
+-        size: 3 * defaultRuleThickness
++        size: underline.underlineGap || 3 * defaultRuleThickness
+       }, {
+         type: "elem",
+         elem: innerGroup
+@@ -16147,7 +16350,7 @@ class Parser {
+     }
+     // At this point, we should have a symbol, possibly with accents.
+     // First expand any accented base symbol according to unicodeSymbols.
+-    if (Object.prototype.hasOwnProperty.call(unicodeSymbols, text[0]) && !symbols[this.mode][text[0]]) {
++    if (Object.prototype.hasOwnProperty.call(unicodeSymbols, text[0]) && !(composedText && this.mode === "text" && composedText.has(text[0])) && !symbols[this.mode][text[0]]) {
+       // This behavior is not strict (XeTeX-compatible) in math mode.
+       if (this.settings.strict && this.mode === "math") {
+         handleStrict({
+@@ -16251,7 +16454,7 @@ class Parser {
+         if (!command) {
+           throw new ParseError("Accent " + accent + " unsupported in " + this.mode + " mode", nucleus);
+         }
+-        symbol = {
++        symbol = composedAccent(command, symbol) || {
+           type: "accent",
+           mode: this.mode,
+           loc: SourceLocation.range(nucleus),
+@@ -16436,6 +16639,15 @@ var katex = {
+    * each key in the new object represents a font name
+   */
+   __setFontMetrics: setFontMetrics,
++  // inter-math patch
++  __setGlobalMetrics: setGlobalMetrics,
++  __setSurd: setSurd,
++  __setSvgDesign: setSvgDesign,
++  __setSizedDelimiters: setSizedDelimiters,
++  __setComposedText: setComposedText,
++  __setItalicAccents: setItalicAccents,
++  __setRootClasses: setRootClasses,
++  __setRuleImages: setRuleImages,
+   /**
+    * adds a new symbol to builtin symbols table
+    */
+@@ -16460,4 +16672,4 @@ var katex = {
+   __domTree
+ };
+ 
+-export { ParseError, SETTINGS_SCHEMA, defineFunction as __defineFunction, defineMacro as __defineMacro, defineSymbol as __defineSymbol, __domTree, generateParseTree as __parse, renderToDomTree as __renderToDomTree, renderToHTMLTree as __renderToHTMLTree, setFontMetrics as __setFontMetrics, katex as default, render, renderToString, version };
++export { ParseError, SETTINGS_SCHEMA, defineFunction as __defineFunction, defineMacro as __defineMacro, defineSymbol as __defineSymbol, __domTree, generateParseTree as __parse, renderToDomTree as __renderToDomTree, renderToHTMLTree as __renderToHTMLTree, setFontMetrics as __setFontMetrics, setGlobalMetrics as __setGlobalMetrics, setSurd as __setSurd, setSvgDesign as __setSvgDesign, setSizedDelimiters as __setSizedDelimiters, setComposedText as __setComposedText, setItalicAccents as __setItalicAccents, setRootClasses as __setRootClasses, setRuleImages as __setRuleImages, katex as default, render, renderToString, version };
