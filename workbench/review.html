@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- the chosen theme before the first paint (workbench.js keeps it in sync) -->
+    <script>
+      try {
+        const theme = localStorage.getItem("inter-math-workbench.theme");
+        if (theme) document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <title>Inter Math review</title>
+  </head>
+  <body>
+    <header>
+      <h1>Review</h1>
+      <nav><a href="./specimens.html">Specimens</a><a href="./symbols.html">Symbols</a><a href="./review.html">Review</a><a href="./overlay.html">Overlay</a></nav>
+      <span class="note">The points of REVIEW.md at every weight; Inter's own text forms beside, in grey (the Overlay page lays them over the math)</span>
+      <span class="spacer"></span>
+    </header>
+    <main>
+      <table class="review">
+        <colgroup><col class="number" /><col class="point" /><col /><col /><col /><col /><col /><col /><col /><col /><col /><col /></colgroup>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Point</th>
+            <th>KaTeX (Computer Modern)</th>
+            <th>Inter Math 100</th>
+            <th>200</th>
+            <th>300</th>
+            <th>400</th>
+            <th>500</th>
+            <th>600</th>
+            <th>700</th>
+            <th>800</th>
+            <th>900</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </main>
+    <script type="module" src="./review.js"></script>
+  </body>
+</html>

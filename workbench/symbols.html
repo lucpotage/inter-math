@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- the chosen theme before the first paint (workbench.js keeps it in sync) -->
+    <script>
+      try {
+        const theme = localStorage.getItem("inter-math-workbench.theme");
+        if (theme) document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <title>KaTeX symbols in Inter Math</title>
+  </head>
+  <body>
+    <header>
+      <h1>KaTeX symbols</h1>
+      <nav><a href="./specimens.html">Specimens</a><a href="./symbols.html">Symbols</a><a href="./review.html">Review</a><a href="./overlay.html">Overlay</a></nav>
+      <span class="note" id="source"></span>
+      <span class="spacer"></span>
+      <select id="view" aria-label="List">
+        <option value="type">By type (Supported Functions)</option>
+        <option value="table">A–Z (Support Table)</option>
+      </select>
+      <select id="show" aria-label="Show">
+        <option value="all">All</option>
+        <option value="drawn">Drawn by Inter Math</option>
+        <option value="katex">Falling back to KaTeX</option>
+      </select>
+      <input id="query" type="search" placeholder="Filter: \oplus, arrow, Greek…" aria-label="Filter" />
+    </header>
+    <main>
+      <p class="counts" id="counts"></p>
+      <table>
+        <colgroup><col class="source" /><col /><col /><col class="chips" /></colgroup>
+        <thead>
+          <tr>
+            <th>LaTeX</th>
+            <th>KaTeX (Computer Modern)</th>
+            <th>Inter Math <span class="legend"><span class="from-inter">Blue</span>: Inter's glyphs, as they are or only resized, moved, turned or drawn out. The rest is drawn for Inter Math.</span></th>
+            <th>Drawn from Inter</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </main>
+    <script type="module" src="./symbols.js"></script>
+  </body>
+</html>

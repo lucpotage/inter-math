@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- the chosen theme before the first paint (workbench.js keeps it in sync) -->
+    <script>
+      try {
+        const theme = localStorage.getItem("inter-math-workbench.theme");
+        if (theme) document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <title>Inter Math workbench</title>
+    <link rel="stylesheet" href="./workbench.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Inter Math workbench</h1>
+      <nav><a href="./specimens.html">Specimens</a><a href="./symbols.html">Symbols</a><a href="./review.html">Review</a><a href="./overlay.html">Overlay</a></nav>
+    </header>
+    <main>
+      <p>Pages to look at the font while it is drawn, apart from the app.</p>
+      <ul>
+        <li><a href="./specimens.html">Specimens</a>: school math in KaTeX's Computer Modern and in Inter Math, any LaTeX to try in both.</li>
+        <li>
+          <a href="./symbols.html">Symbols</a>: every example of KaTeX's documentation (Supported Functions, Support Table) in both
+          fonts, with the glyphs of Inter each of Inter Math's is drawn from, and what still falls back to KaTeX.
+        </li>
+        <li><a href="./package.html">Package</a>: the npm package as <code>pnpm dist</code> builds it (its stylesheet, fonts and KaTeX).</li>
+      </ul>
+      <p class="note">
+        <code>pnpm workbench</code> serves them (after <code>font:build</code>);
+        <code>node workbench/katex-docs.mjs</code> extracts KaTeX's documentation again.
+      </p>
+    </main>
+  </body>
+</html>

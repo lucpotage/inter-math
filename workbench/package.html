@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inter Math package</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 24px; background: #fff; color: #111; }
+      body.dark { background: #000; color: #fff; }
+      table { border-collapse: collapse; }
+      td, th { padding: 8px 16px; text-align: left; vertical-align: middle; font-size: 13px; font-weight: 400; }
+      td.math { font-size: 24px; }
+    </style>
+  </head>
+  <body>
+    <h1>The npm package (dist/npm)</h1>
+    <p><code>pnpm dist</code> builds it. KaTeX's column is the package's KaTeX in Computer Modern.</p>
+    <table id="specimens"></table>
+    <script type="module">
+      // the npm package as pnpm dist builds it: its stylesheet, fonts and KaTeX, not src/
+      import "../dist/npm/katex.min.css";
+      import katex from "../dist/npm/lib/katex.js";
+      import { setMathFont } from "../dist/npm/lib/index.js";
+      import "../dist/npm/lib/contrib/mhchem.js";
+
+      const tex = String.raw`\sqrt{\frac{a^2+b_i}{\vec{x}\cdot y'}} \leqslant \sum_{n=1}^{\infty}\mathbb{R}_n \cong \left(\int_0^1 \mathcal{F}\,dx\right) + \ce{H2O}`;
+      const table = document.getElementById("specimens");
+      for (const weight of [100, 400, 900]) {
+        const row = table.insertRow();
+        row.insertCell().textContent = String(weight);
+        for (const font of ["classic", "inter"]) {
+          const cell = row.insertCell();
+          cell.className = "math" + (font === "inter" ? " inter-math" : "");
+          cell.style.setProperty("--inter-math-weight", String(weight));
+          setMathFont(font, { weight });
+          katex.render(tex, cell, { throwOnError: true });
+        }
+      }
+      setMathFont("classic");
+      if (new URLSearchParams(location.search).has("dark")) document.body.classList.add("dark");
+    </script>
+  </body>
+</html>

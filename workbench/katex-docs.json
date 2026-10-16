@@ -1,0 +1,6043 @@
+{
+ "katex": "0.19.0",
+ "source": "https://katex.org/docs/supported, https://katex.org/docs/support_table",
+ "supported": [
+  {
+   "section": "Accents",
+   "items": [
+    "a'",
+    "\\tilde{a}",
+    "\\mathring{g}",
+    "a''",
+    "\\widetilde{ac}",
+    "\\overgroup{AB}",
+    "a^{\\prime}",
+    "\\utilde{AB}",
+    "\\undergroup{AB}",
+    "\\acute{a}",
+    "\\vec{F}",
+    "\\Overrightarrow{AB}",
+    "\\bar{y}",
+    "\\overleftarrow{AB}",
+    "\\overrightarrow{AB}",
+    "\\breve{a}",
+    "\\underleftarrow{AB}",
+    "\\underrightarrow{AB}",
+    "\\check{a}",
+    "\\overleftharpoon{ac}",
+    "\\overrightharpoon{ac}",
+    "\\dot{a}",
+    "\\overleftrightarrow{AB}",
+    "\\overbrace{AB}",
+    "\\ddot{a}",
+    "\\underleftrightarrow{AB}",
+    "\\underbrace{AB}",
+    "\\dddot{a}",
+    "\\overline{AB}",
+    "\\overbracket{AB}",
+    "\\ddddot{a}",
+    "\\underline{AB}",
+    "\\underbracket{AB}",
+    "\\grave{a}",
+    "\\underbar{X}",
+    "\\overlinesegment{AB}",
+    "\\hat{\\theta}",
+    "\\widecheck{ac}",
+    "\\underlinesegment{AB}",
+    "\\widehat{ac}"
+   ]
+  },
+  {
+   "section": "Accents › Accent functions inside \\text{…}",
+   "items": [
+    "\\'{a}",
+    "\\~{a}",
+    "\\.{a}",
+    "\\H{a}",
+    "\\`{a}",
+    "\\={a}",
+    "\\\"{a}",
+    "\\v{a}",
+    "\\^{a}",
+    "\\u{a}",
+    "\\r{a}"
+   ]
+  },
+  {
+   "section": "Delimiters",
+   "items": [
+    "( )",
+    "\\lparen",
+    "\\rparen",
+    "⌈ ⌉",
+    "\\lceil",
+    "\\rceil",
+    "\\uparrow",
+    "[ ]",
+    "\\lbrack",
+    "\\rbrack",
+    "⌊ ⌋",
+    "\\lfloor",
+    "\\rfloor",
+    "\\downarrow",
+    "\\{ \\}",
+    "\\lbrace",
+    "\\rbrace",
+    "⎰⎱",
+    "\\lmoustache",
+    "\\rmoustache",
+    "\\updownarrow",
+    "⟨ ⟩",
+    "\\langle",
+    "\\rangle",
+    "⟮ ⟯",
+    "\\lgroup",
+    "\\rgroup",
+    "\\Uparrow",
+    "|",
+    "\\vert",
+    "┌ ┐",
+    "\\ulcorner",
+    "\\urcorner",
+    "\\Downarrow",
+    "\\|",
+    "\\Vert",
+    "└ ┘",
+    "\\llcorner",
+    "\\lrcorner",
+    "\\Updownarrow",
+    "\\lvert",
+    "\\rvert",
+    "\\lVert",
+    "\\rVert",
+    "\\backslash",
+    "\\lang",
+    "\\rang",
+    "\\lt \\gt",
+    "⟦ ⟧",
+    "\\llbracket",
+    "\\rrbracket",
+    "/",
+    "\\lBrace \\rBrace"
+   ]
+  },
+  {
+   "section": "Delimiters › Delimiter Sizing",
+   "items": [
+    "\\left(\\LARGE{AB}\\right)",
+    "( \\big( \\Big( \\bigg( \\Bigg("
+   ]
+  },
+  {
+   "section": "Environments",
+   "items": [
+    "\\begin{matrix}\na & b \\\\\nc & d\n\\end{matrix}",
+    "\\begin{aligned}\na&=b+c \\\\\nd+e&=f\n\\end{aligned}",
+    "\\begin{alignedat}{2}\n10&x+ &3&y = 2 \\\\\n 3&x+&13&y = 4\n\\end{alignedat}",
+    "\\begin{array}{cc}\na & b \\\\\nc & d\n\\end{array}",
+    "\\def\\arraystretch{1.5}\n\\begin{array}{cc}\na & b \\\\\nc & d\n\\end{array}",
+    "\\begin{Bmatrix}\na & b \\\\\nc & d\n\\end{Bmatrix}",
+    "\\begin{Bmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{Bmatrix*}",
+    "\\begin{bmatrix}\na & b \\\\\nc & d\n\\end{bmatrix}",
+    "\\begin{bmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{bmatrix*}",
+    "\\begin{cases}\na &\\text{if } b  \\\\\nc &\\text{if } d\n\\end{cases}",
+    "\\begin{matrix}\na & b \\cr\nc & d\n\\end{matrix}",
+    "\\begin{dcases}\na &\\text{if } b  \\\\\nc &\\text{if } d\n\\end{dcases}",
+    "\\begin{drcases}\na &\\text{if } b  \\\\\nc &\\text{if } d\n\\end{drcases}",
+    "\\begin{gathered}\na=b \\\\ \ne=b+c\n\\end{gathered}",
+    "\\begin{matrix}\na & b \\\\\n\\hdashline\nc & d\n\\end{matrix}",
+    "\\begin{matrix}\na & b \\\\ \\hline\nc & d\n\\end{matrix}",
+    "\\begin{matrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{matrix*}",
+    "\\begin{pmatrix}\na & b \\\\\nc & d\n\\end{pmatrix}",
+    "\\begin{pmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{pmatrix*}",
+    "\\begin{rcases}\na &\\text{if } b  \\\\\nc &\\text{if } d\n\\end{rcases}",
+    "\\begin{smallmatrix}\na & b \\\\\nc & d\n\\end{smallmatrix}",
+    "\\begin{Vmatrix}\na & b \\\\\nc & d\n\\end{Vmatrix}",
+    "\\begin{Vmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{Vmatrix*}",
+    "\\begin{vmatrix}\na & b \\\\\nc & d\n\\end{vmatrix}",
+    "\\begin{vmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{vmatrix*}",
+    "\\begin{CD}\nA  @>a>>  B  \\\\\n@VbVV    @AAcA \\\\\nC  @=   D\n\\end{CD}"
+   ]
+  },
+  {
+   "section": "HTML",
+   "items": [
+    "\\href{https://katex.org/}{\\KaTeX}",
+    "\\url{https://katex.org/}",
+    "\\includegraphics[height=0.8em, totalheight=0.9em, width=0.9em, alt=KA logo]{https://katex.org/img/khan-academy.png}",
+    "\\htmlId{bar}{x}",
+    "\\htmlClass{foo}{x}",
+    "\\htmlStyle{color: red;}{x}",
+    "\\htmlData{foo=a, bar=b}{x}"
+   ]
+  },
+  {
+   "section": "Letters and Unicode › Greek Letters",
+   "items": [
+    "Α Β Γ Δ Ε Ζ Η Θ Ι \\allowbreak Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω",
+    "\\Alpha",
+    "\\Beta",
+    "\\Gamma",
+    "\\Delta",
+    "\\Epsilon",
+    "\\Zeta",
+    "\\Eta",
+    "\\Theta",
+    "\\Iota",
+    "\\Kappa",
+    "\\Lambda",
+    "\\Mu",
+    "\\Nu",
+    "\\Xi",
+    "\\Omicron",
+    "\\Pi",
+    "\\Rho",
+    "\\Sigma",
+    "\\Tau",
+    "\\Upsilon",
+    "\\Phi",
+    "\\Chi",
+    "\\Psi",
+    "\\Omega",
+    "\\varGamma",
+    "\\varDelta",
+    "\\varTheta",
+    "\\varLambda",
+    "\\varXi",
+    "\\varPi",
+    "\\varSigma",
+    "\\varUpsilon",
+    "\\varPhi",
+    "\\varPsi",
+    "\\varOmega",
+    "\\alpha",
+    "\\beta",
+    "\\gamma",
+    "\\delta",
+    "\\epsilon",
+    "\\zeta",
+    "\\eta",
+    "\\theta",
+    "\\iota",
+    "\\kappa",
+    "\\lambda",
+    "\\mu",
+    "\\nu",
+    "\\xi",
+    "\\omicron",
+    "\\pi",
+    "\\rho",
+    "\\sigma",
+    "\\tau",
+    "\\upsilon",
+    "\\phi",
+    "\\chi",
+    "\\psi",
+    "\\omega",
+    "\\varepsilon",
+    "\\varkappa",
+    "\\vartheta",
+    "\\thetasym",
+    "\\varpi",
+    "\\varrho",
+    "\\varsigma",
+    "\\varphi",
+    "\\digamma"
+   ]
+  },
+  {
+   "section": "Letters and Unicode › Other Letters",
+   "items": [
+    "\\imath",
+    "\\nabla",
+    "\\Im",
+    "\\Reals",
+    "\\text{\\OE}",
+    "\\jmath",
+    "\\partial",
+    "\\image",
+    "\\wp",
+    "\\text{\\o}",
+    "\\aleph",
+    "\\Game",
+    "\\Bbbk",
+    "\\weierp",
+    "\\text{\\O}",
+    "\\alef",
+    "\\Finv",
+    "\\N",
+    "\\Z",
+    "\\text{\\ss}",
+    "\\alefsym",
+    "\\cnums",
+    "\\natnums",
+    "\\text{\\aa}",
+    "\\text{\\i}",
+    "\\beth",
+    "\\Complex",
+    "\\R",
+    "\\text{\\AA}",
+    "\\text{\\j}",
+    "\\gimel",
+    "\\ell",
+    "\\Re",
+    "\\text{\\ae}",
+    "\\daleth",
+    "\\hbar",
+    "\\real",
+    "\\text{\\AE}",
+    "\\eth",
+    "\\hslash",
+    "\\reals",
+    "\\text{\\oe}",
+    "∂ ∇ ℑ Ⅎ ℵ ℶ ℷ ℸ ⅁ ℏ ð − ∗"
+   ]
+  },
+  {
+   "section": "Layout › Annotation",
+   "items": [
+    "\\cancel{5}",
+    "\\overbrace{a+b+c}^{\\text{note}}",
+    "\\bcancel{5}",
+    "\\underbrace{a+b+c}_{\\text{note}}",
+    "\\xcancel{ABC}",
+    "\\not =",
+    "\\text{\\sout{abc}}",
+    "\\boxed{\\pi=\\frac c d}",
+    "a_\\angln",
+    "\\overbracket{a+b+c}^{\\text{note}}",
+    "\\underbracket{a+b+c}_{\\text{note}}",
+    "\\phase{-78^\\circ}"
+   ]
+  },
+  {
+   "section": "Layout › Vertical Layout",
+   "items": [
+    "x_n",
+    "\\stackrel{!}{=}",
+    "a \\atop b",
+    "e^x",
+    "\\overset{!}{=}",
+    "a\\raisebox{0.25em}{$b$}c",
+    "\\reflectbox{KaTeX}",
+    "\\mathreflectbox{x^2}",
+    "_u^o ",
+    "\\underset{!}{=}",
+    "a+\\left(\\vcenter{\\hbox{$\\frac{\\frac a b}c$}}\\right)",
+    "\\sum_{\\substack{0<i<m\\\\0<j<n}}"
+   ]
+  },
+  {
+   "section": "Layout › Overlap and Spacing",
+   "items": [
+    "{=}\\mathllap{/\\,}",
+    "\\left(x^{\\smash{2}}\\right)",
+    "\\mathrlap{\\,/}{=}",
+    "\\sqrt{\\smash[b]{y}} ",
+    "\\displaystyle\\sum_{\\mathclap{1\\le i\\le j\\le n}} x_{ij}"
+   ]
+  },
+  {
+   "section": "Logic and Set Theory",
+   "items": [
+    "\\forall",
+    "\\complement",
+    "\\therefore",
+    "\\emptyset",
+    "\\exists",
+    "\\subset",
+    "\\because",
+    "\\empty",
+    "\\exist",
+    "\\supset",
+    "\\mapsto",
+    "\\varnothing",
+    "\\nexists",
+    "\\mid",
+    "\\to",
+    "\\implies",
+    "\\in",
+    "\\land",
+    "\\gets",
+    "\\impliedby",
+    "\\isin",
+    "\\lor",
+    "\\leftrightarrow",
+    "\\iff",
+    "\\notin",
+    "\\ni",
+    "\\notni",
+    "\\neg",
+    "\\lnot",
+    "\\Set{ x | x<\\frac 1 2 }",
+    "\\set{x|x<5}",
+    "∀ ∴ ∁ ∵ ∃ ∣ ∈ ∉ ∋ ⊂ ⊃ ∧ ∨ ↦ → ← ↔ ¬"
+   ]
+  },
+  {
+   "section": "Macros",
+   "items": [
+    "\\def\\foo{x^2} \\foo + \\foo",
+    "\\gdef\\foo#1{#1^2} \\foo{y} + \\foo{y}",
+    "\\futurelet\\foo\\bar x"
+   ]
+  },
+  {
+   "section": "Operators › Big Operators",
+   "items": [
+    "\\sum",
+    "\\prod",
+    "\\bigotimes",
+    "\\bigvee",
+    "\\int",
+    "\\coprod",
+    "\\bigoplus",
+    "\\bigwedge",
+    "\\iint",
+    "\\intop",
+    "\\bigodot",
+    "\\bigcap",
+    "\\iiint",
+    "\\smallint",
+    "\\biguplus",
+    "\\bigcup",
+    "\\oint",
+    "\\oiint",
+    "\\oiiint",
+    "\\bigsqcup",
+    "∫ ∬ ∭ ∮ ∏ ∐ ∑ ⋀ ⋁ ⋂ ⋃ ⨀ ⨁ ⨂ ⨄ ⨆"
+   ]
+  },
+  {
+   "section": "Operators › Binary Operators",
+   "items": [
+    "+",
+    "\\cdot",
+    "\\gtrdot",
+    "x \\pmod a",
+    "-",
+    "\\cdotp",
+    "\\intercal",
+    "x \\pod a",
+    "/",
+    "\\centerdot",
+    "\\land",
+    "\\rhd",
+    "*",
+    "\\circ",
+    "\\leftthreetimes",
+    "\\rightthreetimes",
+    "\\amalg",
+    "\\circledast",
+    "\\ldotp",
+    "\\rtimes",
+    "\\And",
+    "\\circledcirc",
+    "\\lor",
+    "\\setminus",
+    "\\ast",
+    "\\circleddash",
+    "\\lessdot",
+    "\\smallsetminus",
+    "\\barwedge",
+    "\\Cup",
+    "\\lhd",
+    "\\sqcap",
+    "\\bigcirc",
+    "\\cup",
+    "\\ltimes",
+    "\\sqcup",
+    "\\bmod",
+    "\\curlyvee",
+    "x\\mod a",
+    "\\times",
+    "\\boxdot",
+    "\\curlywedge",
+    "\\mp",
+    "\\unlhd",
+    "\\boxminus",
+    "\\div",
+    "\\odot",
+    "\\unrhd",
+    "\\boxplus",
+    "\\divideontimes",
+    "\\ominus",
+    "\\uplus",
+    "\\boxtimes",
+    "\\dotplus",
+    "\\oplus",
+    "\\vee",
+    "\\bullet",
+    "\\doublebarwedge",
+    "\\otimes",
+    "\\veebar",
+    "\\Cap",
+    "\\doublecap",
+    "\\oslash",
+    "\\wedge",
+    "\\cap",
+    "\\doublecup",
+    "\\pm",
+    "\\plusmn",
+    "\\wr",
+    "+ - / * ⋅ ∘ ∙ ± × ÷ ∓ ∔ ∧ ∨ ∩ ∪ ≀ ⊎ ⊓ ⊔ ⊕ ⊖ ⊗ ⊘ ⊙ ⊚ ⊛ ⊝ ◯ ∖ {}"
+   ]
+  },
+  {
+   "section": "Operators › Fractions and Binomials",
+   "items": [
+    "\\frac{a}{b}",
+    "\\tfrac{a}{b}",
+    "\\genfrac ( ] {2pt}{1}a{a+1}",
+    "{a \\over b}",
+    "\\dfrac{a}{b}",
+    "{a \\above{2pt} b+1}",
+    "a/b",
+    "\\cfrac{a}{1 + \\cfrac{1}{b}}",
+    "\\binom{n}{k}",
+    "\\dbinom{n}{k}",
+    "{n\\brace k}",
+    "{n \\choose k}",
+    "\\tbinom{n}{k}",
+    "{n\\brack k}"
+   ]
+  },
+  {
+   "section": "Operators › Math Operators",
+   "items": [
+    "\\arcsin",
+    "\\cosec",
+    "\\deg",
+    "\\sec",
+    "\\arccos",
+    "\\cosh",
+    "\\dim",
+    "\\sin",
+    "\\arctan",
+    "\\cot",
+    "\\exp",
+    "\\sinh",
+    "\\arctg",
+    "\\cotg",
+    "\\hom",
+    "\\sh",
+    "\\arcctg",
+    "\\coth",
+    "\\ker",
+    "\\tan",
+    "\\arg",
+    "\\csc",
+    "\\lg",
+    "\\tanh",
+    "\\ch",
+    "\\ctg",
+    "\\ln",
+    "\\tg",
+    "\\cos",
+    "\\cth",
+    "\\log",
+    "\\th",
+    "\\operatorname{f}",
+    "\\argmax",
+    "\\injlim",
+    "\\min",
+    "\\varinjlim",
+    "\\argmin",
+    "\\lim",
+    "\\plim",
+    "\\varliminf",
+    "\\det",
+    "\\liminf",
+    "\\Pr",
+    "\\varlimsup",
+    "\\gcd",
+    "\\limsup",
+    "\\projlim",
+    "\\varprojlim",
+    "\\inf",
+    "\\max",
+    "\\sup",
+    "\\operatorname*{f}",
+    "\\operatornamewithlimits{f}"
+   ]
+  },
+  {
+   "section": "Operators › \\sqrt",
+   "items": [
+    "\\sqrt{x}",
+    "\\sqrt[3]{x}"
+   ]
+  },
+  {
+   "section": "Relations",
+   "items": [
+    "\\stackrel{!}{=}",
+    "=",
+    "\\doteqdot",
+    "\\lessapprox",
+    "\\smile",
+    "<",
+    "\\eqcirc",
+    "\\lesseqgtr",
+    "\\sqsubset",
+    ">",
+    "\\eqcolon",
+    "\\minuscolon",
+    "\\lesseqqgtr",
+    "\\sqsubseteq",
+    ":",
+    "\\Eqcolon",
+    "\\minuscoloncolon",
+    "\\lessgtr",
+    "\\sqsupset",
+    "\\approx",
+    "\\eqqcolon",
+    "\\equalscolon",
+    "\\lesssim",
+    "\\sqsupseteq",
+    "\\approxcolon",
+    "\\Eqqcolon",
+    "\\equalscoloncolon",
+    "\\ll",
+    "\\Subset",
+    "\\approxcoloncolon",
+    "\\eqsim",
+    "\\lll",
+    "\\subset",
+    "\\sub",
+    "\\approxeq",
+    "\\eqslantgtr",
+    "\\llless",
+    "\\subseteq",
+    "\\sube",
+    "\\asymp",
+    "\\eqslantless",
+    "\\lt",
+    "\\subseteqq",
+    "\\backepsilon",
+    "\\equiv",
+    "\\mid",
+    "\\succ",
+    "\\backsim",
+    "\\fallingdotseq",
+    "\\models",
+    "\\succapprox",
+    "\\backsimeq",
+    "\\frown",
+    "\\multimap",
+    "\\succcurlyeq",
+    "\\between",
+    "\\ge",
+    "\\origof",
+    "\\succeq",
+    "\\bowtie",
+    "\\geq",
+    "\\owns",
+    "\\succsim",
+    "\\bumpeq",
+    "\\geqq",
+    "\\parallel",
+    "\\Supset",
+    "\\Bumpeq",
+    "\\geqslant",
+    "\\perp",
+    "\\supset",
+    "\\circeq",
+    "\\gg",
+    "\\pitchfork",
+    "\\supseteq",
+    "\\supe",
+    "\\colonapprox",
+    "\\ggg",
+    "\\prec",
+    "\\supseteqq",
+    "\\Colonapprox",
+    "\\coloncolonapprox",
+    "\\gggtr",
+    "\\precapprox",
+    "\\thickapprox",
+    "\\coloneq",
+    "\\colonminus",
+    "\\gt",
+    "\\preccurlyeq",
+    "\\thicksim",
+    "\\Coloneq",
+    "\\coloncolonminus",
+    "\\gtrapprox",
+    "\\preceq",
+    "\\trianglelefteq",
+    "\\coloneqq",
+    "\\colonequals",
+    "\\gtreqless",
+    "\\precsim",
+    "\\triangleq",
+    "\\Coloneqq",
+    "\\coloncolonequals",
+    "\\gtreqqless",
+    "\\propto",
+    "\\trianglerighteq",
+    "\\colonsim",
+    "\\gtrless",
+    "\\risingdotseq",
+    "\\varpropto",
+    "\\Colonsim",
+    "\\coloncolonsim",
+    "\\gtrsim",
+    "\\shortmid",
+    "\\vartriangle",
+    "\\cong",
+    "\\imageof",
+    "\\shortparallel",
+    "\\vartriangleleft",
+    "\\curlyeqprec",
+    "\\in",
+    "\\isin",
+    "\\sim",
+    "\\vartriangleright",
+    "\\curlyeqsucc",
+    "\\Join",
+    "\\simcolon",
+    "\\vcentcolon",
+    "\\ratio",
+    "\\dashv",
+    "\\le",
+    "\\simcoloncolon",
+    "\\vdash",
+    "\\dblcolon",
+    "\\coloncolon",
+    "\\leq",
+    "\\simeq",
+    "\\vDash",
+    "\\doteq",
+    "\\leqq",
+    "\\smallfrown",
+    "\\Vdash",
+    "\\Doteq",
+    "\\leqslant",
+    "\\smallsmile",
+    "\\Vvdash",
+    "= < > : ∈ ∋ ∝ ∼ ∽ ≂ ≃ ≅ ≈ ≊ ≍ ≎ ≏ ≐ ≑ ≒ ≓ ≖ ≗ ≜ ≡ ≤ ≥ ≦ ≧ ≫ ≬ ≳ ≷ ≺ ≻ ≼ ≽ ≾ ≿ ⊂ ⊃ ⊆ ⊇ ⊏ ⊐ ⊑ ⊒ ⊢ ⊣ ⊩ ⊪ ⊸ ⋈ ⋍ ⋐ ⋑ ⋔ ⋙ ⋛ ⋞ ⋟ ⌢ ⌣ ⩾ ⪆ ⪌ ⪕ ⪖ ⪯ ⪰ ⪷ ⪸ ⫅ ⫆ ≲ ⩽ ⪅ ≶ ⋚ ⪋ ⟂ ⊨ ⊶ ⊷"
+   ]
+  },
+  {
+   "section": "Relations › Negated Relations",
+   "items": [
+    "\\not =",
+    "\\gnapprox",
+    "\\ngeqslant",
+    "\\nsubseteq",
+    "\\precneqq",
+    "\\gneq",
+    "\\ngtr",
+    "\\nsubseteqq",
+    "\\precnsim",
+    "\\gneqq",
+    "\\nleq",
+    "\\nsucc",
+    "\\subsetneq",
+    "\\gnsim",
+    "\\nleqq",
+    "\\nsucceq",
+    "\\subsetneqq",
+    "\\gvertneqq",
+    "\\nleqslant",
+    "\\nsupseteq",
+    "\\succnapprox",
+    "\\lnapprox",
+    "\\nless",
+    "\\nsupseteqq",
+    "\\succneqq",
+    "\\lneq",
+    "\\nmid",
+    "\\ntriangleleft",
+    "\\succnsim",
+    "\\lneqq",
+    "\\notin",
+    "\\ntrianglelefteq",
+    "\\supsetneq",
+    "\\lnsim",
+    "\\notni",
+    "\\ntriangleright",
+    "\\supsetneqq",
+    "\\lvertneqq",
+    "\\nparallel",
+    "\\ntrianglerighteq",
+    "\\varsubsetneq",
+    "\\ncong",
+    "\\nprec",
+    "\\nvdash",
+    "\\varsubsetneqq",
+    "\\ne",
+    "\\npreceq",
+    "\\nvDash",
+    "\\varsupsetneq",
+    "\\neq",
+    "\\nshortmid",
+    "\\nVDash",
+    "\\varsupsetneqq",
+    "\\ngeq",
+    "\\nshortparallel",
+    "\\nVdash",
+    "\\ngeqq",
+    "\\nsim",
+    "\\precnapprox",
+    "∉ ∌ ∤ ∦ ≁ ≆ ≠ ≨ ≩ ≮ ≯ ≰ ≱ ⊀ ⊁ ⊈ ⊉ ⊊ ⊋ ⊬ ⊭ ⊮ ⊯ ⋠ ⋡ ⋦ ⋧ ⋨ ⋩ ⋬ ⋭ ⪇ ⪈ ⪉ ⪊ ⪵ ⪶ ⪹ ⪺ ⫋ ⫌"
+   ]
+  },
+  {
+   "section": "Relations › Arrows",
+   "items": [
+    "\\circlearrowleft",
+    "\\leftharpoonup",
+    "\\rArr",
+    "\\circlearrowright",
+    "\\leftleftarrows",
+    "\\rarr",
+    "\\curvearrowleft",
+    "\\leftrightarrow",
+    "\\restriction",
+    "\\curvearrowright",
+    "\\Leftrightarrow",
+    "\\rightarrow",
+    "\\Darr",
+    "\\leftrightarrows",
+    "\\Rightarrow",
+    "\\dArr",
+    "\\leftrightharpoons",
+    "\\rightarrowtail",
+    "\\darr",
+    "\\leftrightsquigarrow",
+    "\\rightharpoondown",
+    "\\dashleftarrow",
+    "\\Lleftarrow",
+    "\\rightharpoonup",
+    "\\dashrightarrow",
+    "\\longleftarrow",
+    "\\rightleftarrows",
+    "\\downarrow",
+    "\\Longleftarrow",
+    "\\rightleftharpoons",
+    "\\Downarrow",
+    "\\longleftrightarrow",
+    "\\rightrightarrows",
+    "\\downdownarrows",
+    "\\Longleftrightarrow",
+    "\\rightsquigarrow",
+    "\\downharpoonleft",
+    "\\longmapsto",
+    "\\Rrightarrow",
+    "\\downharpoonright",
+    "\\longrightarrow",
+    "\\Rsh",
+    "\\gets",
+    "\\Longrightarrow",
+    "\\searrow",
+    "\\Harr",
+    "\\looparrowleft",
+    "\\swarrow",
+    "\\hArr",
+    "\\looparrowright",
+    "\\to",
+    "\\harr",
+    "\\Lrarr",
+    "\\twoheadleftarrow",
+    "\\hookleftarrow",
+    "\\lrArr",
+    "\\twoheadrightarrow",
+    "\\hookrightarrow",
+    "\\lrarr",
+    "\\Uarr",
+    "\\iff",
+    "\\Lsh",
+    "\\uArr",
+    "\\impliedby",
+    "\\mapsto",
+    "\\uarr",
+    "\\implies",
+    "\\nearrow",
+    "\\uparrow",
+    "\\Larr",
+    "\\nleftarrow",
+    "\\Uparrow",
+    "\\lArr",
+    "\\nLeftarrow",
+    "\\updownarrow",
+    "\\larr",
+    "\\nleftrightarrow",
+    "\\Updownarrow",
+    "\\leadsto",
+    "\\nLeftrightarrow",
+    "\\upharpoonleft",
+    "\\leftarrow",
+    "\\nrightarrow",
+    "\\upharpoonright",
+    "\\Leftarrow",
+    "\\nRightarrow",
+    "\\upuparrows",
+    "\\leftarrowtail",
+    "\\nwarrow",
+    "\\mapsfrom",
+    "\\leftharpoondown",
+    "\\Rarr",
+    "← ↑ → ↓ ↔ ↕ ↖ ↗ ↘ ↙ ↚ ↛ ↞ ↠ ↢ ↣ ↦ ↩ ↪ ↫ ↬ ↭ ↮ ↰ ↱↶ ↷ ↺ ↻ ↼ ↽ ↾ ↾ ↿ ⇀ ⇁ ⇂ ⇃ ⇄ ⇆ ⇇ ⇈ ⇉ ⇊ ⇋ ⇌⇍ ⇎ ⇏ ⇐ ⇑ ⇒ ⇓ ⇔ ⇕ ⇚ ⇛ ⇝ ⇠ ⇢ ⟵ ⟶ ⟷ ⟸ ⟹ ⟺ ⟼"
+   ]
+  },
+  {
+   "section": "Relations › Arrows › Extensible Arrows",
+   "items": [
+    "\\xleftarrow{abc}",
+    "\\xrightarrow[under]{over}",
+    "\\xLeftarrow{abc}",
+    "\\xRightarrow{abc}",
+    "\\xleftrightarrow{abc}",
+    "\\xLeftrightarrow{abc}",
+    "\\xhookleftarrow{abc}",
+    "\\xhookrightarrow{abc}",
+    "\\xtwoheadleftarrow{abc}",
+    "\\xtwoheadrightarrow{abc}",
+    "\\xleftharpoonup{abc}",
+    "\\xrightharpoonup{abc}",
+    "\\xleftharpoondown{abc}",
+    "\\xrightharpoondown{abc}",
+    "\\xleftrightharpoons{abc}",
+    "\\xrightleftharpoons{abc}",
+    "\\xtofrom{abc}",
+    "\\xmapsto{abc}",
+    "\\xlongequal{abc}"
+   ]
+  },
+  {
+   "section": "Special Notation › Bra-ket Notation",
+   "items": [
+    "\\bra{\\phi}",
+    "\\ket{\\psi}",
+    "\\braket{\\phi|\\psi}",
+    "\\Bra{\\phi}",
+    "\\Ket{\\psi}",
+    "\\Braket{ ϕ | \\frac{∂^2}{∂ t^2} | ψ }"
+   ]
+  },
+  {
+   "section": "Style, Color, Size, and Font › Color",
+   "items": [
+    "\\color{blue} F=ma",
+    "\\textcolor{blue}{F=ma}",
+    "\\textcolor{#228B22}{F=ma}",
+    "\\colorbox{aqua}{$F=ma$}",
+    "\\fcolorbox{red}{aqua}{$F=ma$}"
+   ]
+  },
+  {
+   "section": "Style, Color, Size, and Font › Font",
+   "items": [
+    "\\mathrm{Ab0}",
+    "\\mathbf{Ab0}",
+    "\\mathsf{Ab0}",
+    "\\mathnormal{Ab0}",
+    "\\textbf{Ab0}",
+    "\\textsf{Ab0}",
+    "\\textrm{Ab0}",
+    "\\bf Ab0",
+    "\\sf Ab0",
+    "\\rm Ab0",
+    "\\bold{Ab0}",
+    "\\mathsfit{Ab0}",
+    "\\textnormal{Ab0}",
+    "\\boldsymbol{Ab0}",
+    "\\Bbb{AB}",
+    "\\text{Ab0}",
+    "\\bm{Ab0}",
+    "\\mathbb{AB}",
+    "\\textup{Ab0}",
+    "\\textmd{Ab0}",
+    "\\frak{Ab0}",
+    "\\mathit{Ab0}",
+    "\\mathtt{Ab0}",
+    "\\mathfrak{Ab0}",
+    "\\textit{Ab0}",
+    "\\texttt{Ab0}",
+    "\\mathcal{AB0}",
+    "\\it Ab0",
+    "\\tt Ab0",
+    "\\cal AB0",
+    "\\emph{Ab0}",
+    "\\mathscr{AB}"
+   ]
+  },
+  {
+   "section": "Style, Color, Size, and Font › Size",
+   "items": [
+    "\\Huge AB",
+    "\\normalsize AB",
+    "\\huge AB",
+    "\\small AB",
+    "\\LARGE AB",
+    "\\footnotesize AB",
+    "\\Large AB",
+    "\\scriptsize AB",
+    "\\large AB",
+    "\\tiny AB"
+   ]
+  },
+  {
+   "section": "Style, Color, Size, and Font › Style",
+   "items": [
+    "\\displaystyle\\sum_{i=1}^n",
+    "\\textstyle\\sum_{i=1}^n",
+    "\\scriptstyle x",
+    "\\scriptscriptstyle x",
+    "\\lim\\limits_x",
+    "\\lim\\nolimits_x",
+    "\\verb!x^2!"
+   ]
+  },
+  {
+   "section": "Symbols and Punctuation",
+   "items": [
+    "\\dots",
+    "\\KaTeX",
+    "\\%",
+    "\\cdots",
+    "\\LaTeX",
+    "\\#",
+    "\\ddots",
+    "\\TeX",
+    "\\&",
+    "\\ldots",
+    "\\nabla",
+    "\\_",
+    "\\vdots",
+    "\\infty",
+    "\\text{\\textunderscore}",
+    "\\dotsb",
+    "\\infin",
+    "\\text{--}",
+    "\\dotsc",
+    "\\checkmark",
+    "\\text{\\textendash}",
+    "\\dotsi",
+    "\\dag",
+    "\\text{---}",
+    "\\dotsm",
+    "\\dagger",
+    "\\text{\\textemdash}",
+    "\\dotso",
+    "\\text{\\textdagger}",
+    "\\text{\\textasciitilde}",
+    "\\sdot",
+    "\\ddag",
+    "\\text{\\textasciicircum}",
+    "\\mathellipsis",
+    "\\ddagger",
+    "`",
+    "\\text{\\textellipsis}",
+    "\\text{\\textdaggerdbl}",
+    "\\text{\\textquoteleft}",
+    "\\Box",
+    "\\Dagger",
+    "\\lq",
+    "\\square",
+    "\\angle",
+    "\\text{\\textquoteright}",
+    "\\blacksquare",
+    "\\measuredangle",
+    "\\rq",
+    "\\triangle",
+    "\\sphericalangle",
+    "\\text{\\textquotedblleft}",
+    "\\triangledown",
+    "\\top",
+    "\"",
+    "\\triangleleft",
+    "\\bot",
+    "\\text{\\textquotedblright}",
+    "\\triangleright",
+    "\\$",
+    "\\colon",
+    "\\bigtriangledown",
+    "\\text{\\textdollar}",
+    "\\backprime",
+    "\\bigtriangleup",
+    "\\pounds",
+    "\\prime",
+    "\\blacktriangle",
+    "\\mathsterling",
+    "\\text{\\textless}",
+    "\\blacktriangledown",
+    "\\text{\\textsterling}",
+    "\\text{\\textgreater}",
+    "\\blacktriangleleft",
+    "\\yen",
+    "\\text{\\textbar}",
+    "\\blacktriangleright",
+    "\\surd",
+    "\\text{\\textbardbl}",
+    "\\diamond",
+    "\\degree",
+    "\\text{\\textbraceleft}",
+    "\\Diamond",
+    "\\text{\\textdegree}",
+    "\\text{\\textbraceright}",
+    "\\lozenge",
+    "\\mho",
+    "\\text{\\textbackslash}",
+    "\\blacklozenge",
+    "\\diagdown",
+    "\\text{\\P}",
+    "\\P",
+    "\\star",
+    "\\diagup",
+    "\\text{\\S}",
+    "\\S",
+    "\\bigstar",
+    "\\flat",
+    "\\text{\\sect}",
+    "\\clubsuit",
+    "\\natural",
+    "\\copyright",
+    "\\clubs",
+    "\\sharp",
+    "\\circledR",
+    "\\diamondsuit",
+    "\\heartsuit",
+    "\\text{\\textregistered}",
+    "\\diamonds",
+    "\\hearts",
+    "\\circledS",
+    "\\spadesuit",
+    "\\spades",
+    "\\text{\\textcircled a}",
+    "\\maltese",
+    "\\minuso",
+    "£ ¥ ∇ ∞ · ∠ ∡ ∢ ♠ ♡ ♢ ♣ ♭ ♮ ♯ ✓ …  ⋮  ⋯  ⋱  !"
+   ]
+  }
+ ],
+ "table": [
+  {
+   "group": "Symbols",
+   "name": "!",
+   "tex": "n!"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\!",
+   "tex": "a\\!b"
+  },
+  {
+   "group": "Symbols",
+   "name": "#",
+   "tex": "\\def\\sqr#1{#1^2} \\sqr{y}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\#",
+   "tex": "\\#"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\%",
+   "tex": "\\%"
+  },
+  {
+   "group": "Symbols",
+   "name": "&",
+   "tex": "\\begin{matrix}\na & b \\\\\nc & d\n\\end{matrix}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\&",
+   "tex": "\\&"
+  },
+  {
+   "group": "Symbols",
+   "name": "'",
+   "tex": "'"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\'",
+   "tex": "\\text{\\'{a}}"
+  },
+  {
+   "group": "Symbols",
+   "name": "(",
+   "tex": "("
+  },
+  {
+   "group": "Symbols",
+   "name": ")",
+   "tex": ")"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\(…\\)",
+   "tex": "\\text{\\(\\frac a b\\)}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\",
+   "tex": "a\\ b"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\\"",
+   "tex": "\\text{\\\"{a}}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\$",
+   "tex": "\\text{\\textdollar}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\,",
+   "tex": "a\\,\\,{b}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\.",
+   "tex": "\\text{\\.{a}}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\:",
+   "tex": "a\\:\\:{b}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\;",
+   "tex": "\\;\\;{b}"
+  },
+  {
+   "group": "Symbols",
+   "name": "_",
+   "tex": "x_i"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\_",
+   "tex": "\\_"
+  },
+  {
+   "group": "Symbols",
+   "name": "&#060;",
+   "tex": "<"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\=",
+   "tex": "\\text{\\={a}}"
+  },
+  {
+   "group": "Symbols",
+   "name": ">",
+   "tex": ">"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\>",
+   "tex": "a\\>\\>{b}"
+  },
+  {
+   "group": "Symbols",
+   "name": "[",
+   "tex": "["
+  },
+  {
+   "group": "Symbols",
+   "name": "]",
+   "tex": "]"
+  },
+  {
+   "group": "Symbols",
+   "name": "{",
+   "tex": "{a}"
+  },
+  {
+   "group": "Symbols",
+   "name": "}",
+   "tex": "{a}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\{",
+   "tex": "\\{"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\}",
+   "tex": "\\}"
+  },
+  {
+   "group": "Symbols",
+   "name": "&#124;",
+   "tex": "\\vert"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\&#124;",
+   "tex": "\\Vert"
+  },
+  {
+   "group": "Symbols",
+   "name": "~",
+   "tex": "\\text{no~no~no~breaks}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\~",
+   "tex": "\\text{\\~{a}}"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\\\",
+   "tex": "\\begin{matrix}\na & b \\\\\nc & d\n\\end{matrix}"
+  },
+  {
+   "group": "Symbols",
+   "name": "^",
+   "tex": "x^i"
+  },
+  {
+   "group": "Symbols",
+   "name": "\\^",
+   "tex": "\\text{\\^{a}}"
+  },
+  {
+   "group": "A",
+   "name": "AA",
+   "tex": "\\text{\\AA}"
+  },
+  {
+   "group": "A",
+   "name": "aa",
+   "tex": "\\text{\\aa}"
+  },
+  {
+   "group": "A",
+   "name": "above",
+   "tex": "{a \\above{2pt} b+1}"
+  },
+  {
+   "group": "A",
+   "name": "acute",
+   "tex": "\\acute e"
+  },
+  {
+   "group": "A",
+   "name": "AE",
+   "tex": "\\text{\\AE}"
+  },
+  {
+   "group": "A",
+   "name": "ae",
+   "tex": "\\text{\\ae}"
+  },
+  {
+   "group": "A",
+   "name": "alef",
+   "tex": "\\alef"
+  },
+  {
+   "group": "A",
+   "name": "alefsym",
+   "tex": "\\alefsym"
+  },
+  {
+   "group": "A",
+   "name": "aleph",
+   "tex": "\\aleph"
+  },
+  {
+   "group": "A",
+   "name": "{aligned}",
+   "tex": "\\begin{aligned}\na&=b+c \\\\\nd+e&=f\n\\end{aligned}"
+  },
+  {
+   "group": "A",
+   "name": "{alignedat}",
+   "tex": "\\begin{alignedat}{2}\n10&x+ &3&y = 2 \\\\\n 3&x+&13&y = 4\n\\end{alignedat}"
+  },
+  {
+   "group": "A",
+   "name": "Alpha",
+   "tex": "\\Alpha"
+  },
+  {
+   "group": "A",
+   "name": "alpha",
+   "tex": "\\alpha"
+  },
+  {
+   "group": "A",
+   "name": "amalg",
+   "tex": "\\amalg"
+  },
+  {
+   "group": "A",
+   "name": "And",
+   "tex": "\\And"
+  },
+  {
+   "group": "A",
+   "name": "angl",
+   "tex": "a_{\\angl n}"
+  },
+  {
+   "group": "A",
+   "name": "angln",
+   "tex": "a_\\angln"
+  },
+  {
+   "group": "A",
+   "name": "angle",
+   "tex": "\\angle"
+  },
+  {
+   "group": "A",
+   "name": "approx",
+   "tex": "\\approx"
+  },
+  {
+   "group": "A",
+   "name": "approxeq",
+   "tex": "\\approxeq"
+  },
+  {
+   "group": "A",
+   "name": "approxcolon",
+   "tex": "\\approxcolon"
+  },
+  {
+   "group": "A",
+   "name": "approxcoloncolon",
+   "tex": "\\approxcoloncolon"
+  },
+  {
+   "group": "A",
+   "name": "arccos",
+   "tex": "\\arccos"
+  },
+  {
+   "group": "A",
+   "name": "arcctg",
+   "tex": "\\arcctg"
+  },
+  {
+   "group": "A",
+   "name": "arcsin",
+   "tex": "\\arcsin"
+  },
+  {
+   "group": "A",
+   "name": "arctan",
+   "tex": "\\arctan"
+  },
+  {
+   "group": "A",
+   "name": "arctg",
+   "tex": "\\arctg"
+  },
+  {
+   "group": "A",
+   "name": "arg",
+   "tex": "\\arg"
+  },
+  {
+   "group": "A",
+   "name": "argmax",
+   "tex": "\\argmax"
+  },
+  {
+   "group": "A",
+   "name": "argmin",
+   "tex": "\\argmin"
+  },
+  {
+   "group": "A",
+   "name": "{array}",
+   "tex": "\\begin{array}{cc}\na & b \\\\\nc & d\n\\end{array}"
+  },
+  {
+   "group": "A",
+   "name": "arraystretch",
+   "tex": "\\def\\arraystretch{1.5}\n\\begin{array}{cc}\na & b \\\\\nc & d\n\\end{array}"
+  },
+  {
+   "group": "A",
+   "name": "ast",
+   "tex": "\\ast"
+  },
+  {
+   "group": "A",
+   "name": "asymp",
+   "tex": "\\asymp"
+  },
+  {
+   "group": "A",
+   "name": "atop",
+   "tex": "{a \\atop b}"
+  },
+  {
+   "group": "B",
+   "name": "backepsilon",
+   "tex": "\\backepsilon"
+  },
+  {
+   "group": "B",
+   "name": "backprime",
+   "tex": "\\backprime"
+  },
+  {
+   "group": "B",
+   "name": "backsim",
+   "tex": "\\backsim"
+  },
+  {
+   "group": "B",
+   "name": "backsimeq",
+   "tex": "\\backsimeq"
+  },
+  {
+   "group": "B",
+   "name": "backslash",
+   "tex": "\\backslash"
+  },
+  {
+   "group": "B",
+   "name": "bar",
+   "tex": "\\bar{y}"
+  },
+  {
+   "group": "B",
+   "name": "barwedge",
+   "tex": "\\barwedge"
+  },
+  {
+   "group": "B",
+   "name": "Bbb",
+   "tex": "\\Bbb{ABC}"
+  },
+  {
+   "group": "B",
+   "name": "Bbbk",
+   "tex": "\\Bbbk"
+  },
+  {
+   "group": "B",
+   "name": "bcancel",
+   "tex": "\\bcancel{5}"
+  },
+  {
+   "group": "B",
+   "name": "because",
+   "tex": "\\because"
+  },
+  {
+   "group": "B",
+   "name": "begin",
+   "tex": "\\begin{matrix}\na & b \\\\\nc & d\n\\end{matrix}"
+  },
+  {
+   "group": "B",
+   "name": "Beta",
+   "tex": "\\Beta"
+  },
+  {
+   "group": "B",
+   "name": "beta",
+   "tex": "\\beta"
+  },
+  {
+   "group": "B",
+   "name": "beth",
+   "tex": "\\beth"
+  },
+  {
+   "group": "B",
+   "name": "between",
+   "tex": "\\between"
+  },
+  {
+   "group": "B",
+   "name": "bf",
+   "tex": "\\bf AaBb12"
+  },
+  {
+   "group": "B",
+   "name": "big",
+   "tex": "\\big(\\big)"
+  },
+  {
+   "group": "B",
+   "name": "Big",
+   "tex": "\\Big(\\Big)"
+  },
+  {
+   "group": "B",
+   "name": "bigcap",
+   "tex": "\\bigcap"
+  },
+  {
+   "group": "B",
+   "name": "bigcirc",
+   "tex": "\\bigcirc"
+  },
+  {
+   "group": "B",
+   "name": "bigcup",
+   "tex": "\\bigcup"
+  },
+  {
+   "group": "B",
+   "name": "bigg",
+   "tex": "\\bigg(\\bigg)"
+  },
+  {
+   "group": "B",
+   "name": "Bigg",
+   "tex": "\\Bigg(\\Bigg)"
+  },
+  {
+   "group": "B",
+   "name": "biggl",
+   "tex": "\\biggl("
+  },
+  {
+   "group": "B",
+   "name": "Biggl",
+   "tex": "\\Biggl("
+  },
+  {
+   "group": "B",
+   "name": "biggm",
+   "tex": "\\biggm\\vert"
+  },
+  {
+   "group": "B",
+   "name": "Biggm",
+   "tex": "\\Biggm\\vert"
+  },
+  {
+   "group": "B",
+   "name": "biggr",
+   "tex": "\\biggr)"
+  },
+  {
+   "group": "B",
+   "name": "Biggr",
+   "tex": "\\Biggr)"
+  },
+  {
+   "group": "B",
+   "name": "bigl",
+   "tex": "\\bigl("
+  },
+  {
+   "group": "B",
+   "name": "Bigl",
+   "tex": "\\Bigl("
+  },
+  {
+   "group": "B",
+   "name": "bigm",
+   "tex": "\\bigm\\vert"
+  },
+  {
+   "group": "B",
+   "name": "Bigm",
+   "tex": "\\Bigm\\vert"
+  },
+  {
+   "group": "B",
+   "name": "bigodot",
+   "tex": "\\bigodot"
+  },
+  {
+   "group": "B",
+   "name": "bigoplus",
+   "tex": "\\bigoplus"
+  },
+  {
+   "group": "B",
+   "name": "bigotimes",
+   "tex": "\\bigotimes"
+  },
+  {
+   "group": "B",
+   "name": "bigr",
+   "tex": "\\bigr)"
+  },
+  {
+   "group": "B",
+   "name": "Bigr",
+   "tex": "\\Bigr)"
+  },
+  {
+   "group": "B",
+   "name": "bigsqcup",
+   "tex": "\\bigsqcup"
+  },
+  {
+   "group": "B",
+   "name": "bigstar",
+   "tex": "\\bigstar"
+  },
+  {
+   "group": "B",
+   "name": "bigtriangledown",
+   "tex": "\\bigtriangledown"
+  },
+  {
+   "group": "B",
+   "name": "bigtriangleup",
+   "tex": "\\bigtriangleup"
+  },
+  {
+   "group": "B",
+   "name": "biguplus",
+   "tex": "\\biguplus"
+  },
+  {
+   "group": "B",
+   "name": "bigvee",
+   "tex": "\\bigvee"
+  },
+  {
+   "group": "B",
+   "name": "bigwedge",
+   "tex": "\\bigwedge"
+  },
+  {
+   "group": "B",
+   "name": "binom",
+   "tex": "\\binom n k"
+  },
+  {
+   "group": "B",
+   "name": "blacklozenge",
+   "tex": "\\blacklozenge"
+  },
+  {
+   "group": "B",
+   "name": "blacksquare",
+   "tex": "\\blacksquare"
+  },
+  {
+   "group": "B",
+   "name": "blacktriangle",
+   "tex": "\\blacktriangle"
+  },
+  {
+   "group": "B",
+   "name": "blacktriangledown",
+   "tex": "\\blacktriangledown"
+  },
+  {
+   "group": "B",
+   "name": "blacktriangleleft",
+   "tex": "\\blacktriangleleft"
+  },
+  {
+   "group": "B",
+   "name": "blacktriangleright",
+   "tex": "\\blacktriangleright"
+  },
+  {
+   "group": "B",
+   "name": "bm",
+   "tex": "\\bm{AaBb}"
+  },
+  {
+   "group": "B",
+   "name": "{Bmatrix}",
+   "tex": "\\begin{Bmatrix}\na & b \\\\\nc & d\n\\end{Bmatrix}"
+  },
+  {
+   "group": "B",
+   "name": "{Bmatrix*}",
+   "tex": "\\begin{Bmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{Bmatrix*}"
+  },
+  {
+   "group": "B",
+   "name": "{bmatrix}",
+   "tex": "\\begin{bmatrix}\na & b \\\\\nc & d\n\\end{bmatrix}"
+  },
+  {
+   "group": "B",
+   "name": "{bmatrix*}",
+   "tex": "\\begin{bmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{bmatrix*}"
+  },
+  {
+   "group": "B",
+   "name": "bmod",
+   "tex": "a \\bmod b"
+  },
+  {
+   "group": "B",
+   "name": "bold",
+   "tex": "\\bold{AaBb123}"
+  },
+  {
+   "group": "B",
+   "name": "boldsymbol",
+   "tex": "\\boldsymbol{AaBb}"
+  },
+  {
+   "group": "B",
+   "name": "bot",
+   "tex": "\\bot"
+  },
+  {
+   "group": "B",
+   "name": "bowtie",
+   "tex": "\\bowtie"
+  },
+  {
+   "group": "B",
+   "name": "Box",
+   "tex": "\\Box"
+  },
+  {
+   "group": "B",
+   "name": "boxdot",
+   "tex": "\\boxdot"
+  },
+  {
+   "group": "B",
+   "name": "boxed",
+   "tex": "\\boxed{ab}"
+  },
+  {
+   "group": "B",
+   "name": "boxminus",
+   "tex": "\\boxminus"
+  },
+  {
+   "group": "B",
+   "name": "boxplus",
+   "tex": "\\boxplus"
+  },
+  {
+   "group": "B",
+   "name": "boxtimes",
+   "tex": "\\boxtimes"
+  },
+  {
+   "group": "B",
+   "name": "Bra",
+   "tex": "\\Bra{\\psi}"
+  },
+  {
+   "group": "B",
+   "name": "bra",
+   "tex": "\\bra{\\psi}"
+  },
+  {
+   "group": "B",
+   "name": "braket",
+   "tex": "\\braket{\\phi|\\psi}"
+  },
+  {
+   "group": "B",
+   "name": "Braket",
+   "tex": "\\Braket{ ϕ | \\frac{∂^2}{∂ t^2} | ψ }"
+  },
+  {
+   "group": "B",
+   "name": "brace",
+   "tex": "{n\\brace k}"
+  },
+  {
+   "group": "B",
+   "name": "brack",
+   "tex": "{n\\brack k}"
+  },
+  {
+   "group": "B",
+   "name": "breve",
+   "tex": "\\breve{eu}"
+  },
+  {
+   "group": "B",
+   "name": "bull",
+   "tex": "\\bull"
+  },
+  {
+   "group": "B",
+   "name": "bullet",
+   "tex": "\\bullet"
+  },
+  {
+   "group": "B",
+   "name": "Bumpeq",
+   "tex": "\\Bumpeq"
+  },
+  {
+   "group": "B",
+   "name": "bumpeq",
+   "tex": "\\bumpeq"
+  },
+  {
+   "group": "C",
+   "name": "cal",
+   "tex": "\\cal AaBb123"
+  },
+  {
+   "group": "C",
+   "name": "cancel",
+   "tex": "\\cancel{5}"
+  },
+  {
+   "group": "C",
+   "name": "Cap",
+   "tex": "\\Cap"
+  },
+  {
+   "group": "C",
+   "name": "cap",
+   "tex": "\\cap"
+  },
+  {
+   "group": "C",
+   "name": "{cases}",
+   "tex": "\\begin{cases}\na &\\text{if } b  \\\\\nc &\\text{if } d\n\\end{cases}"
+  },
+  {
+   "group": "C",
+   "name": "cdot",
+   "tex": "\\cdot"
+  },
+  {
+   "group": "C",
+   "name": "cdotp",
+   "tex": "\\cdotp"
+  },
+  {
+   "group": "C",
+   "name": "cdots",
+   "tex": "\\cdots"
+  },
+  {
+   "group": "C",
+   "name": "ce",
+   "tex": "{\\mathrm{C}{\\vphantom{X}}_{\\smash[t]{6}}\\mathrm{H}{\\vphantom{X}}_{\\smash[t]{5}}{-}\\mathrm{CHO}}"
+  },
+  {
+   "group": "C",
+   "name": "centerdot",
+   "tex": "a\\centerdot b"
+  },
+  {
+   "group": "C",
+   "name": "cfrac",
+   "tex": "\\cfrac{2}{1+\\cfrac{2}{1+\\cfrac{2}{1}}}"
+  },
+  {
+   "group": "C",
+   "name": "char",
+   "tex": "\\char\"263a"
+  },
+  {
+   "group": "C",
+   "name": "check",
+   "tex": "\\check{oe}"
+  },
+  {
+   "group": "C",
+   "name": "ch",
+   "tex": "\\ch"
+  },
+  {
+   "group": "C",
+   "name": "checkmark",
+   "tex": "\\checkmark"
+  },
+  {
+   "group": "C",
+   "name": "Chi",
+   "tex": "\\Chi"
+  },
+  {
+   "group": "C",
+   "name": "chi",
+   "tex": "\\chi"
+  },
+  {
+   "group": "C",
+   "name": "choose",
+   "tex": "{n+1 \\choose k+2}"
+  },
+  {
+   "group": "C",
+   "name": "circ",
+   "tex": "\\circ"
+  },
+  {
+   "group": "C",
+   "name": "circeq",
+   "tex": "\\circeq"
+  },
+  {
+   "group": "C",
+   "name": "circlearrowleft",
+   "tex": "\\circlearrowleft"
+  },
+  {
+   "group": "C",
+   "name": "circlearrowright",
+   "tex": "\\circlearrowright"
+  },
+  {
+   "group": "C",
+   "name": "circledast",
+   "tex": "\\circledast"
+  },
+  {
+   "group": "C",
+   "name": "circledcirc",
+   "tex": "\\circledcirc"
+  },
+  {
+   "group": "C",
+   "name": "circleddash",
+   "tex": "\\circleddash"
+  },
+  {
+   "group": "C",
+   "name": "circledR",
+   "tex": "\\circledR"
+  },
+  {
+   "group": "C",
+   "name": "circledS",
+   "tex": "\\circledS"
+  },
+  {
+   "group": "C",
+   "name": "clubs",
+   "tex": "\\clubs"
+  },
+  {
+   "group": "C",
+   "name": "clubsuit",
+   "tex": "\\clubsuit"
+  },
+  {
+   "group": "C",
+   "name": "cnums",
+   "tex": "\\cnums"
+  },
+  {
+   "group": "C",
+   "name": "colon",
+   "tex": "\\colon"
+  },
+  {
+   "group": "C",
+   "name": "Colonapprox",
+   "tex": "\\Colonapprox"
+  },
+  {
+   "group": "C",
+   "name": "colonapprox",
+   "tex": "\\colonapprox"
+  },
+  {
+   "group": "C",
+   "name": "coloncolon",
+   "tex": "\\coloncolon"
+  },
+  {
+   "group": "C",
+   "name": "coloncolonapprox",
+   "tex": "\\coloncolonapprox"
+  },
+  {
+   "group": "C",
+   "name": "coloncolonequals",
+   "tex": "\\coloncolonequals"
+  },
+  {
+   "group": "C",
+   "name": "coloncolonminus",
+   "tex": "\\coloncolonminus"
+  },
+  {
+   "group": "C",
+   "name": "coloncolonsim",
+   "tex": "\\coloncolonsim"
+  },
+  {
+   "group": "C",
+   "name": "Coloneq",
+   "tex": "\\Coloneq"
+  },
+  {
+   "group": "C",
+   "name": "coloneq",
+   "tex": "\\coloneq"
+  },
+  {
+   "group": "C",
+   "name": "colonequals",
+   "tex": "\\colonequals"
+  },
+  {
+   "group": "C",
+   "name": "Coloneqq",
+   "tex": "\\Coloneqq"
+  },
+  {
+   "group": "C",
+   "name": "coloneqq",
+   "tex": "\\coloneqq"
+  },
+  {
+   "group": "C",
+   "name": "colonminus",
+   "tex": "\\colonminus"
+  },
+  {
+   "group": "C",
+   "name": "Colonsim",
+   "tex": "\\Colonsim"
+  },
+  {
+   "group": "C",
+   "name": "colonsim",
+   "tex": "\\colonsim"
+  },
+  {
+   "group": "C",
+   "name": "color",
+   "tex": "\\color{#0000FF} AaBb123"
+  },
+  {
+   "group": "C",
+   "name": "colorbox",
+   "tex": "\\colorbox{red}{Black on red}"
+  },
+  {
+   "group": "C",
+   "name": "complement",
+   "tex": "\\complement"
+  },
+  {
+   "group": "C",
+   "name": "Complex",
+   "tex": "\\Complex"
+  },
+  {
+   "group": "C",
+   "name": "cong",
+   "tex": "\\cong"
+  },
+  {
+   "group": "C",
+   "name": "coprod",
+   "tex": "\\coprod"
+  },
+  {
+   "group": "C",
+   "name": "copyright",
+   "tex": "\\copyright"
+  },
+  {
+   "group": "C",
+   "name": "cos",
+   "tex": "\\cos"
+  },
+  {
+   "group": "C",
+   "name": "cosec",
+   "tex": "\\cosec"
+  },
+  {
+   "group": "C",
+   "name": "cosh",
+   "tex": "\\cosh"
+  },
+  {
+   "group": "C",
+   "name": "cot",
+   "tex": "\\cot"
+  },
+  {
+   "group": "C",
+   "name": "cotg",
+   "tex": "\\cotg"
+  },
+  {
+   "group": "C",
+   "name": "coth",
+   "tex": "\\coth"
+  },
+  {
+   "group": "C",
+   "name": "cr",
+   "tex": "\\begin{matrix}\na & b \\cr\nc & d\n\\end{matrix}"
+  },
+  {
+   "group": "C",
+   "name": "csc",
+   "tex": "\\csc"
+  },
+  {
+   "group": "C",
+   "name": "ctg",
+   "tex": "\\ctg"
+  },
+  {
+   "group": "C",
+   "name": "cth",
+   "tex": "\\cth"
+  },
+  {
+   "group": "C",
+   "name": "Cup",
+   "tex": "\\Cup"
+  },
+  {
+   "group": "C",
+   "name": "cup",
+   "tex": "\\cup"
+  },
+  {
+   "group": "C",
+   "name": "curlyeqprec",
+   "tex": "\\curlyeqprec"
+  },
+  {
+   "group": "C",
+   "name": "curlyeqsucc",
+   "tex": "\\curlyeqsucc"
+  },
+  {
+   "group": "C",
+   "name": "curlyvee",
+   "tex": "\\curlyvee"
+  },
+  {
+   "group": "C",
+   "name": "curlywedge",
+   "tex": "\\curlywedge"
+  },
+  {
+   "group": "C",
+   "name": "curvearrowleft",
+   "tex": "\\curvearrowleft"
+  },
+  {
+   "group": "C",
+   "name": "curvearrowright",
+   "tex": "\\curvearrowright"
+  },
+  {
+   "group": "D",
+   "name": "dag",
+   "tex": "\\dag"
+  },
+  {
+   "group": "D",
+   "name": "Dagger",
+   "tex": "\\Dagger"
+  },
+  {
+   "group": "D",
+   "name": "dagger",
+   "tex": "\\dagger"
+  },
+  {
+   "group": "D",
+   "name": "daleth",
+   "tex": "\\daleth"
+  },
+  {
+   "group": "D",
+   "name": "Darr",
+   "tex": "\\Darr"
+  },
+  {
+   "group": "D",
+   "name": "dArr",
+   "tex": "\\dArr"
+  },
+  {
+   "group": "D",
+   "name": "darr",
+   "tex": "\\darr"
+  },
+  {
+   "group": "D",
+   "name": "dashleftarrow",
+   "tex": "\\dashleftarrow"
+  },
+  {
+   "group": "D",
+   "name": "dashrightarrow",
+   "tex": "\\dashrightarrow"
+  },
+  {
+   "group": "D",
+   "name": "dashv",
+   "tex": "\\dashv"
+  },
+  {
+   "group": "D",
+   "name": "dbinom",
+   "tex": "\\dbinom n k"
+  },
+  {
+   "group": "D",
+   "name": "dblcolon",
+   "tex": "\\dblcolon"
+  },
+  {
+   "group": "D",
+   "name": "{dcases}",
+   "tex": "\\begin{dcases}\na &\\text{if } b  \\\\\nc &\\text{if } d\n\\end{dcases}"
+  },
+  {
+   "group": "D",
+   "name": "ddag",
+   "tex": "\\ddag"
+  },
+  {
+   "group": "D",
+   "name": "ddagger",
+   "tex": "\\ddagger"
+  },
+  {
+   "group": "D",
+   "name": "ddddot",
+   "tex": "\\ddddot x"
+  },
+  {
+   "group": "D",
+   "name": "dddot",
+   "tex": "\\dddot x"
+  },
+  {
+   "group": "D",
+   "name": "ddot",
+   "tex": "\\ddot x"
+  },
+  {
+   "group": "D",
+   "name": "ddots",
+   "tex": "\\ddots"
+  },
+  {
+   "group": "D",
+   "name": "def",
+   "tex": "\\def\\foo{x^2} \\foo + \\foo"
+  },
+  {
+   "group": "D",
+   "name": "deg",
+   "tex": "\\deg"
+  },
+  {
+   "group": "D",
+   "name": "degree",
+   "tex": "\\degree"
+  },
+  {
+   "group": "D",
+   "name": "delta",
+   "tex": "\\delta"
+  },
+  {
+   "group": "D",
+   "name": "Delta",
+   "tex": "\\Delta"
+  },
+  {
+   "group": "D",
+   "name": "det",
+   "tex": "\\det"
+  },
+  {
+   "group": "D",
+   "name": "digamma",
+   "tex": "\\digamma"
+  },
+  {
+   "group": "D",
+   "name": "dfrac",
+   "tex": "\\dfrac{a-1}{b-1}"
+  },
+  {
+   "group": "D",
+   "name": "diagdown",
+   "tex": "\\diagdown"
+  },
+  {
+   "group": "D",
+   "name": "diagup",
+   "tex": "\\diagup"
+  },
+  {
+   "group": "D",
+   "name": "Diamond",
+   "tex": "\\Diamond"
+  },
+  {
+   "group": "D",
+   "name": "diamond",
+   "tex": "\\diamond"
+  },
+  {
+   "group": "D",
+   "name": "diamonds",
+   "tex": "\\diamonds"
+  },
+  {
+   "group": "D",
+   "name": "diamondsuit",
+   "tex": "\\diamondsuit"
+  },
+  {
+   "group": "D",
+   "name": "dim",
+   "tex": "\\dim"
+  },
+  {
+   "group": "D",
+   "name": "displaystyle",
+   "tex": "\\displaystyle\\sum_0^n"
+  },
+  {
+   "group": "D",
+   "name": "div",
+   "tex": "\\div"
+  },
+  {
+   "group": "D",
+   "name": "divideontimes",
+   "tex": "\\divideontimes"
+  },
+  {
+   "group": "D",
+   "name": "dot",
+   "tex": "\\dot x"
+  },
+  {
+   "group": "D",
+   "name": "Doteq",
+   "tex": "\\Doteq"
+  },
+  {
+   "group": "D",
+   "name": "doteq",
+   "tex": "\\doteq"
+  },
+  {
+   "group": "D",
+   "name": "doteqdot",
+   "tex": "\\doteqdot"
+  },
+  {
+   "group": "D",
+   "name": "dotplus",
+   "tex": "\\dotplus"
+  },
+  {
+   "group": "D",
+   "name": "dots",
+   "tex": "x_1 + \\dots + x_n"
+  },
+  {
+   "group": "D",
+   "name": "dotsb",
+   "tex": "x_1 +\\dotsb + x_n"
+  },
+  {
+   "group": "D",
+   "name": "dotsc",
+   "tex": "x,\\dotsc,y"
+  },
+  {
+   "group": "D",
+   "name": "dotsi",
+   "tex": "\\int_{A_1}\\int_{A_2}\\dotsi"
+  },
+  {
+   "group": "D",
+   "name": "dotsm",
+   "tex": "x_1 x_2 \\dotsm x_n"
+  },
+  {
+   "group": "D",
+   "name": "dotso",
+   "tex": "\\dotso"
+  },
+  {
+   "group": "D",
+   "name": "doublebarwedge",
+   "tex": "\\doublebarwedge"
+  },
+  {
+   "group": "D",
+   "name": "doublecap",
+   "tex": "\\doublecap"
+  },
+  {
+   "group": "D",
+   "name": "doublecup",
+   "tex": "\\doublecup"
+  },
+  {
+   "group": "D",
+   "name": "Downarrow",
+   "tex": "\\Downarrow"
+  },
+  {
+   "group": "D",
+   "name": "downarrow",
+   "tex": "\\downarrow"
+  },
+  {
+   "group": "D",
+   "name": "downdownarrows",
+   "tex": "\\downdownarrows"
+  },
+  {
+   "group": "D",
+   "name": "downharpoonleft",
+   "tex": "\\downharpoonleft"
+  },
+  {
+   "group": "D",
+   "name": "downharpoonright",
+   "tex": "\\downharpoonright"
+  },
+  {
+   "group": "D",
+   "name": "{drcases}",
+   "tex": "\\begin{drcases}\na &\\text{if } b  \\\\\nc &\\text{if } d\n\\end{drcases}"
+  },
+  {
+   "group": "E",
+   "name": "edef",
+   "tex": "\\def\\foo{a}\\edef\\fcopy{\\foo}\\def\\foo{}\\fcopy"
+  },
+  {
+   "group": "E",
+   "name": "ell",
+   "tex": "\\ell"
+  },
+  {
+   "group": "E",
+   "name": "emph",
+   "tex": "\\emph{nested \\emph{emphasis}}"
+  },
+  {
+   "group": "E",
+   "name": "empty",
+   "tex": "\\empty"
+  },
+  {
+   "group": "E",
+   "name": "emptyset",
+   "tex": "\\emptyset"
+  },
+  {
+   "group": "E",
+   "name": "end",
+   "tex": "\\begin{matrix}\na & b \\\\\nc & d\n\\end{matrix}"
+  },
+  {
+   "group": "E",
+   "name": "enspace",
+   "tex": "a\\enspace b"
+  },
+  {
+   "group": "E",
+   "name": "Epsilon",
+   "tex": "\\Epsilon"
+  },
+  {
+   "group": "E",
+   "name": "epsilon",
+   "tex": "\\epsilon"
+  },
+  {
+   "group": "E",
+   "name": "eqcirc",
+   "tex": "\\eqcirc"
+  },
+  {
+   "group": "E",
+   "name": "Eqcolon",
+   "tex": "\\Eqcolon"
+  },
+  {
+   "group": "E",
+   "name": "eqcolon",
+   "tex": "\\eqcolon"
+  },
+  {
+   "group": "E",
+   "name": "Eqqcolon",
+   "tex": "\\Eqqcolon"
+  },
+  {
+   "group": "E",
+   "name": "eqqcolon",
+   "tex": "\\eqqcolon"
+  },
+  {
+   "group": "E",
+   "name": "eqsim",
+   "tex": "\\eqsim"
+  },
+  {
+   "group": "E",
+   "name": "eqslantgtr",
+   "tex": "\\eqslantgtr"
+  },
+  {
+   "group": "E",
+   "name": "eqslantless",
+   "tex": "\\eqslantless"
+  },
+  {
+   "group": "E",
+   "name": "equalscolon",
+   "tex": "\\equalscolon"
+  },
+  {
+   "group": "E",
+   "name": "equalscoloncolon",
+   "tex": "\\equalscoloncolon"
+  },
+  {
+   "group": "E",
+   "name": "equiv",
+   "tex": "\\equiv"
+  },
+  {
+   "group": "E",
+   "name": "Eta",
+   "tex": "\\Eta"
+  },
+  {
+   "group": "E",
+   "name": "eta",
+   "tex": "\\eta"
+  },
+  {
+   "group": "E",
+   "name": "eth",
+   "tex": "\\eth"
+  },
+  {
+   "group": "E",
+   "name": "exist",
+   "tex": "\\exist"
+  },
+  {
+   "group": "E",
+   "name": "exists",
+   "tex": "\\exists"
+  },
+  {
+   "group": "E",
+   "name": "exp",
+   "tex": "\\exp"
+  },
+  {
+   "group": "F",
+   "name": "fallingdotseq",
+   "tex": "\\fallingdotseq"
+  },
+  {
+   "group": "F",
+   "name": "fbox",
+   "tex": "\\fbox{Hi there!}"
+  },
+  {
+   "group": "F",
+   "name": "fcolorbox",
+   "tex": "\\fcolorbox{red}{aqua}{A}"
+  },
+  {
+   "group": "F",
+   "name": "Finv",
+   "tex": "\\Finv"
+  },
+  {
+   "group": "F",
+   "name": "flat",
+   "tex": "\\flat"
+  },
+  {
+   "group": "F",
+   "name": "footnotesize",
+   "tex": "\\footnotesize footnotesize"
+  },
+  {
+   "group": "F",
+   "name": "forall",
+   "tex": "\\forall"
+  },
+  {
+   "group": "F",
+   "name": "frac",
+   "tex": "\\frac a b"
+  },
+  {
+   "group": "F",
+   "name": "frak",
+   "tex": "\\frak{AaBb}"
+  },
+  {
+   "group": "F",
+   "name": "frown",
+   "tex": "\\frown"
+  },
+  {
+   "group": "G",
+   "name": "Game",
+   "tex": "\\Game"
+  },
+  {
+   "group": "G",
+   "name": "Gamma",
+   "tex": "\\Gamma"
+  },
+  {
+   "group": "G",
+   "name": "gamma",
+   "tex": "\\gamma"
+  },
+  {
+   "group": "G",
+   "name": "{gathered}",
+   "tex": "\\begin{gathered}\na=b \\\\ \ne=b+c\n\\end{gathered}"
+  },
+  {
+   "group": "G",
+   "name": "gcd",
+   "tex": "\\gcd"
+  },
+  {
+   "group": "G",
+   "name": "gdef",
+   "tex": "\\gdef\\sqr#1{#1^2} \\sqr{y} + \\sqr{y}"
+  },
+  {
+   "group": "G",
+   "name": "ge",
+   "tex": "\\ge"
+  },
+  {
+   "group": "G",
+   "name": "genfrac",
+   "tex": "\\genfrac ( ] {2pt}{0}a{a+1}"
+  },
+  {
+   "group": "G",
+   "name": "geq",
+   "tex": "\\geq"
+  },
+  {
+   "group": "G",
+   "name": "geqq",
+   "tex": "\\geqq"
+  },
+  {
+   "group": "G",
+   "name": "geqslant",
+   "tex": "\\geqslant"
+  },
+  {
+   "group": "G",
+   "name": "gets",
+   "tex": "\\gets"
+  },
+  {
+   "group": "G",
+   "name": "gg",
+   "tex": "\\gg"
+  },
+  {
+   "group": "G",
+   "name": "ggg",
+   "tex": "\\ggg"
+  },
+  {
+   "group": "G",
+   "name": "gggtr",
+   "tex": "\\gggtr"
+  },
+  {
+   "group": "G",
+   "name": "gimel",
+   "tex": "\\gimel"
+  },
+  {
+   "group": "G",
+   "name": "global",
+   "tex": "\\global\\def\\add#1#2{#1+#2} \\add 2 3"
+  },
+  {
+   "group": "G",
+   "name": "gnapprox",
+   "tex": "\\gnapprox"
+  },
+  {
+   "group": "G",
+   "name": "gneq",
+   "tex": "\\gneq"
+  },
+  {
+   "group": "G",
+   "name": "gneqq",
+   "tex": "\\gneqq"
+  },
+  {
+   "group": "G",
+   "name": "gnsim",
+   "tex": "\\gnsim"
+  },
+  {
+   "group": "G",
+   "name": "grave",
+   "tex": "\\grave{eu}"
+  },
+  {
+   "group": "G",
+   "name": "gt",
+   "tex": "a \\gt b"
+  },
+  {
+   "group": "G",
+   "name": "gtrdot",
+   "tex": "\\gtrdot"
+  },
+  {
+   "group": "G",
+   "name": "gtrapprox",
+   "tex": "\\gtrapprox"
+  },
+  {
+   "group": "G",
+   "name": "gtreqless",
+   "tex": "\\gtreqless"
+  },
+  {
+   "group": "G",
+   "name": "gtreqqless",
+   "tex": "\\gtreqqless"
+  },
+  {
+   "group": "G",
+   "name": "gtrless",
+   "tex": "\\gtrless"
+  },
+  {
+   "group": "G",
+   "name": "gtrsim",
+   "tex": "\\gtrsim"
+  },
+  {
+   "group": "G",
+   "name": "gvertneqq",
+   "tex": "\\gvertneqq"
+  },
+  {
+   "group": "H",
+   "name": "H",
+   "tex": "\\text{\\H{a}}"
+  },
+  {
+   "group": "H",
+   "name": "Harr",
+   "tex": "\\Harr"
+  },
+  {
+   "group": "H",
+   "name": "hArr",
+   "tex": "\\hArr"
+  },
+  {
+   "group": "H",
+   "name": "harr",
+   "tex": "\\harr"
+  },
+  {
+   "group": "H",
+   "name": "hat",
+   "tex": "\\hat{\\theta}"
+  },
+  {
+   "group": "H",
+   "name": "hbar",
+   "tex": "\\hbar"
+  },
+  {
+   "group": "H",
+   "name": "hbox",
+   "tex": "\\hbox{$x^2$}"
+  },
+  {
+   "group": "H",
+   "name": "hdashline",
+   "tex": "\\begin{matrix}\na & b \\\\\n\\hdashline\nc & d\n\\end{matrix}"
+  },
+  {
+   "group": "H",
+   "name": "hearts",
+   "tex": "\\hearts"
+  },
+  {
+   "group": "H",
+   "name": "heartsuit",
+   "tex": "\\heartsuit"
+  },
+  {
+   "group": "H",
+   "name": "hline",
+   "tex": "\\begin{matrix}\na & b \\\\ \\hline\nc & d\n\\end{matrix}"
+  },
+  {
+   "group": "H",
+   "name": "hom",
+   "tex": "\\hom"
+  },
+  {
+   "group": "H",
+   "name": "hookleftarrow",
+   "tex": "\\hookleftarrow"
+  },
+  {
+   "group": "H",
+   "name": "hookrightarrow",
+   "tex": "\\hookrightarrow"
+  },
+  {
+   "group": "H",
+   "name": "hphantom",
+   "tex": "a\\hphantom{bc}d"
+  },
+  {
+   "group": "H",
+   "name": "href",
+   "tex": "\\href{https://katex.org/}{\\KaTeX}\ntrust"
+  },
+  {
+   "group": "H",
+   "name": "hskip",
+   "tex": "w\\hskip1em i\\hskip2em d"
+  },
+  {
+   "group": "H",
+   "name": "hslash",
+   "tex": "\\hslash"
+  },
+  {
+   "group": "H",
+   "name": "htmlClass",
+   "tex": "\\htmlClass{foo}{x}\ntrust\nstrict"
+  },
+  {
+   "group": "H",
+   "name": "htmlData",
+   "tex": "\\htmlData{foo=a, bar=b}{x}\ntrust\nstrict"
+  },
+  {
+   "group": "H",
+   "name": "htmlId",
+   "tex": "\\htmlId{bar}{x}\ntrust\nstrict"
+  },
+  {
+   "group": "H",
+   "name": "htmlStyle",
+   "tex": "\\htmlStyle{color: red;}{x}\ntrust\nstrict"
+  },
+  {
+   "group": "H",
+   "name": "huge",
+   "tex": "\\huge huge"
+  },
+  {
+   "group": "H",
+   "name": "Huge",
+   "tex": "\\Huge Huge"
+  },
+  {
+   "group": "I",
+   "name": "i",
+   "tex": "\\text{\\i}"
+  },
+  {
+   "group": "I",
+   "name": "iff",
+   "tex": "A\\iff B"
+  },
+  {
+   "group": "I",
+   "name": "iiint",
+   "tex": "\\iiint"
+  },
+  {
+   "group": "I",
+   "name": "iint",
+   "tex": "\\iint"
+  },
+  {
+   "group": "I",
+   "name": "Im",
+   "tex": "\\Im"
+  },
+  {
+   "group": "I",
+   "name": "image",
+   "tex": "\\image"
+  },
+  {
+   "group": "I",
+   "name": "imageof",
+   "tex": "\\imageof"
+  },
+  {
+   "group": "I",
+   "name": "imath",
+   "tex": "\\imath"
+  },
+  {
+   "group": "I",
+   "name": "impliedby",
+   "tex": "P\\impliedby Q"
+  },
+  {
+   "group": "I",
+   "name": "implies",
+   "tex": "P\\implies Q"
+  },
+  {
+   "group": "I",
+   "name": "in",
+   "tex": "\\in"
+  },
+  {
+   "group": "I",
+   "name": "includegraphics",
+   "tex": "\\includegraphics[height=0.8em, totalheight=0.9em, width=0.9em, alt=KA logo]{https://cdn.kastatic.org/images/apple-touch-icon-57x57-precomposed.new.png}\ntrust"
+  },
+  {
+   "group": "I",
+   "name": "inf",
+   "tex": "\\inf"
+  },
+  {
+   "group": "I",
+   "name": "infin",
+   "tex": "\\infin"
+  },
+  {
+   "group": "I",
+   "name": "infty",
+   "tex": "\\infty"
+  },
+  {
+   "group": "I",
+   "name": "injlim",
+   "tex": "\\injlim"
+  },
+  {
+   "group": "I",
+   "name": "int",
+   "tex": "\\int"
+  },
+  {
+   "group": "I",
+   "name": "intercal",
+   "tex": "\\intercal"
+  },
+  {
+   "group": "I",
+   "name": "intop",
+   "tex": "\\intop"
+  },
+  {
+   "group": "I",
+   "name": "Iota",
+   "tex": "\\Iota"
+  },
+  {
+   "group": "I",
+   "name": "iota",
+   "tex": "\\iota"
+  },
+  {
+   "group": "I",
+   "name": "isin",
+   "tex": "\\isin"
+  },
+  {
+   "group": "I",
+   "name": "it",
+   "tex": "{\\it AaBb}"
+  },
+  {
+   "group": "JK",
+   "name": "j",
+   "tex": "\\text{\\j}"
+  },
+  {
+   "group": "JK",
+   "name": "jmath",
+   "tex": "\\jmath"
+  },
+  {
+   "group": "JK",
+   "name": "Join",
+   "tex": "\\Join"
+  },
+  {
+   "group": "JK",
+   "name": "Kappa",
+   "tex": "\\Kappa"
+  },
+  {
+   "group": "JK",
+   "name": "kappa",
+   "tex": "\\kappa"
+  },
+  {
+   "group": "JK",
+   "name": "KaTeX",
+   "tex": "\\KaTeX"
+  },
+  {
+   "group": "JK",
+   "name": "ker",
+   "tex": "\\ker"
+  },
+  {
+   "group": "JK",
+   "name": "kern",
+   "tex": "I\\kern-2.5pt R"
+  },
+  {
+   "group": "JK",
+   "name": "Ket",
+   "tex": "\\Ket{\\psi}"
+  },
+  {
+   "group": "JK",
+   "name": "ket",
+   "tex": "\\ket{\\psi}"
+  },
+  {
+   "group": "L",
+   "name": "Lambda",
+   "tex": "\\Lambda"
+  },
+  {
+   "group": "L",
+   "name": "lambda",
+   "tex": "\\lambda"
+  },
+  {
+   "group": "L",
+   "name": "land",
+   "tex": "\\land"
+  },
+  {
+   "group": "L",
+   "name": "lang",
+   "tex": "\\lang A\\rangle"
+  },
+  {
+   "group": "L",
+   "name": "langle",
+   "tex": "\\langle A\\rangle"
+  },
+  {
+   "group": "L",
+   "name": "Larr",
+   "tex": "\\Larr"
+  },
+  {
+   "group": "L",
+   "name": "lArr",
+   "tex": "\\lArr"
+  },
+  {
+   "group": "L",
+   "name": "larr",
+   "tex": "\\larr"
+  },
+  {
+   "group": "L",
+   "name": "large",
+   "tex": "\\large large"
+  },
+  {
+   "group": "L",
+   "name": "Large",
+   "tex": "\\Large Large"
+  },
+  {
+   "group": "L",
+   "name": "LARGE",
+   "tex": "\\LARGE LARGE"
+  },
+  {
+   "group": "L",
+   "name": "LaTeX",
+   "tex": "\\LaTeX"
+  },
+  {
+   "group": "L",
+   "name": "lBrace",
+   "tex": "\\lBrace"
+  },
+  {
+   "group": "L",
+   "name": "lbrace",
+   "tex": "\\lbrace"
+  },
+  {
+   "group": "L",
+   "name": "lbrack",
+   "tex": "\\lbrack"
+  },
+  {
+   "group": "L",
+   "name": "lceil",
+   "tex": "\\lceil"
+  },
+  {
+   "group": "L",
+   "name": "ldotp",
+   "tex": "\\ldotp"
+  },
+  {
+   "group": "L",
+   "name": "ldots",
+   "tex": "\\ldots"
+  },
+  {
+   "group": "L",
+   "name": "le",
+   "tex": "\\le"
+  },
+  {
+   "group": "L",
+   "name": "leadsto",
+   "tex": "\\leadsto"
+  },
+  {
+   "group": "L",
+   "name": "left",
+   "tex": "\\left\\lbrace \\dfrac ab \\right."
+  },
+  {
+   "group": "L",
+   "name": "leftarrow",
+   "tex": "\\leftarrow"
+  },
+  {
+   "group": "L",
+   "name": "Leftarrow",
+   "tex": "\\Leftarrow"
+  },
+  {
+   "group": "L",
+   "name": "leftarrowtail",
+   "tex": "\\leftarrowtail"
+  },
+  {
+   "group": "L",
+   "name": "leftharpoondown",
+   "tex": "\\leftharpoondown"
+  },
+  {
+   "group": "L",
+   "name": "leftharpoonup",
+   "tex": "\\leftharpoonup"
+  },
+  {
+   "group": "L",
+   "name": "leftleftarrows",
+   "tex": "\\leftleftarrows"
+  },
+  {
+   "group": "L",
+   "name": "Leftrightarrow",
+   "tex": "\\Leftrightarrow"
+  },
+  {
+   "group": "L",
+   "name": "leftrightarrow",
+   "tex": "\\leftrightarrow"
+  },
+  {
+   "group": "L",
+   "name": "leftrightarrows",
+   "tex": "\\leftrightarrows"
+  },
+  {
+   "group": "L",
+   "name": "leftrightharpoons",
+   "tex": "\\leftrightharpoons"
+  },
+  {
+   "group": "L",
+   "name": "leftrightsquigarrow",
+   "tex": "\\leftrightsquigarrow"
+  },
+  {
+   "group": "L",
+   "name": "leftthreetimes",
+   "tex": "\\leftthreetimes"
+  },
+  {
+   "group": "L",
+   "name": "leq",
+   "tex": "\\leq"
+  },
+  {
+   "group": "L",
+   "name": "leqq",
+   "tex": "\\leqq"
+  },
+  {
+   "group": "L",
+   "name": "leqslant",
+   "tex": "\\leqslant"
+  },
+  {
+   "group": "L",
+   "name": "lessapprox",
+   "tex": "\\lessapprox"
+  },
+  {
+   "group": "L",
+   "name": "lessdot",
+   "tex": "\\lessdot"
+  },
+  {
+   "group": "L",
+   "name": "lesseqgtr",
+   "tex": "\\lesseqgtr"
+  },
+  {
+   "group": "L",
+   "name": "lesseqqgtr",
+   "tex": "\\lesseqqgtr"
+  },
+  {
+   "group": "L",
+   "name": "lessgtr",
+   "tex": "\\lessgtr"
+  },
+  {
+   "group": "L",
+   "name": "lesssim",
+   "tex": "\\lesssim"
+  },
+  {
+   "group": "L",
+   "name": "lfloor",
+   "tex": "\\lfloor"
+  },
+  {
+   "group": "L",
+   "name": "lg",
+   "tex": "\\lg"
+  },
+  {
+   "group": "L",
+   "name": "lgroup",
+   "tex": "\\lgroup"
+  },
+  {
+   "group": "L",
+   "name": "lhd",
+   "tex": "\\lhd"
+  },
+  {
+   "group": "L",
+   "name": "lim",
+   "tex": "\\lim"
+  },
+  {
+   "group": "L",
+   "name": "liminf",
+   "tex": "\\liminf"
+  },
+  {
+   "group": "L",
+   "name": "limits",
+   "tex": "\\lim\\limits_x"
+  },
+  {
+   "group": "L",
+   "name": "limsup",
+   "tex": "\\limsup"
+  },
+  {
+   "group": "L",
+   "name": "ll",
+   "tex": "\\ll"
+  },
+  {
+   "group": "L",
+   "name": "llap",
+   "tex": "{=}\\llap{/\\,}"
+  },
+  {
+   "group": "L",
+   "name": "llbracket",
+   "tex": "\\llbracket"
+  },
+  {
+   "group": "L",
+   "name": "llcorner",
+   "tex": "\\llcorner"
+  },
+  {
+   "group": "L",
+   "name": "Lleftarrow",
+   "tex": "\\Lleftarrow"
+  },
+  {
+   "group": "L",
+   "name": "lll",
+   "tex": "\\lll"
+  },
+  {
+   "group": "L",
+   "name": "llless",
+   "tex": "\\llless"
+  },
+  {
+   "group": "L",
+   "name": "lmoustache",
+   "tex": "\\lmoustache"
+  },
+  {
+   "group": "L",
+   "name": "ln",
+   "tex": "\\ln"
+  },
+  {
+   "group": "L",
+   "name": "lnapprox",
+   "tex": "\\lnapprox"
+  },
+  {
+   "group": "L",
+   "name": "lneq",
+   "tex": "\\lneq"
+  },
+  {
+   "group": "L",
+   "name": "lneqq",
+   "tex": "\\lneqq"
+  },
+  {
+   "group": "L",
+   "name": "lnot",
+   "tex": "\\lnot"
+  },
+  {
+   "group": "L",
+   "name": "lnsim",
+   "tex": "\\lnsim"
+  },
+  {
+   "group": "L",
+   "name": "log",
+   "tex": "\\log"
+  },
+  {
+   "group": "L",
+   "name": "Longleftarrow",
+   "tex": "\\Longleftarrow"
+  },
+  {
+   "group": "L",
+   "name": "longleftarrow",
+   "tex": "\\longleftarrow"
+  },
+  {
+   "group": "L",
+   "name": "Longleftrightarrow",
+   "tex": "\\Longleftrightarrow"
+  },
+  {
+   "group": "L",
+   "name": "longleftrightarrow",
+   "tex": "\\longleftrightarrow"
+  },
+  {
+   "group": "L",
+   "name": "longmapsto",
+   "tex": "\\longmapsto"
+  },
+  {
+   "group": "L",
+   "name": "Longrightarrow",
+   "tex": "\\Longrightarrow"
+  },
+  {
+   "group": "L",
+   "name": "longrightarrow",
+   "tex": "\\longrightarrow"
+  },
+  {
+   "group": "L",
+   "name": "looparrowleft",
+   "tex": "\\looparrowleft"
+  },
+  {
+   "group": "L",
+   "name": "looparrowright",
+   "tex": "\\looparrowright"
+  },
+  {
+   "group": "L",
+   "name": "lor",
+   "tex": "\\lor"
+  },
+  {
+   "group": "L",
+   "name": "lozenge",
+   "tex": "\\lozenge"
+  },
+  {
+   "group": "L",
+   "name": "lparen",
+   "tex": "\\lparen"
+  },
+  {
+   "group": "L",
+   "name": "Lrarr",
+   "tex": "\\Lrarr"
+  },
+  {
+   "group": "L",
+   "name": "lrArr",
+   "tex": "\\lrArr"
+  },
+  {
+   "group": "L",
+   "name": "lrarr",
+   "tex": "\\lrarr"
+  },
+  {
+   "group": "L",
+   "name": "lrcorner",
+   "tex": "\\lrcorner"
+  },
+  {
+   "group": "L",
+   "name": "lq",
+   "tex": "\\lq"
+  },
+  {
+   "group": "L",
+   "name": "Lsh",
+   "tex": "\\Lsh"
+  },
+  {
+   "group": "L",
+   "name": "lt",
+   "tex": "\\lt"
+  },
+  {
+   "group": "L",
+   "name": "ltimes",
+   "tex": "\\ltimes"
+  },
+  {
+   "group": "L",
+   "name": "lVert",
+   "tex": "\\lVert"
+  },
+  {
+   "group": "L",
+   "name": "lvert",
+   "tex": "\\lvert"
+  },
+  {
+   "group": "L",
+   "name": "lvertneqq",
+   "tex": "\\lvertneqq"
+  },
+  {
+   "group": "M",
+   "name": "maltese",
+   "tex": "\\maltese"
+  },
+  {
+   "group": "M",
+   "name": "mapsfrom",
+   "tex": "\\mapsfrom"
+  },
+  {
+   "group": "M",
+   "name": "mapsto",
+   "tex": "\\mapsto"
+  },
+  {
+   "group": "M",
+   "name": "mathbb",
+   "tex": "\\mathbb{AB}"
+  },
+  {
+   "group": "M",
+   "name": "mathbf",
+   "tex": "\\mathbf{AaBb123}"
+  },
+  {
+   "group": "M",
+   "name": "mathbin",
+   "tex": "a\\mathbin{!}b"
+  },
+  {
+   "group": "M",
+   "name": "mathcal",
+   "tex": "\\mathcal{AaBb123}"
+  },
+  {
+   "group": "M",
+   "name": "mathchoice",
+   "tex": "a\\mathchoice{\\,}{\\,\\,}{\\,\\,\\,}{\\,\\,\\,\\,}b"
+  },
+  {
+   "group": "M",
+   "name": "mathclap",
+   "tex": "\\displaystyle\\sum_{\\mathclap{1\\le i\\le n}} x_{i}"
+  },
+  {
+   "group": "M",
+   "name": "mathclose",
+   "tex": "a + (b\\mathclose\\gt + c"
+  },
+  {
+   "group": "M",
+   "name": "mathellipsis",
+   "tex": "\\mathellipsis"
+  },
+  {
+   "group": "M",
+   "name": "mathfrak",
+   "tex": "\\mathfrak{AaBb}"
+  },
+  {
+   "group": "M",
+   "name": "mathinner",
+   "tex": "ab\\mathinner{\\text{inside}}cd"
+  },
+  {
+   "group": "M",
+   "name": "mathit",
+   "tex": "\\mathit{AaBb}"
+  },
+  {
+   "group": "M",
+   "name": "mathllap",
+   "tex": "{=}\\mathllap{/\\,}"
+  },
+  {
+   "group": "M",
+   "name": "mathnormal",
+   "tex": "\\mathnormal{AaBb}"
+  },
+  {
+   "group": "M",
+   "name": "mathop",
+   "tex": "\\mathop{\\star}_a^b"
+  },
+  {
+   "group": "M",
+   "name": "mathopen",
+   "tex": "a + \\mathopen\\lt b) + c"
+  },
+  {
+   "group": "M",
+   "name": "mathord",
+   "tex": "1\\mathord{,}234{,}567"
+  },
+  {
+   "group": "M",
+   "name": "mathpunct",
+   "tex": "A\\mathpunct{-}B"
+  },
+  {
+   "group": "M",
+   "name": "mathreflectbox",
+   "tex": "\\mathreflectbox{x^2}"
+  },
+  {
+   "group": "M",
+   "name": "mathrel",
+   "tex": "a \\mathrel{\\#} b"
+  },
+  {
+   "group": "M",
+   "name": "mathrlap",
+   "tex": "\\mathrlap{\\,/}{=}"
+  },
+  {
+   "group": "M",
+   "name": "mathring",
+   "tex": "\\mathring{a}"
+  },
+  {
+   "group": "M",
+   "name": "mathrm",
+   "tex": "\\mathrm{AaBb123}"
+  },
+  {
+   "group": "M",
+   "name": "mathscr",
+   "tex": "\\mathscr{AaBb123}"
+  },
+  {
+   "group": "M",
+   "name": "mathsf",
+   "tex": "\\mathsf{AaBb123}"
+  },
+  {
+   "group": "M",
+   "name": "mathsterling",
+   "tex": "\\mathsterling"
+  },
+  {
+   "group": "M",
+   "name": "mathstrut",
+   "tex": "\\sqrt{\\mathstrut a}"
+  },
+  {
+   "group": "M",
+   "name": "mathtt",
+   "tex": "\\mathtt{AaBb123}"
+  },
+  {
+   "group": "M",
+   "name": "{matrix}",
+   "tex": "\\begin{matrix}\na & b \\\\\nc & d\n\\end{matrix}"
+  },
+  {
+   "group": "M",
+   "name": "{matrix*}",
+   "tex": "\\begin{matrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{matrix*}"
+  },
+  {
+   "group": "M",
+   "name": "max",
+   "tex": "\\max"
+  },
+  {
+   "group": "M",
+   "name": "measuredangle",
+   "tex": "\\measuredangle"
+  },
+  {
+   "group": "M",
+   "name": "medspace",
+   "tex": "a\\medspace b"
+  },
+  {
+   "group": "M",
+   "name": "mho",
+   "tex": "\\mho"
+  },
+  {
+   "group": "M",
+   "name": "mid",
+   "tex": "\\{x∈ℝ\\mid x>0\\}"
+  },
+  {
+   "group": "M",
+   "name": "middle",
+   "tex": "P\\left(A\\middle\\vert B\\right)"
+  },
+  {
+   "group": "M",
+   "name": "min",
+   "tex": "\\min"
+  },
+  {
+   "group": "M",
+   "name": "minuscolon",
+   "tex": "\\minuscolon"
+  },
+  {
+   "group": "M",
+   "name": "minuscoloncolon",
+   "tex": "\\minuscoloncolon"
+  },
+  {
+   "group": "M",
+   "name": "minuso",
+   "tex": "\\minuso"
+  },
+  {
+   "group": "M",
+   "name": "mkern",
+   "tex": "a\\mkern18mu b"
+  },
+  {
+   "group": "M",
+   "name": "mod",
+   "tex": "3\\equiv 5 \\mod 2"
+  },
+  {
+   "group": "M",
+   "name": "models",
+   "tex": "\\models"
+  },
+  {
+   "group": "M",
+   "name": "mp",
+   "tex": "\\mp"
+  },
+  {
+   "group": "M",
+   "name": "mskip",
+   "tex": "a\\mskip{10mu}b"
+  },
+  {
+   "group": "M",
+   "name": "Mu",
+   "tex": "\\Mu"
+  },
+  {
+   "group": "M",
+   "name": "mu",
+   "tex": "\\mu"
+  },
+  {
+   "group": "M",
+   "name": "multimap",
+   "tex": "\\multimap"
+  },
+  {
+   "group": "N",
+   "name": "N",
+   "tex": "\\N"
+  },
+  {
+   "group": "N",
+   "name": "nabla",
+   "tex": "\\nabla"
+  },
+  {
+   "group": "N",
+   "name": "natnums",
+   "tex": "\\natnums"
+  },
+  {
+   "group": "N",
+   "name": "natural",
+   "tex": "\\natural"
+  },
+  {
+   "group": "N",
+   "name": "negmedspace",
+   "tex": "a\\negmedspace b"
+  },
+  {
+   "group": "N",
+   "name": "ncong",
+   "tex": "\\ncong"
+  },
+  {
+   "group": "N",
+   "name": "ne",
+   "tex": "\\ne"
+  },
+  {
+   "group": "N",
+   "name": "nearrow",
+   "tex": "\\nearrow"
+  },
+  {
+   "group": "N",
+   "name": "neg",
+   "tex": "\\neg"
+  },
+  {
+   "group": "N",
+   "name": "negthickspace",
+   "tex": "a\\negthickspace b"
+  },
+  {
+   "group": "N",
+   "name": "negthinspace",
+   "tex": "a\\negthinspace b"
+  },
+  {
+   "group": "N",
+   "name": "neq",
+   "tex": "\\neq"
+  },
+  {
+   "group": "N",
+   "name": "newcommand",
+   "tex": "\\newcommand\\chk{\\checkmark} \\chk"
+  },
+  {
+   "group": "N",
+   "name": "newline",
+   "tex": "a\\newline b"
+  },
+  {
+   "group": "N",
+   "name": "nexists",
+   "tex": "\\nexists"
+  },
+  {
+   "group": "N",
+   "name": "ngeq",
+   "tex": "\\ngeq"
+  },
+  {
+   "group": "N",
+   "name": "ngeqq",
+   "tex": "\\ngeqq"
+  },
+  {
+   "group": "N",
+   "name": "ngeqslant",
+   "tex": "\\ngeqslant"
+  },
+  {
+   "group": "N",
+   "name": "ngtr",
+   "tex": "\\ngtr"
+  },
+  {
+   "group": "N",
+   "name": "ni",
+   "tex": "\\ni"
+  },
+  {
+   "group": "N",
+   "name": "nleftarrow",
+   "tex": "\\nleftarrow"
+  },
+  {
+   "group": "N",
+   "name": "nLeftarrow",
+   "tex": "\\nLeftarrow"
+  },
+  {
+   "group": "N",
+   "name": "nLeftrightarrow",
+   "tex": "\\nLeftrightarrow"
+  },
+  {
+   "group": "N",
+   "name": "nleftrightarrow",
+   "tex": "\\nleftrightarrow"
+  },
+  {
+   "group": "N",
+   "name": "nleq",
+   "tex": "\\nleq"
+  },
+  {
+   "group": "N",
+   "name": "nleqq",
+   "tex": "\\nleqq"
+  },
+  {
+   "group": "N",
+   "name": "nleqslant",
+   "tex": "\\nleqslant"
+  },
+  {
+   "group": "N",
+   "name": "nless",
+   "tex": "\\nless"
+  },
+  {
+   "group": "N",
+   "name": "nmid",
+   "tex": "\\nmid"
+  },
+  {
+   "group": "N",
+   "name": "nobreakspace",
+   "tex": "a\\nobreakspace b"
+  },
+  {
+   "group": "N",
+   "name": "nolimits",
+   "tex": "\\lim\\nolimits_x"
+  },
+  {
+   "group": "N",
+   "name": "normalsize",
+   "tex": "\\normalsize normalsize"
+  },
+  {
+   "group": "N",
+   "name": "not",
+   "tex": "\\not ="
+  },
+  {
+   "group": "N",
+   "name": "notin",
+   "tex": "\\notin"
+  },
+  {
+   "group": "N",
+   "name": "notni",
+   "tex": "\\notni"
+  },
+  {
+   "group": "N",
+   "name": "nparallel",
+   "tex": "\\nparallel"
+  },
+  {
+   "group": "N",
+   "name": "nprec",
+   "tex": "\\nprec"
+  },
+  {
+   "group": "N",
+   "name": "npreceq",
+   "tex": "\\npreceq"
+  },
+  {
+   "group": "N",
+   "name": "nRightarrow",
+   "tex": "\\nRightarrow"
+  },
+  {
+   "group": "N",
+   "name": "nrightarrow",
+   "tex": "\\nrightarrow"
+  },
+  {
+   "group": "N",
+   "name": "nshortmid",
+   "tex": "\\nshortmid"
+  },
+  {
+   "group": "N",
+   "name": "nshortparallel",
+   "tex": "\\nshortparallel"
+  },
+  {
+   "group": "N",
+   "name": "nsim",
+   "tex": "\\nsim"
+  },
+  {
+   "group": "N",
+   "name": "nsubseteq",
+   "tex": "\\nsubseteq"
+  },
+  {
+   "group": "N",
+   "name": "nsubseteqq",
+   "tex": "\\nsubseteqq"
+  },
+  {
+   "group": "N",
+   "name": "nsucc",
+   "tex": "\\nsucc"
+  },
+  {
+   "group": "N",
+   "name": "nsucceq",
+   "tex": "\\nsucceq"
+  },
+  {
+   "group": "N",
+   "name": "nsupseteq",
+   "tex": "\\nsupseteq"
+  },
+  {
+   "group": "N",
+   "name": "nsupseteqq",
+   "tex": "\\nsupseteqq"
+  },
+  {
+   "group": "N",
+   "name": "ntriangleleft",
+   "tex": "\\ntriangleleft"
+  },
+  {
+   "group": "N",
+   "name": "ntrianglelefteq",
+   "tex": "\\ntrianglelefteq"
+  },
+  {
+   "group": "N",
+   "name": "ntriangleright",
+   "tex": "\\ntriangleright"
+  },
+  {
+   "group": "N",
+   "name": "ntrianglerighteq",
+   "tex": "\\ntrianglerighteq"
+  },
+  {
+   "group": "N",
+   "name": "Nu",
+   "tex": "\\Nu"
+  },
+  {
+   "group": "N",
+   "name": "nu",
+   "tex": "\\nu"
+  },
+  {
+   "group": "N",
+   "name": "nVDash",
+   "tex": "\\nVDash"
+  },
+  {
+   "group": "N",
+   "name": "nVdash",
+   "tex": "\\nVdash"
+  },
+  {
+   "group": "N",
+   "name": "nvDash",
+   "tex": "\\nvDash"
+  },
+  {
+   "group": "N",
+   "name": "nvdash",
+   "tex": "\\nvdash"
+  },
+  {
+   "group": "N",
+   "name": "nwarrow",
+   "tex": "\\nwarrow"
+  },
+  {
+   "group": "O",
+   "name": "O",
+   "tex": "\\text{\\O}"
+  },
+  {
+   "group": "O",
+   "name": "o",
+   "tex": "\\text{\\o}"
+  },
+  {
+   "group": "O",
+   "name": "odot",
+   "tex": "\\odot"
+  },
+  {
+   "group": "O",
+   "name": "OE",
+   "tex": "\\text{\\OE}"
+  },
+  {
+   "group": "O",
+   "name": "oe",
+   "tex": "\\text{\\oe}"
+  },
+  {
+   "group": "O",
+   "name": "oiiint",
+   "tex": "\\oiiint"
+  },
+  {
+   "group": "O",
+   "name": "oiint",
+   "tex": "\\oiint"
+  },
+  {
+   "group": "O",
+   "name": "oint",
+   "tex": "\\oint"
+  },
+  {
+   "group": "O",
+   "name": "omega",
+   "tex": "\\omega"
+  },
+  {
+   "group": "O",
+   "name": "Omega",
+   "tex": "\\Omega"
+  },
+  {
+   "group": "O",
+   "name": "Omicron",
+   "tex": "\\Omicron"
+  },
+  {
+   "group": "O",
+   "name": "omicron",
+   "tex": "\\omicron"
+  },
+  {
+   "group": "O",
+   "name": "ominus",
+   "tex": "\\ominus"
+  },
+  {
+   "group": "O",
+   "name": "operatorname",
+   "tex": "\\operatorname{asin} x"
+  },
+  {
+   "group": "O",
+   "name": "operatorname*",
+   "tex": "\\operatorname*{asin}\\limits_y x"
+  },
+  {
+   "group": "O",
+   "name": "operatornamewithlimits",
+   "tex": "\\operatornamewithlimits{asin}\\limits_y x"
+  },
+  {
+   "group": "O",
+   "name": "oplus",
+   "tex": "\\oplus"
+  },
+  {
+   "group": "O",
+   "name": "origof",
+   "tex": "\\origof"
+  },
+  {
+   "group": "O",
+   "name": "oslash",
+   "tex": "\\oslash"
+  },
+  {
+   "group": "O",
+   "name": "otimes",
+   "tex": "\\otimes"
+  },
+  {
+   "group": "O",
+   "name": "over",
+   "tex": "{a+1 \\over b+2}+c"
+  },
+  {
+   "group": "O",
+   "name": "overbrace",
+   "tex": "\\overbrace{x+⋯+x}^{n\\text{ times}}"
+  },
+  {
+   "group": "O",
+   "name": "overbracket",
+   "tex": "\\overbracket{x+⋯+x}^{n\\text{ times}}"
+  },
+  {
+   "group": "O",
+   "name": "overgroup",
+   "tex": "\\overgroup{AB}"
+  },
+  {
+   "group": "O",
+   "name": "overleftarrow",
+   "tex": "\\overleftarrow{AB}"
+  },
+  {
+   "group": "O",
+   "name": "overleftharpoon",
+   "tex": "\\overleftharpoon{AB}"
+  },
+  {
+   "group": "O",
+   "name": "overleftrightarrow",
+   "tex": "\\overleftrightarrow{AB}"
+  },
+  {
+   "group": "O",
+   "name": "overline",
+   "tex": "\\overline{\\text{a long argument}}"
+  },
+  {
+   "group": "O",
+   "name": "overlinesegment",
+   "tex": "\\overlinesegment{AB}"
+  },
+  {
+   "group": "O",
+   "name": "Overrightarrow",
+   "tex": "\\Overrightarrow{AB}"
+  },
+  {
+   "group": "O",
+   "name": "overrightarrow",
+   "tex": "\\overrightarrow{AB}"
+  },
+  {
+   "group": "O",
+   "name": "overrightharpoon",
+   "tex": "\\overrightharpoon{ac}"
+  },
+  {
+   "group": "O",
+   "name": "overset",
+   "tex": "\\overset{!}{=}"
+  },
+  {
+   "group": "O",
+   "name": "owns",
+   "tex": "\\owns"
+  },
+  {
+   "group": "P",
+   "name": "P",
+   "tex": "\\text{\\P}"
+  },
+  {
+   "group": "P",
+   "name": "parallel",
+   "tex": "\\parallel"
+  },
+  {
+   "group": "P",
+   "name": "partial",
+   "tex": "\\partial"
+  },
+  {
+   "group": "P",
+   "name": "perp",
+   "tex": "\\perp"
+  },
+  {
+   "group": "P",
+   "name": "phantom",
+   "tex": "\\Gamma^{\\phantom{i}j}_{i\\phantom{j}k}"
+  },
+  {
+   "group": "P",
+   "name": "phase",
+   "tex": "\\phase{-78^\\circ}"
+  },
+  {
+   "group": "P",
+   "name": "Phi",
+   "tex": "\\Phi"
+  },
+  {
+   "group": "P",
+   "name": "phi",
+   "tex": "\\phi"
+  },
+  {
+   "group": "P",
+   "name": "Pi",
+   "tex": "\\Pi"
+  },
+  {
+   "group": "P",
+   "name": "pi",
+   "tex": "\\pi"
+  },
+  {
+   "group": "P",
+   "name": "pitchfork",
+   "tex": "\\pitchfork"
+  },
+  {
+   "group": "P",
+   "name": "plim",
+   "tex": "\\plim"
+  },
+  {
+   "group": "P",
+   "name": "plusmn",
+   "tex": "\\plusmn"
+  },
+  {
+   "group": "P",
+   "name": "pm",
+   "tex": "\\pm"
+  },
+  {
+   "group": "P",
+   "name": "{pmatrix}",
+   "tex": "\\begin{pmatrix}\na & b \\\\\nc & d\n\\end{pmatrix}"
+  },
+  {
+   "group": "P",
+   "name": "{pmatrix*}",
+   "tex": "\\begin{pmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{pmatrix*}"
+  },
+  {
+   "group": "P",
+   "name": "pmb",
+   "tex": "\\pmb{\\mu}"
+  },
+  {
+   "group": "P",
+   "name": "pmod",
+   "tex": "x\\pmod a"
+  },
+  {
+   "group": "P",
+   "name": "pod",
+   "tex": "x \\pod a"
+  },
+  {
+   "group": "P",
+   "name": "pounds",
+   "tex": "\\pounds"
+  },
+  {
+   "group": "P",
+   "name": "Pr",
+   "tex": "\\Pr"
+  },
+  {
+   "group": "P",
+   "name": "prec",
+   "tex": "\\prec"
+  },
+  {
+   "group": "P",
+   "name": "precapprox",
+   "tex": "\\precapprox"
+  },
+  {
+   "group": "P",
+   "name": "preccurlyeq",
+   "tex": "\\preccurlyeq"
+  },
+  {
+   "group": "P",
+   "name": "preceq",
+   "tex": "\\preceq"
+  },
+  {
+   "group": "P",
+   "name": "precnapprox",
+   "tex": "\\precnapprox"
+  },
+  {
+   "group": "P",
+   "name": "precneqq",
+   "tex": "\\precneqq"
+  },
+  {
+   "group": "P",
+   "name": "precnsim",
+   "tex": "\\precnsim"
+  },
+  {
+   "group": "P",
+   "name": "precsim",
+   "tex": "\\precsim"
+  },
+  {
+   "group": "P",
+   "name": "prime",
+   "tex": "\\prime"
+  },
+  {
+   "group": "P",
+   "name": "prod",
+   "tex": "\\prod"
+  },
+  {
+   "group": "P",
+   "name": "projlim",
+   "tex": "\\projlim"
+  },
+  {
+   "group": "P",
+   "name": "propto",
+   "tex": "\\propto"
+  },
+  {
+   "group": "P",
+   "name": "providecommand",
+   "tex": "\\providecommand\\greet{\\text{Hello}} \\greet"
+  },
+  {
+   "group": "P",
+   "name": "psi",
+   "tex": "\\psi"
+  },
+  {
+   "group": "P",
+   "name": "Psi",
+   "tex": "\\Psi"
+  },
+  {
+   "group": "P",
+   "name": "pu",
+   "tex": "{123~\\mathchoice{\\textstyle\\frac{\\mathrm{kJ}}{\\mathrm{mol}}}{\\frac{\\mathrm{kJ}}{\\mathrm{mol}}}{\\frac{\\mathrm{kJ}}{\\mathrm{mol}}}{\\frac{\\mathrm{kJ}}{\\mathrm{mol}}}}"
+  },
+  {
+   "group": "QR",
+   "name": "qquad",
+   "tex": "a\\qquad\\qquad{b}"
+  },
+  {
+   "group": "QR",
+   "name": "quad",
+   "tex": "a\\quad\\quad{b}"
+  },
+  {
+   "group": "QR",
+   "name": "R",
+   "tex": "\\R"
+  },
+  {
+   "group": "QR",
+   "name": "r",
+   "tex": "\\text{\\r{a}}"
+  },
+  {
+   "group": "QR",
+   "name": "raisebox",
+   "tex": "h\\raisebox{2pt}{$ighe$}r"
+  },
+  {
+   "group": "QR",
+   "name": "rang",
+   "tex": "\\langle A\\rang"
+  },
+  {
+   "group": "QR",
+   "name": "rangle",
+   "tex": "\\langle A\\rangle"
+  },
+  {
+   "group": "QR",
+   "name": "Rarr",
+   "tex": "\\Rarr"
+  },
+  {
+   "group": "QR",
+   "name": "rArr",
+   "tex": "\\rArr"
+  },
+  {
+   "group": "QR",
+   "name": "rarr",
+   "tex": "\\rarr"
+  },
+  {
+   "group": "QR",
+   "name": "ratio",
+   "tex": "\\ratio"
+  },
+  {
+   "group": "QR",
+   "name": "rBrace",
+   "tex": "\\rBrace"
+  },
+  {
+   "group": "QR",
+   "name": "rbrace",
+   "tex": "\\rbrace"
+  },
+  {
+   "group": "QR",
+   "name": "rbrack",
+   "tex": "\\rbrack"
+  },
+  {
+   "group": "QR",
+   "name": "{rcases}",
+   "tex": "\\begin{rcases}\na &\\text{if } b  \\\\\nc &\\text{if } d\n\\end{rcases}"
+  },
+  {
+   "group": "QR",
+   "name": "rceil",
+   "tex": "\\rceil"
+  },
+  {
+   "group": "QR",
+   "name": "Re",
+   "tex": "\\Re"
+  },
+  {
+   "group": "QR",
+   "name": "real",
+   "tex": "\\real"
+  },
+  {
+   "group": "QR",
+   "name": "Reals",
+   "tex": "\\Reals"
+  },
+  {
+   "group": "QR",
+   "name": "reals",
+   "tex": "\\reals"
+  },
+  {
+   "group": "QR",
+   "name": "reflectbox",
+   "tex": "\\reflectbox{$x^2$}"
+  },
+  {
+   "group": "QR",
+   "name": "renewcommand",
+   "tex": "\\def\\hail{Hi!}\n\\renewcommand\\hail{\\text{Ahoy!}}\n\\hail"
+  },
+  {
+   "group": "QR",
+   "name": "restriction",
+   "tex": "\\restriction"
+  },
+  {
+   "group": "QR",
+   "name": "rfloor",
+   "tex": "\\rfloor"
+  },
+  {
+   "group": "QR",
+   "name": "rgroup",
+   "tex": "\\rgroup"
+  },
+  {
+   "group": "QR",
+   "name": "rhd",
+   "tex": "\\rhd"
+  },
+  {
+   "group": "QR",
+   "name": "Rho",
+   "tex": "\\Rho"
+  },
+  {
+   "group": "QR",
+   "name": "rho",
+   "tex": "\\rho"
+  },
+  {
+   "group": "QR",
+   "name": "right",
+   "tex": "\\left.\\dfrac a b\\right)"
+  },
+  {
+   "group": "QR",
+   "name": "Rightarrow",
+   "tex": "\\Rightarrow"
+  },
+  {
+   "group": "QR",
+   "name": "rightarrow",
+   "tex": "\\rightarrow"
+  },
+  {
+   "group": "QR",
+   "name": "rightarrowtail",
+   "tex": "\\rightarrowtail"
+  },
+  {
+   "group": "QR",
+   "name": "rightharpoondown",
+   "tex": "\\rightharpoondown"
+  },
+  {
+   "group": "QR",
+   "name": "rightharpoonup",
+   "tex": "\\rightharpoonup"
+  },
+  {
+   "group": "QR",
+   "name": "rightleftarrows",
+   "tex": "\\rightleftarrows"
+  },
+  {
+   "group": "QR",
+   "name": "rightleftharpoons",
+   "tex": "\\rightleftharpoons"
+  },
+  {
+   "group": "QR",
+   "name": "rightrightarrows",
+   "tex": "\\rightrightarrows"
+  },
+  {
+   "group": "QR",
+   "name": "rightsquigarrow",
+   "tex": "\\rightsquigarrow"
+  },
+  {
+   "group": "QR",
+   "name": "rightthreetimes",
+   "tex": "\\rightthreetimes"
+  },
+  {
+   "group": "QR",
+   "name": "risingdotseq",
+   "tex": "\\risingdotseq"
+  },
+  {
+   "group": "QR",
+   "name": "rlap",
+   "tex": "\\rlap{\\,/}{=}"
+  },
+  {
+   "group": "QR",
+   "name": "rm",
+   "tex": "\\rm AaBb12"
+  },
+  {
+   "group": "QR",
+   "name": "rmoustache",
+   "tex": "\\rmoustache"
+  },
+  {
+   "group": "QR",
+   "name": "rparen",
+   "tex": "\\rparen"
+  },
+  {
+   "group": "QR",
+   "name": "rq",
+   "tex": "\\rq"
+  },
+  {
+   "group": "QR",
+   "name": "rrbracket",
+   "tex": "\\rrbracket"
+  },
+  {
+   "group": "QR",
+   "name": "Rrightarrow",
+   "tex": "\\Rrightarrow"
+  },
+  {
+   "group": "QR",
+   "name": "Rsh",
+   "tex": "\\Rsh"
+  },
+  {
+   "group": "QR",
+   "name": "rtimes",
+   "tex": "\\rtimes"
+  },
+  {
+   "group": "QR",
+   "name": "rule",
+   "tex": "x\\rule[6pt]{2ex}{1ex}x"
+  },
+  {
+   "group": "QR",
+   "name": "rVert",
+   "tex": "\\rVert"
+  },
+  {
+   "group": "QR",
+   "name": "rvert",
+   "tex": "\\rvert"
+  },
+  {
+   "group": "S",
+   "name": "S",
+   "tex": "\\text{\\S}"
+  },
+  {
+   "group": "S",
+   "name": "scriptscriptstyle",
+   "tex": "\\scriptscriptstyle \\frac cd"
+  },
+  {
+   "group": "S",
+   "name": "scriptsize",
+   "tex": "\\scriptsize scriptsize"
+  },
+  {
+   "group": "S",
+   "name": "scriptstyle",
+   "tex": "\\frac ab + {\\scriptstyle \\frac cd}"
+  },
+  {
+   "group": "S",
+   "name": "sdot",
+   "tex": "\\sdot"
+  },
+  {
+   "group": "S",
+   "name": "searrow",
+   "tex": "\\searrow"
+  },
+  {
+   "group": "S",
+   "name": "sec",
+   "tex": "\\sec"
+  },
+  {
+   "group": "S",
+   "name": "sect",
+   "tex": "\\text{\\sect}"
+  },
+  {
+   "group": "S",
+   "name": "set",
+   "tex": "\\set{x|x<5}"
+  },
+  {
+   "group": "S",
+   "name": "Set",
+   "tex": "\\Set{ x | x<\\frac 1 2}"
+  },
+  {
+   "group": "S",
+   "name": "setminus",
+   "tex": "\\setminus"
+  },
+  {
+   "group": "S",
+   "name": "sf",
+   "tex": "\\sf AaBb123"
+  },
+  {
+   "group": "S",
+   "name": "sharp",
+   "tex": "\\sharp"
+  },
+  {
+   "group": "S",
+   "name": "shortmid",
+   "tex": "\\shortmid"
+  },
+  {
+   "group": "S",
+   "name": "shortparallel",
+   "tex": "\\shortparallel"
+  },
+  {
+   "group": "S",
+   "name": "Sigma",
+   "tex": "\\Sigma"
+  },
+  {
+   "group": "S",
+   "name": "sigma",
+   "tex": "\\sigma"
+  },
+  {
+   "group": "S",
+   "name": "sim",
+   "tex": "\\sim"
+  },
+  {
+   "group": "S",
+   "name": "simcolon",
+   "tex": "\\simcolon"
+  },
+  {
+   "group": "S",
+   "name": "simcoloncolon",
+   "tex": "\\simcoloncolon"
+  },
+  {
+   "group": "S",
+   "name": "simeq",
+   "tex": "\\simeq"
+  },
+  {
+   "group": "S",
+   "name": "sin",
+   "tex": "\\sin"
+  },
+  {
+   "group": "S",
+   "name": "sinh",
+   "tex": "\\sinh"
+  },
+  {
+   "group": "S",
+   "name": "sixptsize",
+   "tex": "\\sixptsize sixptsize"
+  },
+  {
+   "group": "S",
+   "name": "sh",
+   "tex": "\\sh"
+  },
+  {
+   "group": "S",
+   "name": "small",
+   "tex": "\\small small"
+  },
+  {
+   "group": "S",
+   "name": "smallfrown",
+   "tex": "\\smallfrown"
+  },
+  {
+   "group": "S",
+   "name": "smallint",
+   "tex": "\\smallint"
+  },
+  {
+   "group": "S",
+   "name": "{smallmatrix}",
+   "tex": "\\begin{smallmatrix}\na & b \\\\\nc & d\n\\end{smallmatrix}"
+  },
+  {
+   "group": "S",
+   "name": "smallsetminus",
+   "tex": "\\smallsetminus"
+  },
+  {
+   "group": "S",
+   "name": "smallsmile",
+   "tex": "\\smallsmile"
+  },
+  {
+   "group": "S",
+   "name": "smash",
+   "tex": "\\left(x^{\\smash{2}}\\right)"
+  },
+  {
+   "group": "S",
+   "name": "smile",
+   "tex": "\\smile"
+  },
+  {
+   "group": "S",
+   "name": "sout",
+   "tex": "\\text{\\sout{abc}}"
+  },
+  {
+   "group": "S",
+   "name": "space",
+   "tex": "a\\space b"
+  },
+  {
+   "group": "S",
+   "name": "spades",
+   "tex": "\\spades"
+  },
+  {
+   "group": "S",
+   "name": "spadesuit",
+   "tex": "\\spadesuit"
+  },
+  {
+   "group": "S",
+   "name": "sphericalangle",
+   "tex": "\\sphericalangle"
+  },
+  {
+   "group": "S",
+   "name": "sqcap",
+   "tex": "\\sqcap"
+  },
+  {
+   "group": "S",
+   "name": "sqcup",
+   "tex": "\\sqcup"
+  },
+  {
+   "group": "S",
+   "name": "square",
+   "tex": "\\square"
+  },
+  {
+   "group": "S",
+   "name": "sqrt",
+   "tex": "\\sqrt[3]{x}"
+  },
+  {
+   "group": "S",
+   "name": "sqsubset",
+   "tex": "\\sqsubset"
+  },
+  {
+   "group": "S",
+   "name": "sqsubseteq",
+   "tex": "\\sqsubseteq"
+  },
+  {
+   "group": "S",
+   "name": "sqsupset",
+   "tex": "\\sqsupset"
+  },
+  {
+   "group": "S",
+   "name": "sqsupseteq",
+   "tex": "\\sqsupseteq"
+  },
+  {
+   "group": "S",
+   "name": "ss",
+   "tex": "\\text{\\ss}"
+  },
+  {
+   "group": "S",
+   "name": "stackrel",
+   "tex": "\\stackrel{!}{=}"
+  },
+  {
+   "group": "S",
+   "name": "star",
+   "tex": "\\star"
+  },
+  {
+   "group": "S",
+   "name": "sub",
+   "tex": "\\sub"
+  },
+  {
+   "group": "S",
+   "name": "sube",
+   "tex": "\\sube"
+  },
+  {
+   "group": "S",
+   "name": "Subset",
+   "tex": "\\Subset"
+  },
+  {
+   "group": "S",
+   "name": "subset",
+   "tex": "\\subset"
+  },
+  {
+   "group": "S",
+   "name": "subseteq",
+   "tex": "\\subseteq"
+  },
+  {
+   "group": "S",
+   "name": "subseteqq",
+   "tex": "\\subseteqq"
+  },
+  {
+   "group": "S",
+   "name": "subsetneq",
+   "tex": "\\subsetneq"
+  },
+  {
+   "group": "S",
+   "name": "subsetneqq",
+   "tex": "\\subsetneqq"
+  },
+  {
+   "group": "S",
+   "name": "substack",
+   "tex": "\\sum_{\\substack{0<i<m\\\\0<j<n}}"
+  },
+  {
+   "group": "S",
+   "name": "succ",
+   "tex": "\\succ"
+  },
+  {
+   "group": "S",
+   "name": "succapprox",
+   "tex": "\\succapprox"
+  },
+  {
+   "group": "S",
+   "name": "succcurlyeq",
+   "tex": "\\succcurlyeq"
+  },
+  {
+   "group": "S",
+   "name": "succeq",
+   "tex": "\\succeq"
+  },
+  {
+   "group": "S",
+   "name": "succnapprox",
+   "tex": "\\succnapprox"
+  },
+  {
+   "group": "S",
+   "name": "succneqq",
+   "tex": "\\succneqq"
+  },
+  {
+   "group": "S",
+   "name": "succnsim",
+   "tex": "\\succnsim"
+  },
+  {
+   "group": "S",
+   "name": "succsim",
+   "tex": "\\succsim"
+  },
+  {
+   "group": "S",
+   "name": "sum",
+   "tex": "\\sum"
+  },
+  {
+   "group": "S",
+   "name": "sup",
+   "tex": "\\sup"
+  },
+  {
+   "group": "S",
+   "name": "supe",
+   "tex": "\\supe"
+  },
+  {
+   "group": "S",
+   "name": "Supset",
+   "tex": "\\Supset"
+  },
+  {
+   "group": "S",
+   "name": "supset",
+   "tex": "\\supset"
+  },
+  {
+   "group": "S",
+   "name": "supseteq",
+   "tex": "\\supseteq"
+  },
+  {
+   "group": "S",
+   "name": "supseteqq",
+   "tex": "\\supseteqq"
+  },
+  {
+   "group": "S",
+   "name": "supsetneq",
+   "tex": "\\supsetneq"
+  },
+  {
+   "group": "S",
+   "name": "supsetneqq",
+   "tex": "\\supsetneqq"
+  },
+  {
+   "group": "S",
+   "name": "surd",
+   "tex": "\\surd"
+  },
+  {
+   "group": "S",
+   "name": "swarrow",
+   "tex": "\\swarrow"
+  },
+  {
+   "group": "T",
+   "name": "tan",
+   "tex": "\\tan"
+  },
+  {
+   "group": "T",
+   "name": "tanh",
+   "tex": "\\tanh"
+  },
+  {
+   "group": "T",
+   "name": "Tau",
+   "tex": "\\Tau"
+  },
+  {
+   "group": "T",
+   "name": "tau",
+   "tex": "\\tau"
+  },
+  {
+   "group": "T",
+   "name": "tbinom",
+   "tex": "\\tbinom n k"
+  },
+  {
+   "group": "T",
+   "name": "TeX",
+   "tex": "\\TeX"
+  },
+  {
+   "group": "T",
+   "name": "text",
+   "tex": "\\text{ yes }\\&\\text{ no }"
+  },
+  {
+   "group": "T",
+   "name": "textasciitilde",
+   "tex": "\\text{\\textasciitilde}"
+  },
+  {
+   "group": "T",
+   "name": "textasciicircum",
+   "tex": "\\text{\\textasciicircum}"
+  },
+  {
+   "group": "T",
+   "name": "textbackslash",
+   "tex": "\\text{\\textbackslash}"
+  },
+  {
+   "group": "T",
+   "name": "textbar",
+   "tex": "\\text{\\textbar}"
+  },
+  {
+   "group": "T",
+   "name": "textbardbl",
+   "tex": "\\text{\\textbardbl}"
+  },
+  {
+   "group": "T",
+   "name": "textbf",
+   "tex": "\\textbf{AaBb123}"
+  },
+  {
+   "group": "T",
+   "name": "textbraceleft",
+   "tex": "\\text{\\textbraceleft}"
+  },
+  {
+   "group": "T",
+   "name": "textbraceright",
+   "tex": "\\text{\\textbraceright}"
+  },
+  {
+   "group": "T",
+   "name": "textcircled",
+   "tex": "\\text{\\textcircled a}"
+  },
+  {
+   "group": "T",
+   "name": "textcolor",
+   "tex": "\\textcolor{blue}{F=ma}"
+  },
+  {
+   "group": "T",
+   "name": "textdagger",
+   "tex": "\\text{\\textdagger}"
+  },
+  {
+   "group": "T",
+   "name": "textdaggerdbl",
+   "tex": "\\text{\\textdaggerdbl}"
+  },
+  {
+   "group": "T",
+   "name": "textdegree",
+   "tex": "\\text{\\textdegree}"
+  },
+  {
+   "group": "T",
+   "name": "textdollar",
+   "tex": "\\text{\\textdollar}"
+  },
+  {
+   "group": "T",
+   "name": "textellipsis",
+   "tex": "\\text{\\textellipsis}"
+  },
+  {
+   "group": "T",
+   "name": "textemdash",
+   "tex": "\\text{\\textemdash}"
+  },
+  {
+   "group": "T",
+   "name": "textendash",
+   "tex": "\\text{\\textendash}"
+  },
+  {
+   "group": "T",
+   "name": "textgreater",
+   "tex": "\\text{\\textgreater}"
+  },
+  {
+   "group": "T",
+   "name": "textit",
+   "tex": "\\textit{AaBb}"
+  },
+  {
+   "group": "T",
+   "name": "textless",
+   "tex": "\\text{\\textless}"
+  },
+  {
+   "group": "T",
+   "name": "textmd",
+   "tex": "\\textmd{AaBb123}"
+  },
+  {
+   "group": "T",
+   "name": "textnormal",
+   "tex": "\\textnormal{AB}"
+  },
+  {
+   "group": "T",
+   "name": "textquotedblleft",
+   "tex": "\\text{\\textquotedblleft}"
+  },
+  {
+   "group": "T",
+   "name": "textquotedblright",
+   "tex": "\\text{\\textquotedblright}"
+  },
+  {
+   "group": "T",
+   "name": "textquoteleft",
+   "tex": "\\text{\\textquoteleft}"
+  },
+  {
+   "group": "T",
+   "name": "textquoteright",
+   "tex": "\\text{\\textquoteright}"
+  },
+  {
+   "group": "T",
+   "name": "textregistered",
+   "tex": "\\text{\\textregistered}"
+  },
+  {
+   "group": "T",
+   "name": "textrm",
+   "tex": "\\textrm{AaBb123}"
+  },
+  {
+   "group": "T",
+   "name": "textsf",
+   "tex": "\\textsf{AaBb123}"
+  },
+  {
+   "group": "T",
+   "name": "textsterling",
+   "tex": "\\text{\\textsterling}"
+  },
+  {
+   "group": "T",
+   "name": "textstyle",
+   "tex": "\\textstyle\\sum_0^n"
+  },
+  {
+   "group": "T",
+   "name": "texttt",
+   "tex": "\\texttt{AaBb123}"
+  },
+  {
+   "group": "T",
+   "name": "textunderscore",
+   "tex": "\\text{\\textunderscore}"
+  },
+  {
+   "group": "T",
+   "name": "textup",
+   "tex": "\\textup{AaBb123}"
+  },
+  {
+   "group": "T",
+   "name": "tfrac",
+   "tex": "\\tfrac ab"
+  },
+  {
+   "group": "T",
+   "name": "tg",
+   "tex": "\\tg"
+  },
+  {
+   "group": "T",
+   "name": "th",
+   "tex": "\\th"
+  },
+  {
+   "group": "T",
+   "name": "therefore",
+   "tex": "\\therefore"
+  },
+  {
+   "group": "T",
+   "name": "Theta",
+   "tex": "\\Theta"
+  },
+  {
+   "group": "T",
+   "name": "theta",
+   "tex": "\\theta"
+  },
+  {
+   "group": "T",
+   "name": "thetasym",
+   "tex": "\\thetasym"
+  },
+  {
+   "group": "T",
+   "name": "thickapprox",
+   "tex": "\\thickapprox"
+  },
+  {
+   "group": "T",
+   "name": "thicksim",
+   "tex": "\\thicksim"
+  },
+  {
+   "group": "T",
+   "name": "thickspace",
+   "tex": "a\\thickspace b"
+  },
+  {
+   "group": "T",
+   "name": "thinspace",
+   "tex": "a\\thinspace b"
+  },
+  {
+   "group": "T",
+   "name": "tilde",
+   "tex": "\\tilde M"
+  },
+  {
+   "group": "T",
+   "name": "times",
+   "tex": "\\times"
+  },
+  {
+   "group": "T",
+   "name": "tiny",
+   "tex": "\\tiny tiny"
+  },
+  {
+   "group": "T",
+   "name": "to",
+   "tex": "\\to"
+  },
+  {
+   "group": "T",
+   "name": "top",
+   "tex": "\\top"
+  },
+  {
+   "group": "T",
+   "name": "triangle",
+   "tex": "\\triangle"
+  },
+  {
+   "group": "T",
+   "name": "triangledown",
+   "tex": "\\triangledown"
+  },
+  {
+   "group": "T",
+   "name": "triangleleft",
+   "tex": "\\triangleleft"
+  },
+  {
+   "group": "T",
+   "name": "trianglelefteq",
+   "tex": "\\trianglelefteq"
+  },
+  {
+   "group": "T",
+   "name": "triangleq",
+   "tex": "\\triangleq"
+  },
+  {
+   "group": "T",
+   "name": "triangleright",
+   "tex": "\\triangleright"
+  },
+  {
+   "group": "T",
+   "name": "trianglerighteq",
+   "tex": "\\trianglerighteq"
+  },
+  {
+   "group": "T",
+   "name": "tt",
+   "tex": "{\\tt AaBb123}"
+  },
+  {
+   "group": "T",
+   "name": "twoheadleftarrow",
+   "tex": "\\twoheadleftarrow"
+  },
+  {
+   "group": "T",
+   "name": "twoheadrightarrow",
+   "tex": "\\twoheadrightarrow"
+  },
+  {
+   "group": "U",
+   "name": "u",
+   "tex": "\\text{\\u{a}}"
+  },
+  {
+   "group": "U",
+   "name": "Uarr",
+   "tex": "\\Uarr"
+  },
+  {
+   "group": "U",
+   "name": "uArr",
+   "tex": "\\uArr"
+  },
+  {
+   "group": "U",
+   "name": "uarr",
+   "tex": "\\uarr"
+  },
+  {
+   "group": "U",
+   "name": "ulcorner",
+   "tex": "\\ulcorner"
+  },
+  {
+   "group": "U",
+   "name": "underbar",
+   "tex": "\\underbar{X}"
+  },
+  {
+   "group": "U",
+   "name": "underbrace",
+   "tex": "\\underbrace{x+⋯+x}_{n\\text{ times}}"
+  },
+  {
+   "group": "U",
+   "name": "underbracket",
+   "tex": "\\underbracket{x+⋯+x}_{n\\text{ times}}"
+  },
+  {
+   "group": "U",
+   "name": "undergroup",
+   "tex": "\\undergroup{AB}"
+  },
+  {
+   "group": "U",
+   "name": "underleftarrow",
+   "tex": "\\underleftarrow{AB}"
+  },
+  {
+   "group": "U",
+   "name": "underleftrightarrow",
+   "tex": "\\underleftrightarrow{AB}"
+  },
+  {
+   "group": "U",
+   "name": "underrightarrow",
+   "tex": "\\underrightarrow{AB}"
+  },
+  {
+   "group": "U",
+   "name": "underline",
+   "tex": "\\underline{\\text{a long argument}}"
+  },
+  {
+   "group": "U",
+   "name": "underlinesegment",
+   "tex": "\\underlinesegment{AB}"
+  },
+  {
+   "group": "U",
+   "name": "underrightarrow",
+   "tex": "\\underrightarrow{AB}"
+  },
+  {
+   "group": "U",
+   "name": "underset",
+   "tex": "\\underset{!}{=}"
+  },
+  {
+   "group": "U",
+   "name": "unlhd",
+   "tex": "\\unlhd"
+  },
+  {
+   "group": "U",
+   "name": "unrhd",
+   "tex": "\\unrhd"
+  },
+  {
+   "group": "U",
+   "name": "Uparrow",
+   "tex": "\\Uparrow"
+  },
+  {
+   "group": "U",
+   "name": "uparrow",
+   "tex": "\\uparrow"
+  },
+  {
+   "group": "U",
+   "name": "Updownarrow",
+   "tex": "\\Updownarrow"
+  },
+  {
+   "group": "U",
+   "name": "updownarrow",
+   "tex": "\\updownarrow"
+  },
+  {
+   "group": "U",
+   "name": "upharpoonleft",
+   "tex": "\\upharpoonleft"
+  },
+  {
+   "group": "U",
+   "name": "upharpoonright",
+   "tex": "\\upharpoonright"
+  },
+  {
+   "group": "U",
+   "name": "uplus",
+   "tex": "\\uplus"
+  },
+  {
+   "group": "U",
+   "name": "Upsilon",
+   "tex": "\\Upsilon"
+  },
+  {
+   "group": "U",
+   "name": "upsilon",
+   "tex": "\\upsilon"
+  },
+  {
+   "group": "U",
+   "name": "upuparrows",
+   "tex": "\\upuparrows"
+  },
+  {
+   "group": "U",
+   "name": "urcorner",
+   "tex": "\\urcorner"
+  },
+  {
+   "group": "U",
+   "name": "url",
+   "tex": "\\url{https://katex.org/}\ntrust"
+  },
+  {
+   "group": "U",
+   "name": "utilde",
+   "tex": "\\utilde{AB}"
+  },
+  {
+   "group": "V",
+   "name": "v",
+   "tex": "\\text{\\v{a}}"
+  },
+  {
+   "group": "V",
+   "name": "varDelta",
+   "tex": "\\varDelta"
+  },
+  {
+   "group": "V",
+   "name": "varepsilon",
+   "tex": "\\varepsilon"
+  },
+  {
+   "group": "V",
+   "name": "varGamma",
+   "tex": "\\varGamma"
+  },
+  {
+   "group": "V",
+   "name": "varinjlim",
+   "tex": "\\varinjlim"
+  },
+  {
+   "group": "V",
+   "name": "varkappa",
+   "tex": "\\varkappa"
+  },
+  {
+   "group": "V",
+   "name": "varLambda",
+   "tex": "\\varLambda"
+  },
+  {
+   "group": "V",
+   "name": "varliminf",
+   "tex": "\\varliminf"
+  },
+  {
+   "group": "V",
+   "name": "varlimsup",
+   "tex": "\\varlimsup"
+  },
+  {
+   "group": "V",
+   "name": "varnothing",
+   "tex": "\\varnothing"
+  },
+  {
+   "group": "V",
+   "name": "varOmega",
+   "tex": "\\varOmega"
+  },
+  {
+   "group": "V",
+   "name": "varPhi",
+   "tex": "\\varPhi"
+  },
+  {
+   "group": "V",
+   "name": "varphi",
+   "tex": "\\varphi"
+  },
+  {
+   "group": "V",
+   "name": "varPi",
+   "tex": "\\varPi"
+  },
+  {
+   "group": "V",
+   "name": "varpi",
+   "tex": "\\varpi"
+  },
+  {
+   "group": "V",
+   "name": "varprojlim",
+   "tex": "\\varprojlim"
+  },
+  {
+   "group": "V",
+   "name": "varpropto",
+   "tex": "\\varpropto"
+  },
+  {
+   "group": "V",
+   "name": "varPsi",
+   "tex": "\\varPsi"
+  },
+  {
+   "group": "V",
+   "name": "varrho",
+   "tex": "\\varrho"
+  },
+  {
+   "group": "V",
+   "name": "varSigma",
+   "tex": "\\varSigma"
+  },
+  {
+   "group": "V",
+   "name": "varsigma",
+   "tex": "\\varsigma"
+  },
+  {
+   "group": "V",
+   "name": "varsubsetneq",
+   "tex": "\\varsubsetneq"
+  },
+  {
+   "group": "V",
+   "name": "varsubsetneqq",
+   "tex": "\\varsubsetneqq"
+  },
+  {
+   "group": "V",
+   "name": "varsupsetneq",
+   "tex": "\\varsupsetneq"
+  },
+  {
+   "group": "V",
+   "name": "varsupsetneqq",
+   "tex": "\\varsupsetneqq"
+  },
+  {
+   "group": "V",
+   "name": "varTheta",
+   "tex": "\\varTheta"
+  },
+  {
+   "group": "V",
+   "name": "vartheta",
+   "tex": "\\vartheta"
+  },
+  {
+   "group": "V",
+   "name": "vartriangle",
+   "tex": "\\vartriangle"
+  },
+  {
+   "group": "V",
+   "name": "vartriangleleft",
+   "tex": "\\vartriangleleft"
+  },
+  {
+   "group": "V",
+   "name": "vartriangleright",
+   "tex": "\\vartriangleright"
+  },
+  {
+   "group": "V",
+   "name": "varUpsilon",
+   "tex": "\\varUpsilon"
+  },
+  {
+   "group": "V",
+   "name": "varXi",
+   "tex": "\\varXi"
+  },
+  {
+   "group": "V",
+   "name": "vcentcolon",
+   "tex": "\\mathrel{\\vcentcolon =}"
+  },
+  {
+   "group": "V",
+   "name": "vcenter",
+   "tex": "a+\\left(\\vcenter{\\hbox{$\\frac{\\frac a b}c$}}\\right)"
+  },
+  {
+   "group": "V",
+   "name": "vcenter",
+   "tex": "a+\\left(\\vcenter{\\frac{\\frac a b}c}\\right)"
+  },
+  {
+   "group": "V",
+   "name": "Vdash",
+   "tex": "\\Vdash"
+  },
+  {
+   "group": "V",
+   "name": "vDash",
+   "tex": "\\vDash"
+  },
+  {
+   "group": "V",
+   "name": "vdash",
+   "tex": "\\vdash"
+  },
+  {
+   "group": "V",
+   "name": "vdots",
+   "tex": "\\vdots"
+  },
+  {
+   "group": "V",
+   "name": "vec",
+   "tex": "\\vec{F}"
+  },
+  {
+   "group": "V",
+   "name": "vee",
+   "tex": "\\vee"
+  },
+  {
+   "group": "V",
+   "name": "veebar",
+   "tex": "\\veebar"
+  },
+  {
+   "group": "V",
+   "name": "verb",
+   "tex": "\\verb!\\frac a b!"
+  },
+  {
+   "group": "V",
+   "name": "Vert",
+   "tex": "\\Vert"
+  },
+  {
+   "group": "V",
+   "name": "vert",
+   "tex": "\\vert"
+  },
+  {
+   "group": "V",
+   "name": "{Vmatrix}",
+   "tex": "\\begin{Vmatrix}\na & b \\\\\nc & d\n\\end{Vmatrix}"
+  },
+  {
+   "group": "V",
+   "name": "{Vmatrix*}",
+   "tex": "\\begin{Vmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{Vmatrix*}"
+  },
+  {
+   "group": "V",
+   "name": "{vmatrix}",
+   "tex": "\\begin{vmatrix}\na & b \\\\\nc & d\n\\end{vmatrix}"
+  },
+  {
+   "group": "V",
+   "name": "{vmatrix*}",
+   "tex": "\\begin{vmatrix*}[r]\n0 & -1 \\\\\n-1 & 0\n\\end{vmatrix*}"
+  },
+  {
+   "group": "V",
+   "name": "vphantom",
+   "tex": "\\overline{\\vphantom{M}a}"
+  },
+  {
+   "group": "V",
+   "name": "Vvdash",
+   "tex": "\\Vvdash"
+  },
+  {
+   "group": "W",
+   "name": "wedge",
+   "tex": "\\wedge"
+  },
+  {
+   "group": "W",
+   "name": "weierp",
+   "tex": "\\weierp"
+  },
+  {
+   "group": "W",
+   "name": "widecheck",
+   "tex": "\\widecheck{AB}"
+  },
+  {
+   "group": "W",
+   "name": "widehat",
+   "tex": "\\widehat{AB}"
+  },
+  {
+   "group": "W",
+   "name": "widetilde",
+   "tex": "\\widetilde{AB}"
+  },
+  {
+   "group": "W",
+   "name": "wp",
+   "tex": "\\wp"
+  },
+  {
+   "group": "W",
+   "name": "wr",
+   "tex": "\\wr"
+  },
+  {
+   "group": "X",
+   "name": "xcancel",
+   "tex": "\\xcancel{ABC}"
+  },
+  {
+   "group": "X",
+   "name": "xdef",
+   "tex": "\\def\\foo{a}\\xdef\\fcopy{\\foo}\\def\\foo{}\\fcopy"
+  },
+  {
+   "group": "X",
+   "name": "Xi",
+   "tex": "\\Xi"
+  },
+  {
+   "group": "X",
+   "name": "xi",
+   "tex": "\\xi"
+  },
+  {
+   "group": "X",
+   "name": "xhookleftarrow",
+   "tex": "\\xhookleftarrow{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xhookrightarrow",
+   "tex": "\\xhookrightarrow{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xLeftarrow",
+   "tex": "\\xLeftarrow{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xleftarrow",
+   "tex": "\\xleftarrow{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xleftharpoondown",
+   "tex": "\\xleftharpoondown{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xleftharpoonup",
+   "tex": "\\xleftharpoonup{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xLeftrightarrow",
+   "tex": "\\xLeftrightarrow{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xleftrightarrow",
+   "tex": "\\xleftrightarrow{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xleftrightharpoons",
+   "tex": "\\xleftrightharpoons{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xlongequal",
+   "tex": "\\xlongequal{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xmapsto",
+   "tex": "\\xmapsto{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xRightarrow",
+   "tex": "\\xRightarrow{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xrightarrow",
+   "tex": "\\xrightarrow{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xrightharpoondown",
+   "tex": "\\xrightharpoondown{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xrightharpoonup",
+   "tex": "\\xrightharpoonup{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xrightleftharpoons",
+   "tex": "\\xrightleftharpoons{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xtofrom",
+   "tex": "\\xtofrom{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xtwoheadleftarrow",
+   "tex": "\\xtwoheadleftarrow{abc}"
+  },
+  {
+   "group": "X",
+   "name": "xtwoheadrightarrow",
+   "tex": "\\xtwoheadrightarrow{abc}"
+  },
+  {
+   "group": "YZ",
+   "name": "yen",
+   "tex": "\\yen"
+  },
+  {
+   "group": "YZ",
+   "name": "Z",
+   "tex": "\\Z"
+  },
+  {
+   "group": "YZ",
+   "name": "Zeta",
+   "tex": "\\Zeta"
+  },
+  {
+   "group": "YZ",
+   "name": "zeta",
+   "tex": "\\zeta"
+  }
+ ]
+}

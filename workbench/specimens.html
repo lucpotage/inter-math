@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- the chosen theme before the first paint (workbench.js keeps it in sync) -->
+    <script>
+      try {
+        const theme = localStorage.getItem("inter-math-workbench.theme");
+        if (theme) document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <title>Inter Math specimens</title>
+  </head>
+  <body>
+    <header>
+      <h1>Inter Math specimens</h1>
+      <nav><a href="./specimens.html">Specimens</a><a href="./symbols.html">Symbols</a><a href="./review.html">Review</a><a href="./overlay.html">Overlay</a></nav>
+      <span class="note" id="versions"></span>
+      <span class="spacer"></span>
+    </header>
+    <main>
+      <table>
+        <colgroup><col class="source" /><col /><col /></colgroup>
+        <thead>
+          <tr>
+            <th>Specimen</th>
+            <th>KaTeX (Computer Modern)</th>
+            <th>Inter Math <span class="legend"><span class="from-inter">Blue</span>: Inter's glyphs, as they are or only resized, moved, turned or drawn out. The rest is drawn for Inter Math.</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="source"><textarea id="tex" rows="2" cols="28" placeholder="Try: x^2 + \frac{1}{2}" aria-label="LaTeX to try"></textarea></td>
+            <td class="math" id="try-classic"></td>
+            <td class="math" id="try-inter"></td>
+          </tr>
+        </tbody>
+        <tbody id="rows"></tbody>
+      </table>
+      <h2>Still from KaTeX (Inter has no glyph for them)</h2>
+      <p class="note">
+        These fall back to Computer Modern through the font stack, laid out with KaTeX's metrics. The symbols page lists every
+        character KaTeX's documentation uses, and which of them fall back.
+      </p>
+      <div id="kept"></div>
+    </main>
+    <script type="module" src="./specimens.js"></script>
+  </body>
+</html>
