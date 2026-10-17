@@ -43,10 +43,22 @@ their WOFF2 in fonts/ for the web (browsers don't apply a MATH table's
 variations yet).
 """
 
+import importlib.util
 import json
 import re
+import sys
 from copy import deepcopy
 from pathlib import Path
+
+import fontTools.varLib
+
+# fontTools' compiled IUP (the deltas a glyph's points can infer, which finish() drops and the instancer computes back)
+# rounds differently from one platform to another (ARM, x86, compilers' fused multiply-adds) at the half unit its
+# tolerance sits on: its pure Python instead, the same everywhere, so that the release's build gives the committed fonts
+_iup_source = importlib.util.spec_from_file_location("fontTools.varLib.iup", Path(fontTools.varLib.__file__).with_name("iup.py"))
+_iup = importlib.util.module_from_spec(_iup_source)
+_iup_source.loader.exec_module(_iup)
+sys.modules["fontTools.varLib.iup"] = fontTools.varLib.iup = _iup
 
 from fontTools.feaLib.builder import addOpenTypeFeaturesFromString
 from fontTools.pens.boundsPen import BoundsPen
