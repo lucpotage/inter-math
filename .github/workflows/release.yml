@@ -42,8 +42,7 @@ jobs:
       - name: The fonts, built again, are the ones committed
         run: |
           pnpm font:build
-          git status --porcelain
-          test -z "$(git status --porcelain)"
+          build/.venv/bin/python build/check_build.py
 
       - run: pnpm test
       - run: pnpm typecheck

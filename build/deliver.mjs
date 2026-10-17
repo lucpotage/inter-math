@@ -102,7 +102,7 @@ if (release) {
   if (isGit && output("git", ["status", "--porcelain"])) fail("commit your changes first: a release is built from a clean tree");
   step("pnpm font:build");
   run("pnpm", ["font:build"]);
-  if (isGit && output("git", ["status", "--porcelain"]))
+  if (isGit && spawnSync("build/.venv/bin/python", ["build/check_build.py"], { cwd: ROOT, stdio: "inherit" }).status !== 0)
     fail("the font build changed tracked files (fonts/, src/metrics.ts…): commit them, then release again");
   step("pnpm test");
   run("pnpm", ["test"]);
