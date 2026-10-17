@@ -16,9 +16,16 @@
  *   dist/npm/                     the package, inter-math
  *     lib/                        setMathFont… (src/, compiled), lib/katex.js the patched KaTeX, lib/contrib/ KaTeX's
  *     katex.css, katex.min.css    KaTeX's stylesheet with Inter Math's (src/inter-math.css)
- *     fonts/                      Inter Math's WOFF2 and KaTeX's (the fallback and Computer Modern)
+ *     mathml.css                  the OpenType math font for MathML, its nine weights (src/mathml.css);
+ *     mathml-variable.css         variable (src/mathml-variable.css)
+ *     svg.js                      the OpenType math font as MathJax 4's (SVG output), at its Regular weight
+ *                                 (build/mathjax.py: src/mathjax-font/svg.js): MathJax loads <package URL>/svg.js
+ *     fonts/                      Inter Math's WOFF2 (the OpenType math font: variable, which KaTeX and
+ *                                 mathml-variable.css load, and its nine weights) and KaTeX's (the fallback and
+ *                                 Computer Modern)
  *   dist/inter-math-X.Y.Z.tgz     npm pack of dist/npm/
- *   dist/InterMath-X.Y.Z.zip      the GitHub release's asset: ttf/ (the variable fonts), katex/ (the package)
+ *   dist/InterMath-X.Y.Z.zip      the GitHub release's asset: opentype/ (the OpenType math font: its weights, and
+ *                                 variable), mathjax-font/ (MathJax's), katex/ (the package)
  */
 import { execFileSync, spawnSync } from "node:child_process";
 import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
@@ -41,8 +48,9 @@ const TAG = `v${VERSION}`;
 const TARBALL = join(DIST, `${root.name}-${VERSION}.tgz`);
 const ZIP_NAME = `InterMath-${VERSION}`;
 const ZIP = join(DIST, `${ZIP_NAME}.zip`);
-/** Inter Math's fonts, one per KaTeX role (build.py). */
-const FONTS = ["Upright", "Italic", "AMS", "Blackboard", "Size1", "Size2", "Size3", "Size4"].map((f) => `InterMath-${f}`);
+/** The OpenType math font (build/opentype.py): its weights, and variable (KaTeX's, and MathML's). */
+const WEIGHTS = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"];
+const OPENTYPE = [...WEIGHTS.map((w) => `InterMath-${w}`), "InterMathVariable"];
 
 const args = new Set(process.argv.slice(2));
 const release = args.has("--release");
@@ -115,7 +123,10 @@ for path in sys.argv[2:]:
     if version != sys.argv[1] or not font["name"].getDebugName(5).startswith(f"Version {sys.argv[1]};"):
         sys.exit(f"{path}: version {version}, not {sys.argv[1]}: run pnpm font:build")
 `;
-const fontFiles = FONTS.flatMap((f) => [join(ROOT, "fonts", `${f}.woff2`), join(ROOT, "build", "out", `${f}.ttf`)]);
+const fontFiles = [
+  ...OPENTYPE.map((f) => join(ROOT, "build", "out", "opentype", `${f}.ttf`)),
+  ...OPENTYPE.map((f) => join(ROOT, "fonts", `${f}.woff2`)),
+];
 for (const file of fontFiles) if (!existsSync(file)) fail(`${relative(ROOT, file)} is missing: run pnpm font:build`);
 run(join(ROOT, "build", ".venv", "bin", "python"), ["-c", check, FONT_VERSION, ...fontFiles]);
 
@@ -154,7 +165,7 @@ for (const file of readdirSync(join(KATEX, "dist", "contrib")).filter((f) => f.e
 }
 
 // fonts: Inter Math's, and KaTeX's (WOFF2: what browsers that run KaTeX 0.19 load)
-for (const f of FONTS) copyFileSync(join(ROOT, "fonts", `${f}.woff2`), join(PKG, "fonts", `${f}.woff2`));
+for (const f of OPENTYPE) copyFileSync(join(ROOT, "fonts", `${f}.woff2`), join(PKG, "fonts", `${f}.woff2`));
 for (const f of readdirSync(join(KATEX, "dist", "fonts")).filter((f) => f.endsWith(".woff2")))
   copyFileSync(join(KATEX, "dist", "fonts", f), join(PKG, "fonts", f));
 
@@ -174,7 +185,17 @@ const css = [
 writeFileSync(join(PKG, "katex.css"), css);
 const minified = transform({ filename: "katex.css", code: Buffer.from(css), minify: true });
 writeFileSync(join(PKG, "katex.min.css"), minified.code);
-for (const sheet of ["katex.css", "katex.min.css"]) {
+// mathml.css, mathml-variable.css: the OpenType math font for MathML, the fonts beside them in fonts/
+for (const sheet of ["mathml.css", "mathml-variable.css"])
+  writeFileSync(
+    join(PKG, sheet),
+    `/*! Inter Math ${VERSION} for MathML (SIL OFL 1.1) */\n${readFileSync(join(ROOT, "src", sheet), "utf8").replaceAll('url("../fonts/', 'url("fonts/').trim()}\n`,
+  );
+// svg.js: the OpenType math font as MathJax's (build/mathjax.py), at the root: MathJax loads <package URL>/svg.js
+copyFileSync(join(ROOT, "src", "mathjax-font", "svg.js"), join(PKG, "svg.js"));
+if (!readFileSync(join(PKG, "svg.js"), "utf8").includes(`Inter Math ${VERSION} for MathJax`))
+  fail("src/mathjax-font/svg.js isn't at this version: run pnpm font:build");
+for (const sheet of ["katex.css", "katex.min.css", "mathml.css", "mathml-variable.css"]) {
   const missing = [...readFileSync(join(PKG, sheet), "utf8").matchAll(/url\("?([^")]+)"?\)/g)]
     .map((m) => m[1])
     .filter((url) => !existsSync(join(PKG, url)));
@@ -189,7 +210,7 @@ writeFileSync(
 
 | What | Licence |
 |---|---|
-| Inter Math's fonts (\`fonts/InterMath-*.woff2\`) and its code and stylesheet (\`lib/\` but \`lib/katex.js\` and \`lib/contrib/\`, Inter Math's part of \`katex.css\`) | SIL Open Font License 1.1: [OFL.txt](OFL.txt) |
+| Inter Math's fonts (\`fonts/InterMath*.woff2\`) and its code and stylesheets (\`lib/\` but \`lib/katex.js\` and \`lib/contrib/\`, Inter Math's part of \`katex.css\`, \`mathml.css\`, \`mathml-variable.css\`) | SIL Open Font License 1.1: [OFL.txt](OFL.txt) |
 | KaTeX ${katexVersion} (\`lib/katex.js\`, with Inter Math's hooks; \`lib/contrib/\`; KaTeX's part of \`katex.css\`) | MIT, below |
 | KaTeX's fonts (\`fonts/KaTeX_*.woff2\`, unmodified) | SIL Open Font License 1.1, with the Reserved Font Names \`KaTeX_*\` (in each font) |
 
@@ -224,6 +245,9 @@ const manifest = {
     "./katex/contrib/*": lib("contrib/*"),
     "./katex.css": "./katex.css",
     "./katex.min.css": "./katex.min.css",
+    "./mathml.css": "./mathml.css",
+    "./mathml-variable.css": "./mathml-variable.css",
+    "./svg.js": "./svg.js",
     "./provenance": lib("provenance"),
     "./fonts/*": "./fonts/*",
     "./package.json": "./package.json",
@@ -274,24 +298,36 @@ rmSync(app, { recursive: true });
 
 step(`dist/${ZIP_NAME}.zip`);
 const stage = join(DIST, "zip", ZIP_NAME);
-mkdirSync(join(stage, "ttf"), { recursive: true });
-for (const f of FONTS) copyFileSync(join(ROOT, "build", "out", `${f}.ttf`), join(stage, "ttf", `${f}.ttf`));
+mkdirSync(join(stage, "opentype"), { recursive: true });
+mkdirSync(join(stage, "mathjax-font"), { recursive: true });
+copyFileSync(join(PKG, "svg.js"), join(stage, "mathjax-font", "svg.js"));
+for (const f of OPENTYPE) copyFileSync(join(ROOT, "build", "out", "opentype", `${f}.ttf`), join(stage, "opentype", `${f}.ttf`));
 cpSync(PKG, join(stage, "katex"), { recursive: true });
 copyFileSync(join(ROOT, "OFL.txt"), join(stage, "OFL.txt"));
 writeFileSync(
   join(stage, "README.txt"),
   `Inter Math ${VERSION}
 
-KaTeX's fonts redrawn from Inter: variable in weight (100-900) and optical
-size (14-32), with the metrics KaTeX lays them out with.
+Math drawn from Inter: variable in weight (100-900) and optical size
+(14-32). The fonts carry version ${FONT_VERSION}.
 
-ttf/     the variable fonts (version ${FONT_VERSION}), one per role KaTeX sets
-         its math in: Upright, Italic, AMS, Blackboard, and the delimiters'
-         and big operators' sizes (Size1-4)
-katex/   the KaTeX integration, as published on npm (inter-math): KaTeX
-         ${katexVersion} with Inter Math's hooks (lib/katex.js), setMathFont
-         (lib/index.js), the stylesheet (katex.css, katex.min.css) and its
-         fonts (fonts/). katex/README.md says how to use it.
+opentype/  Inter Math as an OpenType math font: one font with a MATH table,
+           for LaTeX (LuaLaTeX, XeLaTeX with unicode-math), Typst, Word,
+           PowerPoint, LibreOffice and MathML. Its nine weights
+           (InterMath-Thin.ttf to InterMath-Black.ttf), and
+           InterMathVariable.ttf, variable in weight and optical size.
+mathjax-font/  the same font for MathJax 4's SVG output, at its Regular
+           weight (svg.js): MathJax loads it from the folder's URL
+           (output: { font: "https://…/mathjax-font" }; a folder named
+           mathjax would clash with MathJax's own), with a component that
+           has no font of its own (tex-svg-nofont.js).
+katex/     the KaTeX integration, as published on npm (inter-math): KaTeX
+           ${katexVersion} with Inter Math's hooks (lib/katex.js),
+           setMathFont (lib/index.js), the stylesheet (katex.css,
+           katex.min.css), the stylesheets for MathML (mathml.css,
+           mathml-variable.css), and their fonts (fonts/: the OpenType math
+           font, which KaTeX takes too, its roles being features of the
+           font's, and KaTeX's own). katex/README.md says how to use them.
 
 The fonts are under the SIL Open Font License 1.1 (OFL.txt); KaTeX's code is
 under the MIT licence (katex/LICENSE.md).

@@ -1,6 +1,6 @@
 {
   "name": "inter-math",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.21.0",
@@ -19,6 +19,9 @@
   "exports": {
     ".": "./src/index.ts",
     "./inter-math.css": "./src/inter-math.css",
+    "./mathml.css": "./src/mathml.css",
+    "./mathml-variable.css": "./src/mathml-variable.css",
+    "./svg.js": "./src/mathjax-font/svg.js",
     "./provenance": "./src/provenance.ts"
   },
   "scripts": {
@@ -28,7 +31,8 @@
     "font:build": "build/.venv/bin/python build/build.py",
     "dist": "node build/deliver.mjs",
     "release": "node build/deliver.mjs --release",
-    "workbench": "vite workbench --port 3150 --strictPort"
+    "workbench": "vite workbench --port 3150 --strictPort",
+    "examples": "python3 build/serve_examples.py"
   },
   "dependencies": {
     "katex": "0.19.0"

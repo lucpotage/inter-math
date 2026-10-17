@@ -1,67 +1,49 @@
 /*
- * Inter Math: Inter in place of KaTeX's upright and italic fonts, for the
- * math inside an element with the `inter-math` class. Characters Inter lacks
- * fall back to KaTeX's own fonts through the font stacks. KaTeX must lay the
- * math out with Inter Math's metrics: see setMathFont().
+ * Inter Math: Inter in place of KaTeX's fonts, for the math inside an element
+ * with the `inter-math` class. One font, the OpenType math font
+ * (InterMathVariable, which MathML takes too), sets every role KaTeX has a
+ * font for: upright, italic, AMS, blackboard and the four sizes, each through
+ * a feature of the font's own (--inter-math-role). Characters Inter lacks fall
+ * back to KaTeX's own fonts through the font stacks. KaTeX must lay the math
+ * out with Inter Math's metrics: see setMathFont().
  *   --inter-math-weight: weight of regular math (default 400; bold stays 700)
  * The small arrows' heads are triangles in math rendered with setMathFont's
  * arrowHeads: "triangle" (our KaTeX patch gives it the inter-math-triangles
  * class, which turns the font's ss01 on).
+ *
+ * KaTeX's em is larger than Inter's: Inter's 2048 units are 2332 of KaTeX's
+ * (Inter's + − = on TeX's axis), which its metrics are measured in
+ * (size-adjust: 2048/2332), with its own ascent and descent (2106 and 634 of
+ * its units: the overrides, which size-adjust scales, in Inter's).
  */
 @font-face {
-  font-family: "Inter Math";
-  src: url("../fonts/InterMath-Upright.woff2") format("woff2");
+  font-family: "Inter Math KaTeX";
+  src: url("../fonts/InterMathVariable.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: block;
+  size-adjust: 87.821612%;
+  ascent-override: 102.83203125%;
+  descent-override: 30.95703125%;
+  line-gap-override: 0%;
 }
+/* the same font: the italic role is its feature (no slanted upright) */
 @font-face {
-  font-family: "Inter Math";
-  src: url("../fonts/InterMath-Italic.woff2") format("woff2");
+  font-family: "Inter Math KaTeX";
+  src: url("../fonts/InterMathVariable.woff2") format("woff2");
   font-weight: 100 900;
   font-style: italic;
   font-display: block;
-}
-
-@font-face {
-  font-family: "Inter Math Size1";
-  src: url("../fonts/InterMath-Size1.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: block;
-}
-@font-face {
-  font-family: "Inter Math Size2";
-  src: url("../fonts/InterMath-Size2.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: block;
-}
-@font-face {
-  font-family: "Inter Math Size3";
-  src: url("../fonts/InterMath-Size3.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: block;
-}
-@font-face {
-  font-family: "Inter Math Size4";
-  src: url("../fonts/InterMath-Size4.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: block;
-}
-@font-face {
-  font-family: "Inter Math Blackboard";
-  src: url("../fonts/InterMath-Blackboard.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: block;
+  size-adjust: 87.821612%;
+  ascent-override: 102.83203125%;
+  descent-override: 30.95703125%;
+  line-gap-override: 0%;
 }
 
 /*
  * the AMS symbols Inter Math draws (KaTeX sets them from KaTeX_AMS, with
- * \\mathbb's letters): build.py's AMS_DRAWN (test/css.test.ts checks the list):
+ * \\mathbb's letters), the rest staying KaTeX's: build.py's AMS_DRAWN
+ * (test/css.test.ts checks the list):
  * ∄; ≦ ≧ ≲ ≳ ≶ ≷ ⋖ ⋗ ⋘ ⋙ ⋚ ⋛ ⩽ ⩾ ⪅ ⪆ ⪋ ⪌ ⪕ ⪖ (build/order_glyphs.py);
  * ≮ ≯ ≰ ≱ ⪇ ⪈ ≨ ≩ ⋦ ⋧ ⪉ ⪊ ≁ ≆ ∤ ∦ ⊈ ⊉ ⊊ ⊋ ⫅ ⫆ ⫋ ⫌ ⊬ ⊭ ⊮ ⊯ and KaTeX's
  * private-use negations U+E00C-E011, U+E016-E01B (build/negated_glyphs.py);
@@ -73,54 +55,56 @@
  * ⪵ ⪶ ⋨ ⋩ ⪹ ⪺ (build/negated_glyphs.py);
  * ⊲ ⊳ ⊴ ⊵ ⋉ ⋊ ⋋ ⋌ ⊛ ⊚ ⊝ ⊞ ⊟ ⊠ ⊡ ⊼ ⊻ ⩞ ⋏ ⋎ ⋇ ∔ ⊺ (build/binary_glyphs.py), and the
  * negations ⋪ ⋫ ⋬ ⋭ (build/negated_glyphs.py);
- * the corners ┌ ┐ └ ┘ (\ulcorner…, build/delimiters.py);
+ * the corners ┌ ┐ └ ┘ (\\ulcorner…, build/delimiters.py);
  * ↚ ↛ ↮ ⇍ ⇏ ⇎ ↾ ↿ ⇂ ⇃ ⇋ ⇉ ⇇ ⇄ ⇆ ⇈ ⇊ ⇛ ⇚ ↠ ↞ ↣ ↢ ⇢ ⇠ ⇝ ↭ ↶ ↷ ↫ ↬, and Inter's own
  * ↺ ↻ ↰ ↱ (build/ams_arrow_glyphs.py);
  * ▲ ▼ ◀ ▶ ◊ ⧫ ★ ╱ ╲ ‵ ✠ (build/misc_glyphs.py);
- * ⊨ for \\vDash (the AMS design is Inter Math's ⊨: build/ams_variants.py)
+ * ⊨ for \\vDash (the AMS design is Inter Math's ⊨: build/ams_variants.py);
+ * and the AMS font's own designs at code points it shares with Main
+ * (build/ams_variants.py): ∅ ℏ ⋅ ∖ ∼ ≈ ∝ ∣ ∥ △ ▽ ⌢ ⌣ for \\varnothing \\hslash
+ * \\centerdot \\smallsetminus \\thicksim \\thickapprox \\varpropto \\shortmid
+ * \\shortparallel \\vartriangle \\triangledown \\smallfrown \\smallsmile,
+ * \\nshortmid \\nshortparallel (U+E006-E007), and \\Bbbk's blackboard k
+ * (build/blackboard.py), which the AMS role (KTXA) gives
  */
 @font-face {
-  font-family: "Inter Math AMS";
-  src: url("../fonts/InterMath-Upright.woff2") format("woff2");
+  font-family: "Inter Math KaTeX AMS";
+  src: url("../fonts/InterMathVariable.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: block;
-  unicode-range: U+00A5, U+00AE, U+00F0, U+03DD, U+03F0, U+2035, U+2127, U+2132, U+2141, U+219A-219B, U+219E, U+21A0,
-    U+21A2-21A3, U+21AB-21AE, U+21B0-21B1, U+21B6-21B7, U+21BA-21BB, U+21BE-21BF, U+21C2-21C4, U+21C6-21CB,
-    U+21CD-21CF, U+21DA-21DB, U+21DD, U+21E0, U+21E2, U+2201, U+2204, U+220D, U+2214, U+2221-2222, U+2224, U+2226,
-    U+2234-2235, U+223D, U+2241-2242, U+2246, U+224A, U+224E-224F, U+2251-2253, U+2256-2257, U+225C, U+2266-2269,
-    U+226C, U+226E-2273, U+2276-2277, U+227C-2281, U+2288-228B, U+228F-2290, U+229A-229B, U+229D-22A1, U+22A8-22AA,
-    U+22AC-22AF, U+22B2-22B5, U+22B8, U+22BA-22BC, U+22C7, U+22C9-22D4, U+22D6-22DB, U+22DE-22E1, U+22E6-22ED, U+24C8,
-    U+250C, U+2510, U+2514, U+2518, U+2571-2572, U+25A0-25A1, U+25B2, U+25B6, U+25BC, U+25C0, U+25CA, U+2605, U+2713,
-    U+2720, U+29EB, U+2A5E, U+2A7D-2A7E, U+2A85-2A8C, U+2A95-2A96, U+2AB5-2ABA, U+2AC5-2AC6, U+2ACB-2ACC, U+E00C-E011,
-    U+E016-E01B;
+  size-adjust: 87.821612%;
+  ascent-override: 102.83203125%;
+  descent-override: 30.95703125%;
+  line-gap-override: 0%;
+  unicode-range: U+006B, U+00A5, U+00AE, U+00F0, U+03DD, U+03F0, U+2035, U+210F, U+2127, U+2132, U+2141, U+219A-219B,
+    U+219E, U+21A0, U+21A2-21A3, U+21AB-21AE, U+21B0-21B1, U+21B6-21B7, U+21BA-21BB, U+21BE-21BF, U+21C2-21C4,
+    U+21C6-21CB, U+21CD-21CF, U+21DA-21DB, U+21DD, U+21E0, U+21E2, U+2201, U+2204-2205, U+220D, U+2214, U+2216, U+221D,
+    U+2221-2226, U+2234-2235, U+223C-223D, U+2241-2242, U+2246, U+2248, U+224A, U+224E-224F, U+2251-2253, U+2256-2257,
+    U+225C, U+2266-2269, U+226C, U+226E-2273, U+2276-2277, U+227C-2281, U+2288-228B, U+228F-2290, U+229A-229B,
+    U+229D-22A1, U+22A8-22AA, U+22AC-22AF, U+22B2-22B5, U+22B8, U+22BA-22BC, U+22C5, U+22C7, U+22C9-22D4,
+    U+22D6-22DB, U+22DE-22E1, U+22E6-22ED, U+2322-2323, U+24C8, U+250C, U+2510, U+2514, U+2518, U+2571-2572,
+    U+25A0-25A1, U+25B2-25B3, U+25B6, U+25BC-25BD, U+25C0, U+25CA, U+2605, U+2713, U+2720, U+29EB, U+2A5E, U+2A7D-2A7E,
+    U+2A85-2A8C, U+2A95-2A96, U+2AB5-2ABA, U+2AC5-2AC6, U+2ACB-2ACC, U+E006-E007, U+E00C-E011, U+E016-E01B;
 }
 
 /*
- * the AMS font's own designs at code points it shares with Main, where the
- * upright font has Main's (build/ams_variants.py): ∅ ℏ ⋅ ∖ ∼ ≈ ∝ ∣ ∥ △ ▽ ⌢ ⌣ for
- * \\varnothing \\hslash \\centerdot \\smallsetminus \\thicksim \\thickapprox
- * \\varpropto \\shortmid \\shortparallel \\vartriangle \\triangledown
- * \\smallfrown \\smallsmile, \\nshortmid \\nshortparallel (U+E006-E007), and
- * \\Bbbk's blackboard k (build/blackboard.py)
+ * KaTeX's roles, each a feature of the font's (KTXM upright, KTXI italic,
+ * KTXA AMS, KTXB blackboard, KTX1-4 the sizes), as KaTeX picks its fonts:
+ * font-feature-settings doesn't add up, so every element sets them all, the
+ * role, the script forms and the arrowheads, from custom properties.
  */
-@font-face {
-  font-family: "Inter Math AMS";
-  src: url("../fonts/InterMath-AMS.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: block;
-  unicode-range: U+006B, U+2205, U+210F, U+2216, U+221D, U+2223, U+2225, U+223C, U+2248, U+22C5, U+2322-2323, U+25B3,
-    U+25BD, U+E006-E007;
-}
-
 .inter-math .katex {
-  font-family: "Inter Math", KaTeX_Main, "Times New Roman", serif;
+  font-family: "Inter Math KaTeX", KaTeX_Main, "Times New Roman", serif;
   font-weight: var(--inter-math-weight, 400);
-  /* the small arrows' heads: angles, or triangles (ss01); the script sizes' sets carry it too (font-feature-settings
-     doesn't add up) */
+  --inter-math-role: "KTXM";
+  --inter-math-scripts: "ss19" 0;
+  /* the small arrows' heads: angles, or triangles (ss01) */
   --inter-math-heads: "ss01" 0;
-  font-feature-settings: var(--inter-math-heads);
+}
+.inter-math .katex,
+.inter-math .katex * {
+  font-feature-settings: var(--inter-math-role), var(--inter-math-scripts), var(--inter-math-heads);
 }
 .inter-math .katex.inter-math-triangles {
   --inter-math-heads: "ss01";
@@ -129,11 +113,30 @@
 .inter-math .katex .mathit,
 .inter-math .katex .mathbf,
 .inter-math .katex .mainrm {
-  font-family: "Inter Math", KaTeX_Main;
+  font-family: "Inter Math KaTeX", KaTeX_Main;
 }
 .inter-math .katex .mathnormal,
 .inter-math .katex .boldsymbol {
-  font-family: "Inter Math", KaTeX_Math;
+  font-family: "Inter Math KaTeX", KaTeX_Math;
+}
+/* italic (KaTeX's Math font, Main's italic, sans serif italic) and upright again, in KaTeX's order: the role follows
+   the style KaTeX gives */
+.inter-math .katex .textit,
+.inter-math .katex .mathnormal,
+.inter-math .katex .mathit {
+  --inter-math-role: "KTXI";
+}
+.inter-math .katex .mathrm {
+  --inter-math-role: "KTXM";
+}
+.inter-math .katex .boldsymbol,
+.inter-math .katex .mathsfit,
+.inter-math .katex .mathitsf,
+.inter-math .katex .textitsf {
+  --inter-math-role: "KTXI";
+}
+.inter-math .katex .mainrm {
+  --inter-math-role: "KTXM";
 }
 
 /* the root index (∛) sits above the entry bar of Inter's narrower surd */
@@ -150,11 +153,11 @@
  */
 .inter-math .katex .katex-sizing.size3,
 .inter-math .katex .katex-sizing.size4 {
-  font-feature-settings: "ss19", var(--inter-math-heads);
+  --inter-math-scripts: "ss19";
 }
 .inter-math .katex .katex-sizing.size1,
 .inter-math .katex .katex-sizing.size2 {
-  font-feature-settings: "ss20", var(--inter-math-heads);
+  --inter-math-scripts: "ss20";
 }
 .inter-math .katex .katex-sizing.size5,
 .inter-math .katex .katex-sizing.size6,
@@ -163,40 +166,48 @@
 .inter-math .katex .katex-sizing.size9,
 .inter-math .katex .katex-sizing.size10,
 .inter-math .katex .katex-sizing.size11 {
-  font-feature-settings: var(--inter-math-heads);
+  --inter-math-scripts: "ss19" 0;
 }
 
 /*
  * Larger delimiters (\left( … \right) around taller content): Inter Math's
- * own sizes for ( ) [ ], KaTeX's for the rest (build/delimiters.py).
+ * own sizes (build/delimiters.py).
  */
 .inter-math .katex .delimsizing.size1 {
-  font-family: "Inter Math Size1", KaTeX_Size1;
+  font-family: "Inter Math KaTeX", KaTeX_Size1;
+  --inter-math-role: "KTX1";
 }
 .inter-math .katex .delimsizing.size2 {
-  font-family: "Inter Math Size2", KaTeX_Size2;
+  font-family: "Inter Math KaTeX", KaTeX_Size2;
+  --inter-math-role: "KTX2";
 }
 .inter-math .katex .delimsizing.size3 {
-  font-family: "Inter Math Size3", KaTeX_Size3;
+  font-family: "Inter Math KaTeX", KaTeX_Size3;
+  --inter-math-role: "KTX3";
 }
 .inter-math .katex .delimsizing.size4 {
-  font-family: "Inter Math Size4", KaTeX_Size4;
+  font-family: "Inter Math KaTeX", KaTeX_Size4;
+  --inter-math-role: "KTX4";
 }
 /* the pieces KaTeX stacks a tall brace (⎧ ⎨ ⎩ ⎫ ⎬ ⎭, build/delimiters.py) or a stretched arrow (↑ ↓ ⇑ ⇓,
    build/ams_arrow_glyphs.py) from: the straight stem between them is an image (src/svg.ts) */
 .inter-math .katex .delimsizing.mult .delim-size4 > span {
-  font-family: "Inter Math Size4", KaTeX_Size4;
+  font-family: "Inter Math KaTeX", KaTeX_Size4;
+  --inter-math-role: "KTX4";
 }
 .inter-math .katex .delimsizing.mult .delim-size1 > span {
-  font-family: "Inter Math Size1", KaTeX_Size1;
+  font-family: "Inter Math KaTeX", KaTeX_Size1;
+  --inter-math-role: "KTX1";
 }
 
 /* big operators (∑ ∏ ∫…, build/big_operators.py): text style from Size1, display style from Size2, as KaTeX */
 .inter-math .katex .op-symbol.small-op {
-  font-family: "Inter Math Size1", KaTeX_Size1;
+  font-family: "Inter Math KaTeX", KaTeX_Size1;
+  --inter-math-role: "KTX1";
 }
 .inter-math .katex .op-symbol.large-op {
-  font-family: "Inter Math Size2", KaTeX_Size2;
+  font-family: "Inter Math KaTeX", KaTeX_Size2;
+  --inter-math-role: "KTX2";
 }
 
 /* sans serif (\\mathsf \\textsf \\sf, bold, italic): Inter, a sans serif (KaTeX's is Computer Modern Sans) */
@@ -207,16 +218,18 @@
 .inter-math .katex .mathitsf,
 .inter-math .katex .mathsfit,
 .inter-math .katex .textitsf {
-  font-family: "Inter Math", KaTeX_SansSerif;
+  font-family: "Inter Math KaTeX", KaTeX_SansSerif;
 }
 
-/* AMS symbols: Inter Math's where it draws them (see the "Inter Math AMS" face), KaTeX's otherwise */
+/* AMS symbols: Inter Math's where it draws them (see the "Inter Math KaTeX AMS" face), KaTeX's otherwise */
 .inter-math .katex .amsrm {
-  font-family: "Inter Math AMS", KaTeX_AMS;
+  font-family: "Inter Math KaTeX AMS", KaTeX_AMS;
+  --inter-math-role: "KTXA";
 }
 
 /* blackboard bold (build/blackboard.py): KaTeX sets \\mathbb's letters in KaTeX_AMS */
 .inter-math .katex .mathbb,
 .inter-math .katex .textbb {
-  font-family: "Inter Math Blackboard", KaTeX_AMS;
+  font-family: "Inter Math KaTeX", KaTeX_AMS;
+  --inter-math-role: "KTXB";
 }

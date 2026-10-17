@@ -7,10 +7,11 @@ them out with.
     pnpm font:build
 
 Reads sources/inter/InterVariable*.ttf and the installed KaTeX (its metric
-tables), writes fonts/InterMath-*.woff2, src/metrics.ts and src/provenance.ts
-(what each glyph is drawn from), and the reference of what each glyph is
-built on (build/parts.md, by build/parts.py); build/out/ also gets the .ttf
-files, to open in a font viewer.
+tables), writes one font per role KaTeX sets math in (build/out/*.ttf),
+src/metrics.ts and src/provenance.ts (what each glyph is drawn from), and the
+reference of what each glyph is built on (build/parts.md, by build/parts.py);
+then build/opentype.py makes the OpenType math font of them, which KaTeX takes
+too (fonts/InterMathVariable.woff2: its roles are features of the font's).
 
 What changes from Inter:
 - one font per role (upright, italic) holding Inter's glyphs for the
@@ -56,7 +57,8 @@ What changes from Inter:
 - \\mathsf \\textsf (and their bold and italic) set in Inter Math: Inter is a
   sans serif (KaTeX's are Computer Modern Sans); typewriter, Fraktur,
   calligraphic and script stay KaTeX's (Inter has none);
-- KaTeX_Main's ascent and descent, so line boxes don't change with the font.
+- KaTeX_Main's ascent and descent, so line boxes don't change with the font
+  (the stylesheet gives the OpenType font the same).
 """
 
 import json
@@ -99,7 +101,6 @@ from variable import Masters, NewGlyph, Shape, add_glyphs, mark_anchor
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES = ROOT / "sources" / "inter"
-FONTS = ROOT / "fonts"
 OUT = ROOT / "build" / "out"
 METRICS_TS = ROOT / "src" / "metrics.ts"
 PROVENANCE_TS = ROOT / "src" / "provenance.ts"
@@ -135,7 +136,7 @@ ROLES = {
 }
 
 # Math beyond KaTeX's Main tables: ∉ (KaTeX overlays ∈ and /; Inter Math draws it, see src/index.ts),
-# and AMS symbols Inter Math draws (KaTeX sets them from its AMS font: the "Inter Math AMS" face of
+# and AMS symbols Inter Math draws (KaTeX sets them from its AMS font: the "Inter Math KaTeX AMS" face of
 # src/inter-math.css sends these code points to ours, and test/css.test.ts checks it lists them all)
 AMS_DRAWN = {0x2204, *ORDER_FROM, *NEGATED_FROM, *EQUALITY_AMS, *SHAPES_FROM, *SHAPES_KEPT, *SETS_AMS, *LETTERS_FROM, *LETTERS_KEPT,
              *(set(PRECEDENCE_FROM) - PRECEDENCE_MAIN), *(set(BINARY_FROM) - BINARY_MAIN), *CORNERS, *AMS_ARROWS_FROM,
@@ -399,7 +400,7 @@ def subset_to(font: TTFont, cps: list[int], features: list[str]) -> None:
 
 
 def finish(font: TTFont, upem: int, file: str, style: str, inter_version: str, family: str = FAMILY) -> TTFont:
-    """Scale, vertical metrics, names; saved as .woff2 (and .ttf to look at), and read back."""
+    """Scale, vertical metrics, names; saved as .ttf (what build/opentype.py merges), and read back."""
     # scale: everything is in font units, so a new units per em scales it all
     font["head"].unitsPerEm = upem
     asc, desc = round(ASCENT * upem), round(DESCENT * upem)
@@ -419,10 +420,7 @@ def finish(font: TTFont, upem: int, file: str, style: str, inter_version: str, f
     set_names(font, style, inter_version, family)
 
     OUT.mkdir(parents=True, exist_ok=True)
-    FONTS.mkdir(parents=True, exist_ok=True)
     font.save(OUT / f"{file}.ttf")
-    font.flavor = "woff2"
-    font.save(FONTS / f"{file}.woff2")
     return TTFont(OUT / f"{file}.ttf")
 
 
@@ -437,8 +435,7 @@ def build_size(size: int, glyphs: list[NewGlyph], upem: int, katex_tables: dict)
     font = finish(font, upem, f"InterMath-Size{size}", "Regular", inter_version, f"{FAMILY} Size{size}")
     table = f"Size{size}-Regular"
     location = {"wght": 400, "opsz": default_location(font)["opsz"]}
-    size_kb = (FONTS / f"InterMath-Size{size}.woff2").stat().st_size / 1024
-    print(f"InterMath-Size{size}.woff2: {len(cps)} characters, {size_kb:.0f} KB")
+    print(f"InterMath-Size{size}: {len(cps)} characters")
     metrics = measure(font, cps, location, italic=False)
     for cp, italic in ITALIC.get(size, {}).items():
         metrics[cp][2] = italic[400]
@@ -455,8 +452,7 @@ def build_blackboard(upem: int) -> dict:
     cps = sorted(g.unicode for g in glyphs)
     subset_to(font, cps, [])
     font = finish(font, upem, "InterMath-Blackboard", "Regular", inter_version, f"{FAMILY} Blackboard")
-    size_kb = (FONTS / "InterMath-Blackboard.woff2").stat().st_size / 1024
-    print(f"InterMath-Blackboard.woff2: {len(cps)} characters, {size_kb:.0f} KB")
+    print(f"InterMath-Blackboard: {len(cps)} characters")
     location = {"wght": 400, "opsz": default_location(font)["opsz"]}
     return {"AMS-Regular": measure(font, cps, location, italic=False)}
 
@@ -464,7 +460,7 @@ def build_blackboard(upem: int) -> dict:
 def build_ams(upem: int) -> dict:
     """
     The AMS font's own designs at the code points it shares with Main (\\varnothing \\hslash…, build/ams_variants.py)
-    and \\Bbbk's blackboard k (build/blackboard.py): a font of their own, which the "Inter Math AMS" face sends them to.
+    and \\Bbbk's blackboard k (build/blackboard.py): a font of their own, KaTeX's AMS role in the OpenType font (KTXA).
     """
     font = TTFont(SOURCES / ROLES["Upright"]["source"])
     inter_version = f"{font['head'].fontRevision:.3f}"
@@ -475,8 +471,7 @@ def build_ams(upem: int) -> dict:
     cps = sorted(g.unicode for g in glyphs)
     subset_to(font, cps, [])
     font = finish(font, upem, "InterMath-AMS", "Regular", inter_version, f"{FAMILY} AMS")
-    size_kb = (FONTS / "InterMath-AMS.woff2").stat().st_size / 1024
-    print(f"InterMath-AMS.woff2: {len(cps)} characters, {size_kb:.0f} KB")
+    print(f"InterMath-AMS: {len(cps)} characters")
     location = {"wght": 400, "opsz": default_location(font)["opsz"]}
     return {"AMS-Regular": measure(font, cps, location, italic=False)}
 
@@ -559,8 +554,7 @@ def build_role(role: str, spec: dict, katex_tables: dict, upem: int, delimiters:
         print(f"  {table}: {len(metrics[table])} glyphs from Inter, {len(missing)} from KaTeX's font")
     if "Main-Regular" in metrics:
         metrics["AMS-Regular"] = {cp: metrics["Main-Regular"][cp] for cp in sorted(AMS_DRAWN) if cp in metrics["Main-Regular"]}
-    size = (FONTS / f"InterMath-{role}.woff2").stat().st_size
-    print(f"InterMath-{role}.woff2: {len(cps)} characters, {size / 1024:.0f} KB")
+    print(f"InterMath-{role}: {len(cps)} characters")
     return {"metrics": metrics, "version": inter_version, "skews": {role: skews}}
 
 
@@ -1686,6 +1680,13 @@ def main() -> None:
     print(f"wrote {PROVENANCE_TS.relative_to(ROOT)}")
     write_parts(drawn)
     print(f"wrote {PARTS_MD.relative_to(ROOT)}")
+    # the OpenType math font, from the fonts and metrics above (build/opentype.py), and MathJax's font from it
+    # (build/mathjax.py)
+    from mathjax import build as build_mathjax
+    from opentype import build as build_opentype
+
+    build_opentype()
+    build_mathjax()
 
 
 if __name__ == "__main__":

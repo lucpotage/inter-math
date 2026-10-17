@@ -1,0 +1,96 @@
+/*
+ * Inter Math for MathML: the OpenType math font (its MATH table lays math out),
+ * for browsers' own math layout and what builds on it (Temml, KaTeX's MathML
+ * output). Math takes the weight of its text (font-weight), from Thin to Black
+ * in steps of 100: one font per weight, each with its own rules and gaps
+ * (browsers read one MATH table and don't apply its variations yet; the
+ * variable font is mathml-variable.css). Inter Math's em is Inter's: math is as
+ * large as Inter's text at the same size.
+ */
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMath-Thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMath-ExtraLight.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMath-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMath-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMath-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMath-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMath-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMath-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMath-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: block;
+}
+
+/* browsers' own stylesheet sets math at the normal weight (MathML Core), as Temml's does: the text's instead */
+math {
+  font-family: "Inter Math", math;
+  font-weight: inherit;
+}
+
+/*
+ * Scripts in the font's script forms (OpenType's ssty, the digits, signs and
+ * letters drawn for KaTeX's smaller sizes), which browsers don't apply
+ * (Chrome; MathML Core leaves them out): the first in scripts and in the
+ * fractions of text style, the second in their scripts and in roots' indices,
+ * as MathML's math-depth goes.
+ */
+:is(msub, msup, msubsup, mmultiscripts, munder, mover, munderover) > :not(:first-child),
+math:not([display="block" i]) mfrac > :not([displaystyle="true" i] mfrac > *),
+mfrac mfrac > * {
+  font-feature-settings: "ssty" 1;
+}
+:is(:is(msub, msup, msubsup, mmultiscripts, munder, mover, munderover) > :not(:first-child), math:not([display="block" i]) mfrac > *)
+  :is(:is(msub, msup, msubsup, mmultiscripts, munder, mover, munderover) > :not(:first-child), mfrac > *),
+mroot > :not(:first-child) {
+  font-feature-settings: "ssty" 2;
+}

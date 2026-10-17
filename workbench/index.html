@@ -16,7 +16,7 @@
   <body>
     <header>
       <h1>Inter Math workbench</h1>
-      <nav><a href="./specimens.html">Specimens</a><a href="./symbols.html">Symbols</a><a href="./review.html">Review</a><a href="./overlay.html">Overlay</a></nav>
+      <nav><a href="./specimens.html">Specimens</a><a href="./symbols.html">Symbols</a><a href="./review.html">Review</a><a href="./overlay.html">Overlay</a><a href="./mathml.html">OpenType</a></nav>
     </header>
     <main>
       <p>Pages to look at the font while it is drawn, apart from the app.</p>
@@ -27,6 +27,10 @@
           fonts, with the glyphs of Inter each of Inter Math's is drawn from, and what still falls back to KaTeX.
         </li>
         <li><a href="./package.html">Package</a>: the npm package as <code>pnpm dist</code> builds it (its stylesheet, fonts and KaTeX).</li>
+        <li>
+          <a href="./mathml.html">OpenType</a>: the OpenType math font in the browser's MathML (its MATH table), beside
+          Inter Math in KaTeX.
+        </li>
       </ul>
       <p class="note">
         <code>pnpm workbench</code> serves them (after <code>font:build</code>);

@@ -5,7 +5,7 @@ The designs KaTeX's AMS font has at the code points it shares with Main
 \\smallfrown \\smallsmile: KaTeX sets them from its AMS font, at the code
 points of Main's ∅ ℏ ⋅ ∖ ∼ ≈ ∝ ∣ ∥ △ ▽ ⌢ ⌣), with \\nshortmid \\nshortparallel
 (its U+E006 U+E007) and \\Bbbk: a font of their own, InterMath-AMS, where
-the "Inter Math AMS" face sends them (the upright font has Main's designs at
+the "Inter Math KaTeX AMS" face sends them (the upright font has Main's designs at
 those code points: src/inter-math.css). \\vDash is the upright font's ⊨
 (SHARED: TeX's is its ⊢ with two bars, as Inter Math's ⊨ is). With the
 minus sign's side bearings unless said:

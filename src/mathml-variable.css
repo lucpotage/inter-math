@@ -1,0 +1,39 @@
+/*
+ * Inter Math for MathML, variable: the OpenType math font at any weight and
+ * optical size, its MATH table's rules and gaps varying with the weight (in
+ * GDEF's item variation store). Browsers apply those variations once their
+ * HarfBuzz does (its version after 14.6.0): until then a weight other than
+ * Regular gets Regular's rules (fraction bars, the vinculum beside √). Load it
+ * instead of mathml.css, not with it.
+ */
+@font-face {
+  font-family: "Inter Math";
+  src: url("../fonts/InterMathVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block;
+}
+
+/* browsers' own stylesheet sets math at the normal weight (MathML Core), as Temml's does: the text's instead */
+math {
+  font-family: "Inter Math", math;
+  font-weight: inherit;
+}
+
+/*
+ * Scripts in the font's script forms (OpenType's ssty, the digits, signs and
+ * letters drawn for KaTeX's smaller sizes), which browsers don't apply
+ * (Chrome; MathML Core leaves them out): the first in scripts and in the
+ * fractions of text style, the second in their scripts and in roots' indices,
+ * as MathML's math-depth goes.
+ */
+:is(msub, msup, msubsup, mmultiscripts, munder, mover, munderover) > :not(:first-child),
+math:not([display="block" i]) mfrac > :not([displaystyle="true" i] mfrac > *),
+mfrac mfrac > * {
+  font-feature-settings: "ssty" 1;
+}
+:is(:is(msub, msup, msubsup, mmultiscripts, munder, mover, munderover) > :not(:first-child), math:not([display="block" i]) mfrac > *)
+  :is(:is(msub, msup, msubsup, mmultiscripts, munder, mover, munderover) > :not(:first-child), mfrac > *),
+mroot > :not(:first-child) {
+  font-feature-settings: "ssty" 2;
+}

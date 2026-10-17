@@ -11,10 +11,16 @@ export { INTER_MATH_CLASS };
 
 const covered = Object.fromEntries(Object.entries(coverage).map(([role, cps]) => [role, new Set(cps)]));
 
+/** KaTeX's roles in Inter Math's font: the feature each turns on (src/inter-math.css's --inter-math-role). */
+export const ROLE_FEATURES = {
+  Upright: "KTXM", Italic: "KTXI", AMS: "KTXA", Blackboard: "KTXB", Size1: "KTX1", Size2: "KTX2", Size3: "KTX3", Size4: "KTX4",
+};
+const ROLE_OF_FEATURE = Object.fromEntries(Object.entries(ROLE_FEATURES).map(([role, tag]) => [tag, role]));
+
 /**
- * The code points a family's faces give it, their unicode-ranges together (null: all of them). "Inter Math AMS" is
- * two faces: the upright font for the AMS symbols whose design it has, InterMath-AMS for the AMS font's own designs
- * at code points Main has its own at (\varnothing…) and \Bbbk; the other AMS symbols stay KaTeX_AMS's.
+ * The code points a family's faces give it, their unicode-ranges together (null: all of them). "Inter Math KaTeX AMS" is
+ * the AMS symbols Inter Math draws: the AMS font's own designs at code points Main has its own at (\varnothing…) and
+ * \Bbbk, the upright ones for the rest; the other AMS symbols stay KaTeX_AMS's.
  */
 const ranges = new Map();
 function faceRange(family) {
@@ -31,15 +37,17 @@ function faceRange(family) {
   return ranges.get(family);
 }
 
-/** The Inter Math font a glyph is set in (from its element's style) if that font has it; null: a KaTeX font's. */
+/**
+ * The role of Inter Math's a glyph is set in (from its element's style: the family, the role's feature) if Inter Math
+ * has it; null: a KaTeX font's.
+ */
 export function roleOf(style, cp) {
   const family = style.fontFamily.split(",")[0].trim().replace(/^["']|["']$/g, "");
-  const role =
-    family === "Inter Math" ? (style.fontStyle === "italic" ? "Italic" : "Upright")
-    : family === "Inter Math AMS" ? (covered.AMS.has(cp) ? "AMS" : "Upright")
-    : family === "Inter Math Blackboard" ? "Blackboard"
-    : /^Inter Math Size[1-4]$/.test(family) ? `Size${family.at(-1)}`
-    : null;
+  if (family !== "Inter Math KaTeX" && family !== "Inter Math KaTeX AMS") return null;
+  let role = ROLE_OF_FEATURE[style.getPropertyValue("--inter-math-role").trim().replace(/^["']|["']$/g, "")] ?? null;
+  // the AMS face: the AMS font's own designs, the upright ones for the other AMS symbols Inter Math draws; elsewhere
+  // what a role doesn't have is the upright font's (\mathbb{a})
+  if (role && !covered[role].has(cp) && (family === "Inter Math KaTeX" || role === "AMS")) role = "Upright";
   const range = role && faceRange(family);
   return role && covered[role].has(cp) && (!range || range.has(cp)) ? role : null;
 }

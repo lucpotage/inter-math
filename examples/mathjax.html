@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inter Math with MathJax</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" />
+    <style>
+      body { margin: 0 auto; padding: 32px 16px; max-width: 760px; font: 18px/1.5 Inter, system-ui, sans-serif; color: #111; background: #fff; }
+      h1 { font-size: 28px; margin: 0 0 8px; }
+      code { font-size: 15px; }
+      ol { padding-left: 24px; }
+      li { margin: 12px 0; }
+    </style>
+    <script>
+      // MathJax 4 with Inter Math as its font: MathJax loads <url>/svg.js, here the npm package as `pnpm dist` builds
+      // it (dist/npm/). From a CDN:
+      //   output: { font: "https://cdn.jsdelivr.net/npm/inter-math@<version>" }
+      // It is MathJax's SVG output's (paths: the Regular weight, whatever the text's), with a component that has no
+      // font of its own (tex-svg-nofont.js).
+      window.MathJax = {
+        output: { font: new URL("../dist/npm", location.href).href },
+        tex: { inlineMath: { "[+]": [["$", "$"]] } },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-svg-nofont.js"></script>
+  </head>
+  <body>
+    <h1>Inter Math with MathJax</h1>
+    <p>
+      MathJax 4 sets the LaTeX in this page in Inter Math, from the font's own data (its sizes, how taller delimiters
+      are built, TeX's parameters): inline, $e^{i\pi} + 1 = 0$ and $a^2 + b^2 = c^2$ sit in Inter's text.
+    </p>
+    <ol>
+      <li>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</li>
+      <li>$$\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}$$</li>
+      <li>$$\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}$$</li>
+      <li>$$\lim_{n \to \infty} \left(1 + \frac{1}{n}\right)^{n} = e$$</li>
+      <li>$$A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}, \quad \det A = ad - bc$$</li>
+      <li>$$\left| x \right| = \begin{cases} x & \text{if } x \ge 0 \\ -x & \text{otherwise} \end{cases}$$</li>
+      <li>$$\hat{x},\; \tilde{a},\; \vec{v},\; \overline{AB},\; \widehat{xyz},\; \mathbb{R},\; \mathbf{F} = m\mathbf{a}$$</li>
+      <li>$$\left\{ \frac{\frac{a}{b}}{c} \right\} \quad \overbrace{a + b + c}^{n} \quad A \xrightarrow{f} B \quad \sqrt[3]{x^3 + y^3}$$</li>
+    </ol>
+  </body>
+</html>

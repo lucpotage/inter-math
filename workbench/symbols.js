@@ -3,7 +3,7 @@
 // nothing (KaTeX's fonts) where Inter Math has no glyph.
 import { drawn, svgDrawn } from "../src/provenance.ts";
 import docs from "./katex-docs.json";
-import { INTER_MATH_CLASS, controls, escapeHtml, fromInter, markInter, render, roleOf } from "./workbench.js";
+import { INTER_MATH_CLASS, ROLE_FEATURES, controls, escapeHtml, fromInter, markInter, render, roleOf } from "./workbench.js";
 
 const $ = (id) => document.getElementById(id);
 const KIND = { alternate: "Inter's alternate" };
@@ -52,7 +52,7 @@ const katexFont = (font) => {
   return /font-style:italic/.test(font) ? `${family} italic` : family;
 };
 const interMathFont = (role) =>
-  role === "Italic" ? "font-family:'Inter Math';font-style:italic" : role === "Upright" ? "font-family:'Inter Math'" : `font-family:'Inter Math ${role}'`;
+  `font-family:'Inter Math KaTeX${role === "AMS" ? " AMS" : ""}';font-feature-settings:"${ROLE_FEATURES[role]}"${role === "Italic" ? ";font-style:italic" : ""}`;
 const referenceFont = (g) =>
   `${g.italic ? "font-style:italic;" : ""}${g.features ? `font-feature-settings:${g.features.split(" ").map((f) => `"${f}"`).join(",")};` : ""}`;
 const references = (from) => from.map((g) => `<span class="glyph reference" style="${referenceFont(g)}">${escapeHtml(g.text)}</span>`).join("");

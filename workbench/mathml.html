@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- the chosen theme before the first paint (workbench.js keeps it in sync) -->
+    <script>
+      try {
+        const theme = localStorage.getItem("inter-math-workbench.theme");
+        if (theme) document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <title>Inter Math, OpenType</title>
+  </head>
+  <body>
+    <header>
+      <h1>Inter Math, OpenType</h1>
+      <nav><a href="./specimens.html">Specimens</a><a href="./symbols.html">Symbols</a><a href="./review.html">Review</a><a href="./overlay.html">Overlay</a><a href="./mathml.html">OpenType</a></nav>
+      <span class="spacer"></span>
+    </header>
+    <main>
+      <p class="note">
+        The OpenType math font, its nine weights (<code>src/mathml.css</code>) or variable (<code>src/mathml-variable.css</code>):
+        the same LaTeX as MathML (KaTeX's MathML output), laid out by the browser from the font's MATH table, beside KaTeX's
+        own layout in Inter Math. The variable font's rules and gaps follow the weight only where the browser applies the
+        MATH table's variations (HarfBuzz after 14.6.0): until then they stay Regular's. The OpenType font's em is Inter's (its math as large as Inter's text): here its letters are set
+        as large as KaTeX sets Inter Math's, so that the two compare. MathJax 4 sets the same LaTeX with the font made of
+        it for MathJax (<code>src/mathjax-font/</code>, <code>build/mathjax.py</code>), at its one weight, Regular.
+      </p>
+      <table>
+        <colgroup><col class="source" /><col /><col /><col /></colgroup>
+        <thead>
+          <tr>
+            <th>Formula</th>
+            <th>Inter Math in KaTeX</th>
+            <th>Inter Math, OpenType (the browser's MathML)</th>
+            <th>Inter Math in MathJax (Regular)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="source"><textarea id="tex" rows="2" cols="28" placeholder="Try: x^2 + \frac{1}{2}" aria-label="LaTeX to try"></textarea></td>
+            <td class="math" id="try-katex"></td>
+            <td class="math mathml" id="try-mathml"></td>
+            <td class="math mathjax" id="try-mathjax"></td>
+          </tr>
+        </tbody>
+        <tbody id="rows"></tbody>
+      </table>
+    </main>
+    <script type="module" src="./mathml.js"></script>
+  </body>
+</html>

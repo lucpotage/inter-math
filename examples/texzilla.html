@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inter Math with TeXZilla</title>
+    <!--
+      TeXZilla writes LaTeX as MathML, which the browser lays out from the math font's MATH table: Inter Math's
+      stylesheet for MathML, from the npm package as `pnpm dist` builds it (dist/npm/; from a CDN,
+      https://cdn.jsdelivr.net/npm/inter-math@<version>/mathml.css).
+    -->
+    <link rel="stylesheet" href="../dist/npm/mathml.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" />
+    <script src="https://cdn.jsdelivr.net/npm/texzilla@1.0.2/TeXZilla.js"></script>
+    <style>
+      body { margin: 0 auto; padding: 32px 16px; max-width: 760px; font: 18px/1.5 Inter, system-ui, sans-serif; color: #111; background: #fff; }
+      h1 { font-size: 28px; margin: 0 0 8px; }
+      code { font-size: 15px; }
+      label { display: block; margin: 16px 0; font-size: 15px; }
+      ol { padding-left: 24px; }
+      li { margin: 12px 0; }
+    </style>
+  </head>
+  <body>
+    <h1>Inter Math with TeXZilla</h1>
+    <p>
+      LaTeX through TeXZilla, laid out by the browser in Inter Math, at the text's weight: inline,
+      <span class="math" data-tex="e^{i\pi} + 1 = 0"></span> and <span class="math" data-tex="a^2 + b^2 = c^2"></span>
+      sit in Inter's text.
+    </p>
+    <label>
+      Weight
+      <select id="weight">
+        <option value="100">Thin</option><option value="200">ExtraLight</option><option value="300">Light</option>
+        <option value="400" selected>Regular</option><option value="500">Medium</option><option value="600">SemiBold</option>
+        <option value="700">Bold</option><option value="800">ExtraBold</option><option value="900">Black</option>
+      </select>
+    </label>
+    <ol id="formulas"></ol>
+    <p>
+      TeXZilla writes <code>\overbrace</code>'s brace without <code>stretchy="true"</code>, so the browser doesn't
+      stretch it, and sets the <code>n</code> as a superscript.
+    </p>
+
+    <script>
+      const FORMULAS = [
+        String.raw`x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}`,
+        String.raw`\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}`,
+        String.raw`\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}`,
+        String.raw`\lim_{n \to \infty} \left(1 + \frac{1}{n}\right)^{n} = e`,
+        String.raw`A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}, \quad \det A = ad - bc`,
+        String.raw`\left| x \right| = \begin{cases} x & \text{if } x \ge 0 \\ -x & \text{otherwise} \end{cases}`,
+        String.raw`\hat{x},\; \tilde{a},\; \vec{v},\; \overline{AB},\; \widehat{xyz},\; \mathbb{R},\; \mathbf{F} = m\mathbf{a}`,
+        String.raw`\left\{ \frac{\frac{a}{b}}{c} \right\} \quad \overbrace{a + b + c}^{n} \quad A \xrightarrow{f} B \quad \sqrt[3]{x^3 + y^3}`,
+      ];
+      // TeXZilla.toMathMLString(tex, display): the <math> element as markup (an <merror> where it fails)
+      const list = document.querySelector("#formulas");
+      for (const tex of FORMULAS) {
+        const item = document.createElement("li");
+        item.innerHTML = TeXZilla.toMathMLString(tex, true);
+        list.append(item);
+      }
+      for (const el of document.querySelectorAll(".math")) el.innerHTML = TeXZilla.toMathMLString(el.dataset.tex, false);
+
+      const select = document.querySelector("#weight");
+      select.addEventListener("change", () => (document.body.style.fontWeight = select.value));
+    </script>
+  </body>
+</html>

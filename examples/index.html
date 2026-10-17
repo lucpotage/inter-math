@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inter Math examples</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" />
+    <style>
+      body { margin: 0 auto; padding: 32px 16px; max-width: 760px; font: 18px/1.5 Inter, system-ui, sans-serif; color: #111; background: #fff; }
+      h1 { font-size: 28px; margin: 0 0 8px; }
+      code { font-size: 15px; }
+      li { margin: 8px 0; }
+    </style>
+  </head>
+  <body>
+    <h1>Inter Math examples</h1>
+    <p>
+      The same formulas set by each engine Inter Math works with, from the npm package as <code>pnpm dist</code>
+      builds it (<code>dist/npm/</code>): run <code>pnpm dist</code>, then <code>pnpm examples</code> and open http://127.0.0.1:3153/examples/.
+    </p>
+    <ul>
+      <li><a href="katex.html">KaTeX</a>: the package's KaTeX, laid out with Inter Math's metrics at any weight.</li>
+      <li><a href="mathml.html">MathML</a>: the browser's own layout, from the OpenType font's MATH table.</li>
+      <li><a href="temml.html">Temml</a>: LaTeX written as MathML, laid out by the browser the same way.</li>
+      <li><a href="texzilla.html">TeXZilla</a>: the same, another LaTeX to MathML converter.</li>
+      <li><a href="mathjax.html">MathJax</a>: MathJax 4 with Inter Math as its font (SVG output).</li>
+    </ul>
+  </body>
+</html>
